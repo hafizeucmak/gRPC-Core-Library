@@ -1,0 +1,79 @@
+syntax = "proto3";
+
+option csharp_namespace = "LibraryManagement.BorrowingGrpcService";
+
+package borrowing;
+
+
+service BorrowGRPCService {
+
+  rpc GetMostBorrowedBooks (MostBorrowedBooksRequest) returns (MostBorrowedBooksResponse);
+
+  rpc GetBookAvailability(BookAvailabilityRequest) returns (BookAvailabilityResponse);
+  
+  rpc GetTopBorrowers(TopBorrowersRequest) returns (TopBorrowersResponse);
+  
+  rpc GetBorrowedBooksByUser(BorrowedBooksByUserRequest) returns (BorrowedBooksByUserResponse);
+  
+  rpc GetRelatedBooks(RelatedBooksRequest) returns (RelatedBooksResponse);
+  
+  rpc GetReadRate(ReadRateRequest) returns (ReadRateResponse);
+
+}
+
+message MostBorrowedBooksRequest {
+
+}
+
+message BorrowedBook {
+  string name = 1;
+  string author = 2;
+  int32 page = 3;
+  string isbn = 4;
+}
+
+message MostBorrowedBooksResponse {
+    repeated BorrowedBook most_borrowed_books = 1;
+}
+
+message BookAvailabilityRequest {
+	int32 bookId =1;
+}
+
+message BookAvailabilityResponse {
+	string status = 1;
+}
+
+message TopBorrowersRequest {
+
+}
+
+message TopBorrowersResponse {
+
+}
+
+message BorrowedBooksByUserRequest {
+
+	int32 userId = 1;
+
+}
+
+message BorrowedBooksByUserResponse {
+
+}
+
+message RelatedBooksRequest {
+
+}
+
+message RelatedBooksResponse {
+
+}
+
+message ReadRateRequest {
+
+}
+
+message ReadRateResponse {
+
+}

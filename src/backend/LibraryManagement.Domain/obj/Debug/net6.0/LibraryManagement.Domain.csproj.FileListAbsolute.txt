@@ -1,0 +1,15 @@
+C:\Users\hafiz\source\repos\LibraryManagement\LibraryManagement.Domain\bin\Debug\net6.0\LibraryManagement.Domain.deps.json
+C:\Users\hafiz\source\repos\LibraryManagement\LibraryManagement.Domain\bin\Debug\net6.0\LibraryManagement.Domain.dll
+C:\Users\hafiz\source\repos\LibraryManagement\LibraryManagement.Domain\bin\Debug\net6.0\LibraryManagement.Domain.pdb
+C:\Users\hafiz\source\repos\LibraryManagement\LibraryManagement.Domain\bin\Debug\net6.0\LibraryManagement.Common.dll
+C:\Users\hafiz\source\repos\LibraryManagement\LibraryManagement.Domain\bin\Debug\net6.0\LibraryManagement.Common.pdb
+C:\Users\hafiz\source\repos\LibraryManagement\LibraryManagement.Domain\obj\Debug\net6.0\LibraryManagement.Domain.csproj.AssemblyReference.cache
+C:\Users\hafiz\source\repos\LibraryManagement\LibraryManagement.Domain\obj\Debug\net6.0\LibraryManagement.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\hafiz\source\repos\LibraryManagement\LibraryManagement.Domain\obj\Debug\net6.0\LibraryManagement.Domain.AssemblyInfoInputs.cache
+C:\Users\hafiz\source\repos\LibraryManagement\LibraryManagement.Domain\obj\Debug\net6.0\LibraryManagement.Domain.AssemblyInfo.cs
+C:\Users\hafiz\source\repos\LibraryManagement\LibraryManagement.Domain\obj\Debug\net6.0\LibraryManagement.Domain.csproj.CoreCompileInputs.cache
+C:\Users\hafiz\source\repos\LibraryManagement\LibraryManagement.Domain\obj\Debug\net6.0\LibraryManagement.Domain.csproj.CopyComplete
+C:\Users\hafiz\source\repos\LibraryManagement\LibraryManagement.Domain\obj\Debug\net6.0\LibraryManagement.Domain.dll
+C:\Users\hafiz\source\repos\LibraryManagement\LibraryManagement.Domain\obj\Debug\net6.0\refint\LibraryManagement.Domain.dll
+C:\Users\hafiz\source\repos\LibraryManagement\LibraryManagement.Domain\obj\Debug\net6.0\LibraryManagement.Domain.pdb
+C:\Users\hafiz\source\repos\LibraryManagement\LibraryManagement.Domain\obj\Debug\net6.0\ref\LibraryManagement.Domain.dll

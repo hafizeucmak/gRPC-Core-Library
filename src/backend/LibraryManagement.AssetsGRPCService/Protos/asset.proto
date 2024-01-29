@@ -1,0 +1,68 @@
+syntax = "proto3";
+
+option csharp_namespace = "LibraryManagement.AssetsGRPCService";
+
+package asset;
+
+service AssetManagementGRPCService {
+
+  rpc AddBookRecord (BookAddRequest) returns (BookAddResponse);
+
+  rpc UpdateBookInfo (BookUpdateRequest) returns (BookUpdateResponse);
+
+  rpc DeleteBookRecord (BookDeleteRequest) returns (BookDeleteResponse);
+
+  rpc AddBookCopy (BookCopyAddRequest) returns (BookCopyAddResponse);
+
+  rpc UpdateBookCopy (BookCopyUpdateRequest) returns (BookCopyUpdateResponse);
+
+  rpc DeleteBookCopy (BookCopyDeleteRequest) returns (BookCopyDeleteResponse);
+
+}
+
+message BookAddRequest {
+  string name = 1;
+}
+
+message BookAddResponse {
+  string message = 1;
+}
+
+message BookUpdateRequest {
+  string name = 1;
+}
+
+message BookUpdateResponse {
+  string message = 1;
+}
+
+message BookDeleteRequest {
+  string name = 1;
+}
+
+message BookDeleteResponse {
+  string message = 1;
+}
+message BookCopyAddRequest {
+  string name = 1;
+}
+
+message BookCopyAddResponse {
+  string message = 1;
+}
+
+message BookCopyUpdateRequest {
+  string name = 1;
+}
+
+message BookCopyUpdateResponse {
+  string message = 1;
+}
+
+message BookCopyDeleteRequest {
+  string name = 1;
+}
+
+message BookCopyDeleteResponse {
+  string message = 1;
+}

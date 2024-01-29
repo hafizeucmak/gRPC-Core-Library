@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "/TAtyh02juf/dIscLpwWQWszm93lSwTwNhsMr+9ewtw=",
+  "Source": "LibraryManagement.BorrowingGrpcService",
+  "BasePath": "_content/LibraryManagement.BorrowingGrpcService",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

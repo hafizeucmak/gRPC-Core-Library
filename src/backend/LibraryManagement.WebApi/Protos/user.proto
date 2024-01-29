@@ -1,0 +1,60 @@
+syntax = "proto3";
+
+option csharp_namespace = "LibraryManagement.UserGrpcService";
+
+package user;
+
+service UserGRPCService {
+
+  rpc AddUser (UserAddRequest) returns (UserAddResponse);
+
+  rpc UpdateUser (UserUpdateRequest) returns (UserUpdateResponse);
+
+  rpc DeleteUser (UserDeleteRequest) returns (UserDeleteResponse);
+
+  rpc GetAllUser (UsersRequest) returns (UsersResponse);
+
+  rpc GetUserById (UserByIdRequest) returns (UserByIdResponse);
+
+}
+
+message UserAddRequest {
+  string name = 1;
+}
+
+message UserAddResponse {
+  string message = 1;
+}
+
+message UserUpdateRequest {
+  string name = 1;
+}
+
+message UserUpdateResponse {
+  string message = 1;
+}
+
+message UserDeleteRequest {
+  string name = 1;
+}
+
+message UserDeleteResponse {
+  string message = 1;
+}
+
+message UsersRequest {
+  string name = 1;
+}
+
+message UsersResponse {
+  string message = 1;
+}
+
+message UserByIdRequest {
+  string userId = 1;
+}
+
+message UserByIdResponse {
+  string message = 1;
+}
+
