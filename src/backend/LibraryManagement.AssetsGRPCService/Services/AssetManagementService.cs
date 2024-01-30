@@ -1,18 +1,23 @@
 using Grpc.Core;
+using LibraryManagement.Business.CQRS.Commands;
+using MediatR;
 
 namespace LibraryManagement.AssetsGRPCService.Services
 {
     public class AssetManagementService : AssetManagementGRPCService.AssetManagementGRPCServiceBase
     {
         private readonly ILogger<AssetManagementService> _logger;
-        public AssetManagementService(ILogger<AssetManagementService> logger)
+        private readonly IMediator _mediator;
+
+        public AssetManagementService(ILogger<AssetManagementService> logger, IMediator mediator)
         {
             _logger = logger;
+            _mediator = mediator;
         }
+
         public override async Task<BookAddResponse> AddBookRecord(BookAddRequest request, ServerCallContext context)
         {
-
-            throw new NotImplementedException("MEsajlarim sana geliyor mu canisi");
+            await _mediator.Send(new CreateBookCommand(), context.CancellationToken);
 
             return await Task.FromResult(new BookAddResponse
             {

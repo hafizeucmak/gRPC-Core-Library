@@ -1,5 +1,4 @@
-﻿using LibraryManagement.Common.Utils;
-using LibraryManagement.WebApi.Extensions;
+﻿using LibraryManagement.WebApi.Extensions;
 using LibraryManagement.WebApi.Middlewares;
 
 namespace LibraryManagement.WebApi
@@ -26,7 +25,6 @@ namespace LibraryManagement.WebApi
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();
 
-            services.AddSingleton<IExceptionManager, ExceptionManager>();
             services.RegisterGrpcClient(Configuration);
 
             services.AddExceptionManager();

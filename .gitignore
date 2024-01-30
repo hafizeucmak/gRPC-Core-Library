@@ -1,0 +1,22 @@
+﻿**/obj/
+**/bin/
+**/obj*/
+obj/
+
+
+
+
+# Ignore user-specific files
+*.suo
+*.user
+*.userprefs
+*.vscode/
+.vs/
+
+# Ignore IDE-specific files
+*.idea/
+*.vs/
+
+# Ignore NuGet packages
+*.nupkg
+packages/

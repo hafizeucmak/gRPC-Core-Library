@@ -1,11 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "7KlaIC9sDHtiAEKQcQ9ms3wxYgZCgxhRqe/sxs2B1BIhes1N00ysKEWLCKdxFsjsuaqsDEi79k5WW4g9sCASBQ==",
+  "dgSpecHash": "IgfvxzZgL1GeRZ0TjzMV+GNMR/Nb8Xh3sFkMzEgR4unnu32mw0bMrYsDO7FIlV7P9H6Av/w4cGUtnfYCgDIWYw==",
   "success": true,
   "projectFilePath": "C:\\Users\\hafiz\\source\\repos\\gRPC-Core-Library\\src\\backend\\LibraryManagement.Common\\LibraryManagement.Common.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\hafiz\\.nuget\\packages\\fluentvalidation\\11.9.0\\fluentvalidation.11.9.0.nupkg.sha512",
     "C:\\Users\\hafiz\\.nuget\\packages\\grpc.core.api\\2.60.0\\grpc.core.api.2.60.0.nupkg.sha512",
+    "C:\\Users\\hafiz\\.nuget\\packages\\mediatr\\12.2.0\\mediatr.12.2.0.nupkg.sha512",
+    "C:\\Users\\hafiz\\.nuget\\packages\\mediatr.contracts\\2.0.1\\mediatr.contracts.2.0.1.nupkg.sha512",
     "C:\\Users\\hafiz\\.nuget\\packages\\microsoft.csharp\\4.5.0\\microsoft.csharp.4.5.0.nupkg.sha512",
     "C:\\Users\\hafiz\\.nuget\\packages\\microsoft.data.sqlclient\\2.1.4\\microsoft.data.sqlclient.2.1.4.nupkg.sha512",
     "C:\\Users\\hafiz\\.nuget\\packages\\microsoft.data.sqlclient.sni.runtime\\2.1.1\\microsoft.data.sqlclient.sni.runtime.2.1.1.nupkg.sha512",

@@ -31,7 +31,9 @@ namespace LibraryManagement.AssetsGRPCService
             services.AddRepositories();
             services.AddDbContext<AssetBaseDbContext>(configurationOptions);
             services.AddGrpc(c => c.Interceptors.Add<GrpcGlobalExceptionHandlerInterceptor>());
+        //    services.RegisterMediatr(typeof(CreateBookCommand));
 
+          
         }
 
         public void Configure(IApplicationBuilder app)
