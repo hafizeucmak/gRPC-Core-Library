@@ -1,11 +1,8 @@
 ﻿using LibraryManagement.AssetsGRPCService.DataAccesses.DbContexts;
 using LibraryManagement.AssetsGRPCService.Services;
-using LibraryManagement.Business.CQRS.Commands;
 using LibraryManagement.Common.Configurations;
 using LibraryManagement.Common.Extensions;
 using LibraryManagement.Common.Middlewares;
-using Microsoft.Extensions.DependencyInjection;
-using System.Reflection;
 
 namespace LibraryManagement.AssetsGRPCService
 {
