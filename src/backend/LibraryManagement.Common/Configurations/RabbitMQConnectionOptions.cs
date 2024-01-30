@@ -7,5 +7,7 @@
         public string Password { get; set; }
 
         public string HostName { get; set; }
+
+        public int Port { get; set; }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using LibraryManagement.Common.Configurations;
 using LibraryManagement.Common.Extensions;
 using LibraryManagement.Common.GenericRepositories;
+using LibraryManagement.Common.RabbitMQEvents;
 using LibraryManagement.Common.Utils;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -30,6 +31,24 @@ namespace LibraryManagement.Common.Extensions
                     sqlOptions.CommandTimeout(120);
                 });
             });
+        }
+
+        public static void AddRabbitMQEventHub(this IServiceCollection services, ConfigurationOptions configurationOptions)
+        {
+            services.AddSingleton<RabbitMQConnectionOptions>(provider =>
+            {
+                return configurationOptions.RabbitMQConnectionOptions ?? throw new ArgumentNullException("RabbitMQ configurations not found.");
+            });
+
+
+            services.AddSingleton<IEventConnectionFactory>(config =>
+            {
+                return new EventConnectionFactory(configurationOptions.RabbitMQConnectionOptions ?? throw new ArgumentNullException("RabbitMQ configuration not found."));
+            });
+
+            services.AddSingleton<IEventCommandQueue, EventCommandQueue>();
+            services.AddHostedService<EventHostedService>();
+            services.AddScoped<IEventPublisherService, EventPublisherService>();
         }
 
         #endregion

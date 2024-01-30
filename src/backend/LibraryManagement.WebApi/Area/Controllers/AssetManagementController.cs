@@ -16,12 +16,12 @@ namespace LibraryManagement.WebApi.Area.Controllers
         }
 
         [HttpGet("addBookRecord")]
-        [ProducesResponseType((int)HttpStatusCode.NoContent)]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
 
         public async Task<IActionResult> AddBookRecord(CancellationToken cancellationToken)
         {
             await _assetManagementServiceClient.AddBookRecordAsync();
-            throw new NotImplementedException("anani sikim");
+            return Ok();
         }
     }
 }

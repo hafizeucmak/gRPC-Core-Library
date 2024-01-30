@@ -1,5 +1,6 @@
 ﻿using Grpc.Core;
 using Grpc.Core.Interceptors;
+using LibraryManagement.Common.RabbitMQEvents;
 using Microsoft.EntityFrameworkCore;
 
 namespace LibraryManagement.Common.Filters
@@ -8,10 +9,14 @@ namespace LibraryManagement.Common.Filters
         where TDbContext : DbContext
     {
         private readonly TDbContext _dbContext;
+        private readonly IEventCommandQueue _eventCommandQueue;
+        private readonly RegisteredEventCommands _registeredEventCommands;
 
-        public TransactionManagerInterceptor(TDbContext dbContext)
+        public TransactionManagerInterceptor(TDbContext dbContext, IEventCommandQueue eventCommandQueue, RegisteredEventCommands registeredEventCommands)
         {
             _dbContext = dbContext;
+            _eventCommandQueue = eventCommandQueue;
+            _registeredEventCommands = registeredEventCommands;
         }
 
         public override async Task<TResponse> UnaryServerHandler<TRequest, TResponse>(
@@ -24,12 +29,18 @@ namespace LibraryManagement.Common.Filters
             {
                 var response = await continuation(request, context);
 
-                // var eventStore = (TEventStoreContext)context.GetHttpContext().RequestServices.GetService(typeof(TEventStoreContext));
+      
 
                 if (_dbContext.Database?.CurrentTransaction != null)
                 {
                     _dbContext.SaveChanges();
                     _dbContext.Database.CurrentTransaction.Commit();
+                }
+
+                if (_registeredEventCommands.Any())
+                {
+                    _eventCommandQueue.Queue(_registeredEventCommands);
+                    _eventCommandQueue.Signal();
                 }
 
                 return response;

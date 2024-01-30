@@ -2,18 +2,20 @@
 using Microsoft.Extensions.Logging;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Exceptions;
+using System.Runtime.InteropServices;
 
-namespace LibraryManagement.Common.Utils
+namespace LibraryManagement.Common.RabbitMQEvents
 {
-    public class RabbitMQService : IRabbitMQService
+    public class EventConnectionFactory : IEventConnectionFactory
     {
-        RabbitMQConnectionOptions _rabbitMQConnectionOptions;
-        ILogger<RabbitMQService> _logger;
-        public RabbitMQService(RabbitMQConnectionOptions rabbitMQConnectionOptions, ILogger<RabbitMQService> logger)
+        ILogger<EventConnectionFactory> _logger;
+        public EventConnectionFactory(RabbitMQConnectionOptions rabbitMQConnectionOptions, [Optional] ILogger<EventConnectionFactory> logger)
         {
-            _rabbitMQConnectionOptions = rabbitMQConnectionOptions;
+            RabbitMQConnectionOptions = rabbitMQConnectionOptions;
             _logger = logger;
         }
+
+        public RabbitMQConnectionOptions RabbitMQConnectionOptions { get; set; }
 
         public IConnection GetConnection()
         {
@@ -21,9 +23,10 @@ namespace LibraryManagement.Common.Utils
             {
                 var factory = new ConnectionFactory
                 {
-                    HostName = _rabbitMQConnectionOptions.HostName,
-                    UserName = _rabbitMQConnectionOptions.UserName,
-                    Password = _rabbitMQConnectionOptions.Password,
+                    HostName = RabbitMQConnectionOptions.HostName,
+                    UserName = RabbitMQConnectionOptions.UserName,
+                    Port = RabbitMQConnectionOptions.Port,
+                    Password = RabbitMQConnectionOptions.Password,
                 };
 
                 factory.AutomaticRecoveryEnabled = true;

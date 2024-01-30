@@ -4,6 +4,8 @@ using LibraryManagement.Common.Configurations;
 using LibraryManagement.Common.Extensions;
 using LibraryManagement.Common.Filters;
 using LibraryManagement.Common.Middlewares;
+using LibraryManagement.Common.RabbitMQEvents;
+using MediatR;
 
 namespace LibraryManagement.BorrowingGrpcService
 {
@@ -29,13 +31,22 @@ namespace LibraryManagement.BorrowingGrpcService
             services.AddControllers();
             services.AddEndpointsApiExplorer();
             services.AddGrpc();
-            services.AddRepositories();
+
             services.AddDbContext<BorrowingBaseDbContext>(configurationOptions);
+
             services.AddGrpc(c =>
             {
                 c.Interceptors.Add<TransactionManagerInterceptor<BorrowingBaseDbContext>>();
                 c.Interceptors.Add<GrpcGlobalExceptionHandlerInterceptor>();
             });
+
+            // services.AddScoped<IRequestHandler<CreateBookCommand>, CreateBookCommandHandler>();
+
+            services.AddRepositories();
+
+            services.AddRabbitMQEventHub(configurationOptions);
+
+            AddQueueLogEventHandlers(services);
         }
 
         public void Configure(IApplicationBuilder app)
@@ -51,6 +62,12 @@ namespace LibraryManagement.BorrowingGrpcService
             {
                endpoints.MapGrpcService<BorrowingService>();
             });
+        }
+        public static void AddQueueLogEventHandlers(IServiceCollection services)
+        {
+            services.AddScoped<RegisteredEventCommands>();
+
+          //  services.AddTransient<IRequestHandler<QueueEventCommand<BookCreatedEvent>>, QueueEventCommandHandler<BookCreatedEvent>>();
         }
     }
 }

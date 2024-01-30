@@ -1,8 +1,8 @@
 ﻿using RabbitMQ.Client;
 
-namespace LibraryManagement.Common.Utils
+namespace LibraryManagement.Common.RabbitMQEvents
 {
-    public interface IRabbitMQService
+    public interface IEventConnectionFactory
     {
         IConnection GetConnection();
 
