@@ -1,5 +1,0 @@
-C:\Users\hafiz\source\repos\LibraryManagement\LibraryManagement.Data\obj\Debug\net6.0\LibraryManagement.Data.csproj.AssemblyReference.cache
-C:\Users\hafiz\source\repos\LibraryManagement\LibraryManagement.Data\obj\Debug\net6.0\LibraryManagement.Data.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\hafiz\source\repos\LibraryManagement\LibraryManagement.Data\obj\Debug\net6.0\LibraryManagement.Data.AssemblyInfoInputs.cache
-C:\Users\hafiz\source\repos\LibraryManagement\LibraryManagement.Data\obj\Debug\net6.0\LibraryManagement.Data.AssemblyInfo.cs
-C:\Users\hafiz\source\repos\LibraryManagement\LibraryManagement.Data\obj\Debug\net6.0\LibraryManagement.Data.csproj.CoreCompileInputs.cache
