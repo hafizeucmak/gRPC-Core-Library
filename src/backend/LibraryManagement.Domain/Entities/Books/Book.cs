@@ -46,7 +46,7 @@ namespace LibraryManagement.Domain.Entities.Books
                 RuleFor(c => c.Author).NotEmpty();
                 RuleFor(c => c.ISBN).NotEmpty();
                 RuleFor(c => c.Publisher).NotEmpty();
-                RuleFor(c => c.PublicationYear).NotEmpty().ExclusiveBetween(1000, 2500);
+                RuleFor(c => c.PublicationYear).NotEmpty().ExclusiveBetween(1000, DateTime.Today.Year);
             }
         }
     }

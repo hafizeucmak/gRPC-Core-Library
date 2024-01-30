@@ -21,7 +21,6 @@ namespace LibraryManagement.AssetsGRPCService.Services
 
             return await Task.FromResult(new BookAddResponse
             {
-                Message = "Hello " + request.Name
             });
         }
 

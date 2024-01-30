@@ -1,5 +1,4 @@
 ﻿using LibraryManagement.AssetsGRPCService;
-using LibraryManagement.WebApi.GTaskClients.Assets;
 
 namespace LibraryManagement.WebApi.GrpcClients.Assets
 {
@@ -12,20 +11,9 @@ namespace LibraryManagement.WebApi.GrpcClients.Assets
             _assetManagementGRPCServiceClient = assetManagementServiceClient;
         }
 
-        public async Task AddBookCopyAsync()
+        public async Task AddBookRecordAsync(BookAddRequest bookRequest)
         {
-           var result = await _assetManagementGRPCServiceClient.AddBookRecordAsync(new BookAddRequest());
-        }
-
-        public async Task AddBookRecordAsync()
-        {
-            var req = new BookAddRequest { Name = "hafili" };
-            var result = await _assetManagementGRPCServiceClient.AddBookRecordAsync(req);
-        }
-
-        public Task DeleteBookCopyAsync()
-        {
-            throw new NotImplementedException();
+            await _assetManagementGRPCServiceClient.AddBookRecordAsync(bookRequest);
         }
 
         public Task DeleteBookRecordAsync()
@@ -33,12 +21,23 @@ namespace LibraryManagement.WebApi.GrpcClients.Assets
             throw new NotImplementedException();
         }
 
-        public Task UpdateBookCopyAsync()
+        public Task UpdateBookInfoAsync()
         {
             throw new NotImplementedException();
         }
 
-        public Task UpdateBookInfoAsync()
+        public Task AddBookCopyAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task DeleteBookCopyAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+     
+        public Task UpdateBookCopyAsync()
         {
             throw new NotImplementedException();
         }

@@ -7,15 +7,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LibraryManagement.WebApi", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "App", "App", "{71BD4E0B-A872-4D4D-A85E-DE287DDCAC8B}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Business", "Business", "{0C174B5F-4328-49B3-BC22-BCCCFF7DF504}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domain", "Domain", "{34B81B40-1E1C-42E3-9FF3-589C97DEEDBE}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{374F4961-72C9-4B3F-9534-0F025A501413}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{4B84086A-4188-482B-98D4-8AB58B6022EE}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LibraryManagement.Business", "LibraryManagement.Business\LibraryManagement.Business.csproj", "{96BD5F17-4870-4933-A1FD-A517E07D251B}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LibraryManagement.Domain", "LibraryManagement.Domain\LibraryManagement.Domain.csproj", "{2B9C6828-3BB2-4E01-8FBD-6EA6A0707355}"
 EndProject
@@ -25,9 +21,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LibraryManagement.Common", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LibraryManagement.BorrowingGrpcService", "LibraryManagement.BorrowingGrpcService\LibraryManagement.BorrowingGrpcService.csproj", "{DCA49BCA-A0E4-4F7E-B6F2-6516522601F5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibraryManagement.UserGrpcService", "LibraryManagement.UserGrpcService\LibraryManagement.UserGrpcService.csproj", "{13DED230-B891-411E-B9F0-789A9C4CDB7F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LibraryManagement.UserGrpcService", "LibraryManagement.UserGrpcService\LibraryManagement.UserGrpcService.csproj", "{13DED230-B891-411E-B9F0-789A9C4CDB7F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibraryManagement.AssetsGRPCService", "LibraryManagement.AssetsGRPCService\LibraryManagement.AssetsGRPCService.csproj", "{0F1B6275-BFD0-4B77-BAA1-A7E53D539AEE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LibraryManagement.AssetsGRPCService", "LibraryManagement.AssetsGRPCService\LibraryManagement.AssetsGRPCService.csproj", "{0F1B6275-BFD0-4B77-BAA1-A7E53D539AEE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,10 +35,6 @@ Global
 		{D363BED5-1B0C-4F93-948A-36D5069EAD3A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D363BED5-1B0C-4F93-948A-36D5069EAD3A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D363BED5-1B0C-4F93-948A-36D5069EAD3A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{96BD5F17-4870-4933-A1FD-A517E07D251B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{96BD5F17-4870-4933-A1FD-A517E07D251B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{96BD5F17-4870-4933-A1FD-A517E07D251B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{96BD5F17-4870-4933-A1FD-A517E07D251B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2B9C6828-3BB2-4E01-8FBD-6EA6A0707355}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2B9C6828-3BB2-4E01-8FBD-6EA6A0707355}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2B9C6828-3BB2-4E01-8FBD-6EA6A0707355}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -69,7 +61,6 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{D363BED5-1B0C-4F93-948A-36D5069EAD3A} = {71BD4E0B-A872-4D4D-A85E-DE287DDCAC8B}
-		{96BD5F17-4870-4933-A1FD-A517E07D251B} = {0C174B5F-4328-49B3-BC22-BCCCFF7DF504}
 		{2B9C6828-3BB2-4E01-8FBD-6EA6A0707355} = {34B81B40-1E1C-42E3-9FF3-589C97DEEDBE}
 		{B79C4546-BFC7-453D-9A5A-6374923A0FAA} = {D01DA8AD-3FF6-4B5B-A9DC-9585DFFF042E}
 		{DCA49BCA-A0E4-4F7E-B6F2-6516522601F5} = {374F4961-72C9-4B3F-9534-0F025A501413}

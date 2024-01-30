@@ -1,8 +1,10 @@
-﻿namespace LibraryManagement.WebApi.GTaskClients.Assets
+﻿using LibraryManagement.AssetsGRPCService;
+
+namespace LibraryManagement.WebApi.GrpcClients.Assets
 {
     public interface IAssetManagementServiceClient
     {
-        Task AddBookRecordAsync();
+        Task AddBookRecordAsync(BookAddRequest bookRequest);
 
         Task UpdateBookInfoAsync();
 

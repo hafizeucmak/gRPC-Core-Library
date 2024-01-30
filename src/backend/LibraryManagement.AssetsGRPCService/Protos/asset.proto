@@ -21,11 +21,14 @@ service AssetManagementGRPCService {
 }
 
 message BookAddRequest {
-  string name = 1;
+  string title = 1;
+  string author = 2;
+  string isbn = 3;
+  string publisher = 4;
+  int32 publicationYear = 5;
 }
 
 message BookAddResponse {
-  string message = 1;
 }
 
 message BookUpdateRequest {
