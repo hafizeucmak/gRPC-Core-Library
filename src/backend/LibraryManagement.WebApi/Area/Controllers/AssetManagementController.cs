@@ -15,13 +15,12 @@ namespace LibraryManagement.WebApi.Area.Controllers
             _assetManagementServiceClient = assetManagementServiceClient;
         }
 
-        [HttpGet("addUser")]
+        [HttpGet("addBookRecord")]
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
 
-        public async Task<IActionResult> AddUSer(CancellationToken cancellationToken)
+        public async Task<IActionResult> AddBookRecord(CancellationToken cancellationToken)
         {
-         await _assetManagementServiceClient.AddBookRecordAsync();
-
+            await _assetManagementServiceClient.AddBookRecordAsync();
             throw new NotImplementedException("anani sikim");
         }
     }

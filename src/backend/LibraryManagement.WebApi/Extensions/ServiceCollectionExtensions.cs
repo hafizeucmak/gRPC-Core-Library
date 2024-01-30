@@ -3,6 +3,7 @@ using Grpc.Net.Client.Configuration;
 using LibraryManagement.AssetsGRPCService;
 using LibraryManagement.BorrowingGrpcService;
 using LibraryManagement.Common.Configurations;
+using LibraryManagement.Common.Utils;
 using LibraryManagement.UserGrpcService;
 using LibraryManagement.WebApi.GrpcClients.Assets;
 using LibraryManagement.WebApi.GrpcClients.Borrows;
@@ -66,7 +67,7 @@ namespace LibraryManagement.WebApi.Extensions
 
         public static void AddExceptionManager(this IServiceCollection services)
         {
-            //TODO:
+            services.AddSingleton<IExceptionManager, ExceptionManager>();
         }
 
         public static void RegisterGRPCServiceClients(this IServiceCollection services)
