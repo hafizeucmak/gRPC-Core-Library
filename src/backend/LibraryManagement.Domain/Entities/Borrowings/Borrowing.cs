@@ -2,7 +2,7 @@
 using LibraryManagement.Common.Base;
 using LibraryManagement.Common.Constants;
 
-namespace LibraryManagement.Domain.Borrowings
+namespace LibraryManagement.Domain.Entities.Borrowings
 {
     public class Borrowing : DomainEntity
     {
@@ -16,6 +16,8 @@ namespace LibraryManagement.Domain.Borrowings
 
             _validator.ValidateAndThrow(this);
         }
+
+        protected Borrowing() { }
 
         public int BookId { get; private set; }
 

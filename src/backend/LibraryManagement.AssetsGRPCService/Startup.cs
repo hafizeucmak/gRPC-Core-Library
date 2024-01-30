@@ -1,8 +1,11 @@
 ﻿using LibraryManagement.AssetsGRPCService.DataAccesses.DbContexts;
 using LibraryManagement.AssetsGRPCService.Services;
+using LibraryManagement.Business.CQRS.Commands;
 using LibraryManagement.Common.Configurations;
 using LibraryManagement.Common.Extensions;
 using LibraryManagement.Common.Middlewares;
+using MediatR;
+using System.Reflection;
 
 namespace LibraryManagement.AssetsGRPCService
 {
@@ -28,12 +31,15 @@ namespace LibraryManagement.AssetsGRPCService
             services.AddControllers();
             services.AddEndpointsApiExplorer();
             services.AddGrpc();
-            services.AddRepositories();
-            services.AddDbContext<AssetBaseDbContext>(configurationOptions);
-            services.AddGrpc(c => c.Interceptors.Add<GrpcGlobalExceptionHandlerInterceptor>());
-        //    services.RegisterMediatr(typeof(CreateBookCommand));
 
-          
+            services.AddDbContext<AssetBaseDbContext>(configurationOptions);
+
+            services.AddGrpc(c => c.Interceptors.Add<GrpcGlobalExceptionHandlerInterceptor>());
+            services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
+
+            services.AddScoped<IRequestHandler<CreateBookCommand>, CreateBookCommandHandler>();
+
+            services.AddRepositories();
         }
 
         public void Configure(IApplicationBuilder app)

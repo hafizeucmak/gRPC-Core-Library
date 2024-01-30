@@ -1,8 +1,8 @@
 ﻿using FluentValidation;
 using LibraryManagement.Common.Base;
-using LibraryManagement.Domain.Copies;
+using LibraryManagement.Domain.Entities.Copies;
 
-namespace LibraryManagement.Domain.Books
+namespace LibraryManagement.Domain.Entities.Books
 {
     public class Book : DomainEntity
     {

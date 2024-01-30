@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 using LibraryManagement.Common.Base;
 
-namespace LibraryManagement.Domain.Users
+namespace LibraryManagement.Domain.Entities.Users
 {
     public class User : DomainEntity
     {
@@ -22,6 +22,8 @@ namespace LibraryManagement.Domain.Users
 
             _validator.ValidateAndThrow(this);
         }
+
+        protected User() { }
 
         public string Email { get; private set; }
 

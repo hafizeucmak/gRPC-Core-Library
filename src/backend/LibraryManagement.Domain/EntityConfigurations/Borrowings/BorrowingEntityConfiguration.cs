@@ -1,4 +1,4 @@
-﻿using LibraryManagement.Domain.Borrowings;
+﻿using LibraryManagement.Domain.Entities.Borrowings;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

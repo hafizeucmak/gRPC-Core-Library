@@ -1,5 +1,5 @@
-﻿using LibraryManagement.Domain.Books;
-using LibraryManagement.Domain.Copies;
+﻿using LibraryManagement.Domain.Entities.Books;
+using LibraryManagement.Domain.Entities.Copies;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 

@@ -7,12 +7,23 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="DataAccesses\Migrations\**" />
+    <Content Remove="DataAccesses\Migrations\**" />
+    <EmbeddedResource Remove="DataAccesses\Migrations\**" />
+    <None Remove="DataAccesses\Migrations\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Protobuf Include="Protos\asset.proto" GrpcServices="Server" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Grpc.AspNetCore" Version="2.40.0" />
     <PackageReference Include="MediatR" Version="12.2.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.9">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
 
   <ItemGroup>
@@ -22,7 +33,7 @@
 
   <ItemGroup>
     <Folder Include="Business\CQRS\Queries\" />
-    <Folder Include="DataAccesses\Migrations\" />
+    <Folder Include="Migrations\" />
   </ItemGroup>
 
 </Project>

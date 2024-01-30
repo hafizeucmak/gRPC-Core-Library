@@ -1,9 +1,9 @@
 ﻿using FluentValidation;
 using LibraryManagement.Common.Base;
-using LibraryManagement.Domain.Books;
+using LibraryManagement.Domain.Entities.Books;
 using System.Text;
 
-namespace LibraryManagement.Domain.Copies
+namespace LibraryManagement.Domain.Entities.Copies
 {
     public class BookCopy : DomainEntity
     {
@@ -19,6 +19,8 @@ namespace LibraryManagement.Domain.Copies
             _validator.ValidateAndThrow(this);
         }
 
+        protected BookCopy() { }
+
         public int BookId { get; private set; }
 
         public string CopyNumber { get; private set; }
@@ -29,8 +31,8 @@ namespace LibraryManagement.Domain.Copies
 
         protected string GenerateCopyNumber()
         {
-            int copyId = this.Id;
-            string isbn = this.Book.ISBN;
+            int copyId = Id;
+            string isbn = Book.ISBN;
 
             StringBuilder copyNumberBuilder = new();
 

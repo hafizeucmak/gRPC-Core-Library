@@ -1,5 +1,5 @@
 ﻿using LibraryManagement.Common.Constants;
-using LibraryManagement.Domain.Users;
+using LibraryManagement.Domain.Entities.Users;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

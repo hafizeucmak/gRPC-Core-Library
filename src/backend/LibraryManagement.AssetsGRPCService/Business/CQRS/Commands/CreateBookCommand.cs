@@ -1,6 +1,6 @@
 ﻿using LibraryManagement.AssetsGRPCService.DataAccesses.DbContexts;
 using LibraryManagement.Common.GenericRepositories;
-using LibraryManagement.Domain.Books;
+using LibraryManagement.Domain.Entities.Books;
 using MediatR;
 
 namespace LibraryManagement.Business.CQRS.Commands
