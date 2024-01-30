@@ -31,8 +31,6 @@ namespace LibraryManagement.Business.CQRS.Commands
             var book = new Book("example titel", "example author", "example isbn", "example publicher", 2017);
 
             await _genericWriteRepository.AddAsync(book, cancellationToken);
-
-            _genericWriteRepository.CommitTransaction();
         }
     }
 }

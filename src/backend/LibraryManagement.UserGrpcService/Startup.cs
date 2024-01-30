@@ -1,5 +1,6 @@
 ﻿using LibraryManagement.Common.Configurations;
 using LibraryManagement.Common.Extensions;
+using LibraryManagement.Common.Filters;
 using LibraryManagement.Common.Middlewares;
 using LibraryManagement.UserGrpcService.DataAccesses.DbContexts;
 
@@ -29,7 +30,11 @@ namespace LibraryManagement.UserGrpcService
             services.AddGrpc();
             services.AddRepositories();
             services.AddDbContext<UserBaseDbContext>(configurationOptions);
-            services.AddGrpc(c => c.Interceptors.Add<GrpcGlobalExceptionHandlerInterceptor>());
+            services.AddGrpc(c =>
+            {
+                c.Interceptors.Add<TransactionManagerInterceptor<UserBaseDbContext>>();
+                c.Interceptors.Add<GrpcGlobalExceptionHandlerInterceptor>();
+            });
         }
 
         public void Configure(IApplicationBuilder app)

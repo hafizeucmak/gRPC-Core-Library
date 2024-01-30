@@ -159,10 +159,7 @@ namespace LibraryManagement.Common.GenericRepositories
 
         public void BeginTransaction()
         {
-            if (_context.Database.CurrentTransaction == null)
-            {
-                _context.Database.BeginTransaction();
-            }
+            _context.Database.BeginTransaction();
         }
 
         public void CommitTransaction()

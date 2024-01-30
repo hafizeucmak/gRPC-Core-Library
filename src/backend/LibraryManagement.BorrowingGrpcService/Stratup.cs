@@ -2,6 +2,7 @@
 using LibraryManagement.BorrowingGrpcService.Services;
 using LibraryManagement.Common.Configurations;
 using LibraryManagement.Common.Extensions;
+using LibraryManagement.Common.Filters;
 using LibraryManagement.Common.Middlewares;
 
 namespace LibraryManagement.BorrowingGrpcService
@@ -30,7 +31,11 @@ namespace LibraryManagement.BorrowingGrpcService
             services.AddGrpc();
             services.AddRepositories();
             services.AddDbContext<BorrowingBaseDbContext>(configurationOptions);
-            services.AddGrpc(c => c.Interceptors.Add<GrpcGlobalExceptionHandlerInterceptor>());
+            services.AddGrpc(c =>
+            {
+                c.Interceptors.Add<TransactionManagerInterceptor<BorrowingBaseDbContext>>();
+                c.Interceptors.Add<GrpcGlobalExceptionHandlerInterceptor>();
+            });
         }
 
         public void Configure(IApplicationBuilder app)

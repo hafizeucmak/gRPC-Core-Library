@@ -11,9 +11,13 @@ namespace LibraryManagement.Domain.EntityConfigurations.Books
         {
             book.HasKey(x => x.Id).IsClustered(false);
 
-            book.HasIndex(x => new { x.ISBN, x.Id, x.DeletedAt })
+            book.HasIndex(x => new { x.ISBN, x.DeletedAt })
                 .IsUnique()
                 .IsClustered(false);
+
+            book.HasIndex(x => new { x.Title, x.ISBN, x.DeletedAt })
+               .IsUnique()
+               .IsClustered(false);
 
             book.Property(x => x.Title)
                 .IsRequired()

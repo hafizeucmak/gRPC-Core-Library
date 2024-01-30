@@ -7,13 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="DataAccesses\Migrations\**" />
-    <Content Remove="DataAccesses\Migrations\**" />
-    <EmbeddedResource Remove="DataAccesses\Migrations\**" />
-    <None Remove="DataAccesses\Migrations\**" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Protobuf Include="Protos\asset.proto" GrpcServices="Server" />
   </ItemGroup>
 
@@ -33,7 +26,7 @@
 
   <ItemGroup>
     <Folder Include="Business\CQRS\Queries\" />
-    <Folder Include="Migrations\" />
+    <Folder Include="DataAccesses\Migrations\" />
   </ItemGroup>
 
 </Project>

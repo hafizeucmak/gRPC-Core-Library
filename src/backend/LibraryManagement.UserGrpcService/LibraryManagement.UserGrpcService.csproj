@@ -7,6 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="DataAccesses\Migrations\**" />
+    <Content Remove="DataAccesses\Migrations\**" />
+    <EmbeddedResource Remove="DataAccesses\Migrations\**" />
+    <None Remove="DataAccesses\Migrations\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Protobuf Include="Protos\user.proto" GrpcServices="Server" />
   </ItemGroup>
 
@@ -18,10 +25,6 @@
   <ItemGroup>
     <ProjectReference Include="..\LibraryManagement.Common\LibraryManagement.Common.csproj" />
     <ProjectReference Include="..\LibraryManagement.Domain\LibraryManagement.Domain.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="DataAccesses\Migrations\" />
   </ItemGroup>
 
 </Project>
