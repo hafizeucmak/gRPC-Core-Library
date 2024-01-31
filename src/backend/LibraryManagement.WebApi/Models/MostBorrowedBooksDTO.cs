@@ -20,12 +20,12 @@ namespace LibraryManagement.WebApi.Models
     {
         public void Register(TypeAdapterConfig config)
         {
-
+            //TODO: map in here dont forget
             config.ForType<BorrowedBook, MostBorrowedBooksDTO>()
-                .Map(dest => dest.Name, src => src.Name)
+                .Map(dest => dest.Name, src => src.Title)
                 .Map(dest => dest.AuthorName, src => src.Author)
                 .Map(dest => dest.Isbn, src => src.Isbn)
-                .Map(dest => dest.PageCount, src => src.Page);
+                .Map(dest => dest.PageCount, src => src.PageCount);
         }
     }
 }

@@ -11,9 +11,9 @@ namespace LibraryManagement.WebApi.GrpcClients.Borrows
             _borrowServiceClient = borrowServiceClient;
         }
 
-        public async Task<MostBorrowedBooksResponse> GetMostBorrowedBooks()
+        public async Task<MostBorrowedBooksResponse> GetMostBorrowedBooks(MostBorrowedBooksRequest request)
         {
-            return await _borrowServiceClient.GetMostBorrowedBooksAsync(new MostBorrowedBooksRequest());
+            return await _borrowServiceClient.GetMostBorrowedBooksAsync(request);
         }
 
         public async Task<BorrowBookResponse> BorrowBookAsync(BorrowBookRequest request)
@@ -21,14 +21,19 @@ namespace LibraryManagement.WebApi.GrpcClients.Borrows
             return await _borrowServiceClient.BorrowBookAsync(request);
         }
 
-        public Task GetBookAvailability()
+        public async Task<BookCopiesAvailabilityResponse> GetBookCopiesAvailability(BookCopiesAvailabilityRequest request)
         {
-            throw new NotImplementedException();
+           return await _borrowServiceClient.GetBookCopiesAvailabilityAsync(request);
         }
 
-        public Task GetBorrowedBooksByUser()
+        public async Task<TopBorrowersResponse> GetTopBorrowersWithinSpecifiedTimeframe(TopBorrowersRequest request)
         {
-            throw new NotImplementedException();
+            return await _borrowServiceClient.GetTopBorrowersWithinSpecifiedTimeframeAsync(request);
+        }
+
+        public async Task<BorrowedBooksByUserResponse> GetBorrowedBooksByUser(BorrowedBooksByUserRequest request)
+        {
+           return await _borrowServiceClient.GetBorrowedBooksByUserAsync(request);
         }
 
         public Task GetReadRate()
@@ -37,11 +42,6 @@ namespace LibraryManagement.WebApi.GrpcClients.Borrows
         }
 
         public Task GetRelatedBooks()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task GetTopBorrowers()
         {
             throw new NotImplementedException();
         }

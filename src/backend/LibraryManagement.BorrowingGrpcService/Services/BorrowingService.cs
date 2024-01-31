@@ -1,5 +1,6 @@
 ﻿using Grpc.Core;
 using LibraryManagement.BorrowingGrpcService.Business.CQRS.Commands;
+using LibraryManagement.BorrowingGrpcService.Business.CQRS.Queries;
 using MediatR;
 
 namespace LibraryManagement.BorrowingGrpcService.Services
@@ -16,41 +17,23 @@ namespace LibraryManagement.BorrowingGrpcService.Services
 
         public override async Task<MostBorrowedBooksResponse> GetMostBorrowedBooks(MostBorrowedBooksRequest request, ServerCallContext context)
         {
-            MostBorrowedBooksResponse response = new()
-            {
-                MostBorrowedBooks = { new BorrowedBook
-                                   {
-                                       Name = "İnsan Olmak",
-                                       Author = "Engin Gençtan",
-                                       Page = 1030,
-                                       Isbn = "flkssfkmsl"
-                                   }}
-            };
-
-            // Return the response asynchronously using Task.FromResult
-            return await Task.FromResult(response);
+            return await _mediator.Send(new GetMostBorrowedBooksQuery(request.ExpectedMostBorrowBookCount), context.CancellationToken);
         }
+
         public override async Task<BorrowBookResponse> BorrowBook(BorrowBookRequest request, ServerCallContext context)
         {
             var command = new BorrowBookCommand(request.Isbn, request.UserEmail);
             return await _mediator.Send(command, context.CancellationToken);
         }
 
-        public override async Task<BookAvailabilityResponse> GetBookAvailability(BookAvailabilityRequest request, ServerCallContext context)
+        public override async Task<BookCopiesAvailabilityResponse> GetBookCopiesAvailability(BookCopiesAvailabilityRequest request, ServerCallContext context)
         {
-            return await Task.FromResult(new BookAvailabilityResponse
-            {
-                Status = "available"
-            });
+            return await _mediator.Send(new GetBookCopiesAvailabilityQuery(request.Isbn), context.CancellationToken);
         }
 
-
-        public override async Task<TopBorrowersResponse> GetTopBorrowers(TopBorrowersRequest request, ServerCallContext context)
+        public override async Task<TopBorrowersResponse> GetTopBorrowersWithinSpecifiedTimeframe(TopBorrowersRequest request, ServerCallContext context)
         {
-            return await Task.FromResult(new TopBorrowersResponse
-            {
-
-            });
+            return await _mediator.Send(new GetTopBorrowersWithinSpecifiedTimeframeQuery(request.StartDate.ToDateTime(), request.EndDate.ToDateTime(), request.ExpectedTopBorrowerCount), context.CancellationToken);
         }
 
         public override async Task<BorrowedBooksByUserResponse> GetBorrowedBooksByUser(BorrowedBooksByUserRequest request, ServerCallContext context)

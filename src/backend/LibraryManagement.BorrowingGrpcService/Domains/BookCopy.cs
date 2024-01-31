@@ -1,4 +1,6 @@
 ﻿using FluentValidation;
+using Grpc.Core;
+using LibraryManagement.BorrowingGrpcService.Domains.Enums;
 using LibraryManagement.Common.Base;
 using System.Text;
 
@@ -14,6 +16,7 @@ namespace LibraryManagement.BorrowingGrpcService.Domains
             Book = book;
             AcquisitionDate = DateTime.UtcNow;
             CopyNumber = GenerateCopyNumber();
+            Status = AssetStatus.Available;
 
             _validator.ValidateAndThrow(this);
         }
@@ -27,6 +30,30 @@ namespace LibraryManagement.BorrowingGrpcService.Domains
         public DateTime AcquisitionDate { get; set; }
 
         public virtual Book Book { get; private set; }
+
+        public AssetStatus Status { get; private set; }
+
+        public void UpdateStatusAsBorrowed()
+        {
+            if (Status == AssetStatus.Borrowed)
+            {
+                throw new InvalidOperationException("Status already borrowed");
+            }
+
+            this.Status = AssetStatus.Borrowed;
+            Update();
+        }
+
+        public void UpdateStatusAsAvailable()
+        {
+            if (Status == AssetStatus.Available)
+            {
+                throw new InvalidOperationException("Status already available");
+            }
+
+            this.Status = AssetStatus.Available;
+            Update();
+        }
 
         protected string GenerateCopyNumber()
         {

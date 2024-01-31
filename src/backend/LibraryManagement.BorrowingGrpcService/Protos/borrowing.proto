@@ -3,6 +3,7 @@ syntax = "proto3";
 option csharp_namespace = "LibraryManagement.BorrowingGrpcService";
 
 package borrowing;
+import "google/protobuf/timestamp.proto";
 
 
 service BorrowGRPCService {
@@ -11,9 +12,9 @@ service BorrowGRPCService {
 
   rpc GetMostBorrowedBooks (MostBorrowedBooksRequest) returns (MostBorrowedBooksResponse);
 
-  rpc GetBookAvailability(BookAvailabilityRequest) returns (BookAvailabilityResponse);
+  rpc GetBookCopiesAvailability(BookCopiesAvailabilityRequest) returns (BookCopiesAvailabilityResponse);
   
-  rpc GetTopBorrowers(TopBorrowersRequest) returns (TopBorrowersResponse);
+  rpc GetTopBorrowersWithinSpecifiedTimeframe(TopBorrowersRequest) returns (TopBorrowersResponse);
   
   rpc GetBorrowedBooksByUser(BorrowedBooksByUserRequest) returns (BorrowedBooksByUserResponse);
   
@@ -25,14 +26,16 @@ service BorrowGRPCService {
 }
 
 message MostBorrowedBooksRequest {
-
+	int32 expectedMostBorrowBookCount = 1;
 }
 
 message BorrowedBook {
-  string name = 1;
+  string title = 1;
   string author = 2;
-  int32 page = 3;
-  string isbn = 4;
+  string publisher = 3;
+  int32 publicationYear = 4;
+  int32 pageCount = 5;
+  string isbn = 6;
 }
 
 message BorrowBookRequest
@@ -50,30 +53,51 @@ message MostBorrowedBooksResponse {
     repeated BorrowedBook most_borrowed_books = 1;
 }
 
-message BookAvailabilityRequest {
-	int32 bookId =1;
+message BookCopiesAvailabilityRequest {
+	string isbn = 1;
 }
 
-message BookAvailabilityResponse {
-	string status = 1;
+message BookCopiesAvailabilityResponse {
+	int32 borrowedCopiesCount = 1;
+	int32 availableCopiesCount = 2;
 }
 
 message TopBorrowersRequest {
+	google.protobuf.Timestamp startDate = 1;
+	google.protobuf.Timestamp endDate = 2;
+	int32 expectedTopBorrowerCount = 3;
 
 }
 
-message TopBorrowersResponse {
+message TopBorrowerDetail
+{
+	string userName = 1;
+	string userEmail = 2;
+	int32 borrowedBookCount = 3;
+}
 
+message TopBorrowersResponse {
+	repeated TopBorrowerDetail topBorrowers = 1;
 }
 
 message BorrowedBooksByUserRequest {
 
-	int32 userId = 1;
+	string userEmail = 1;
+	google.protobuf.Timestamp startDate = 2;
+	google.protobuf.Timestamp endDate = 3;
+}
 
+message BorrowedBookDetail {
+  string title = 1;
+  string author = 2;
+  string publisher = 3;
+  int32 pageCount = 4;
+  string isbn = 5;
+  google.protobuf.Timestamp borrowedDate = 6;
 }
 
 message BorrowedBooksByUserResponse {
-
+	repeated BorrowedBookDetail borrowedBooks =1;
 }
 
 message RelatedBooksRequest {

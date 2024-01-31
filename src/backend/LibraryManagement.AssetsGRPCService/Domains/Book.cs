@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using LibraryManagement.AssetsGRPCService.Domains.Enums;
 using LibraryManagement.Common.Base;
 
 namespace LibraryManagement.AssetsGRPCService.Domains
@@ -21,6 +22,7 @@ namespace LibraryManagement.AssetsGRPCService.Domains
             Publisher = publisher;
             PublicationYear = publicationYear;
             PageCount = pageCount;
+            Status = AssetStatus.Available;
 
             _validator.ValidateAndThrow(this);
         }
@@ -39,7 +41,31 @@ namespace LibraryManagement.AssetsGRPCService.Domains
 
         public int PageCount { get; private set; }
 
+        public AssetStatus Status { get; private set; }
+
         public IReadOnlyCollection<BookCopy> BookCopies => _bookCopies;
+
+        public void UpdateStatusAsBorrowed()
+        {
+            if (Status == AssetStatus.Borrowed)
+            {
+                throw new InvalidOperationException("Status already borrowed");
+            }
+
+            this.Status = AssetStatus.Borrowed;
+            Update();
+        }
+
+        public void UpdateStatusAsAvailable()
+        {
+            if (Status == AssetStatus.Available)
+            {
+                throw new InvalidOperationException("Status already available");
+            }
+
+            this.Status = AssetStatus.Available;
+            Update();
+        }
 
         public class BookValidator : AbstractValidator<Book>
         {

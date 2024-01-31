@@ -6,13 +6,13 @@ namespace LibraryManagement.WebApi.GrpcClients.Borrows
     {
         Task<BorrowBookResponse> BorrowBookAsync(BorrowBookRequest request);
 
-        Task<MostBorrowedBooksResponse> GetMostBorrowedBooks();
+        Task<MostBorrowedBooksResponse> GetMostBorrowedBooks(MostBorrowedBooksRequest request);
 
-        Task GetBookAvailability();
+        Task<BookCopiesAvailabilityResponse> GetBookCopiesAvailability(BookCopiesAvailabilityRequest request);
 
-        Task GetTopBorrowers();
+        Task<TopBorrowersResponse> GetTopBorrowersWithinSpecifiedTimeframe(TopBorrowersRequest request);
 
-        Task GetBorrowedBooksByUser();
+        Task<BorrowedBooksByUserResponse> GetBorrowedBooksByUser(BorrowedBooksByUserRequest request);
 
         Task GetRelatedBooks();
 

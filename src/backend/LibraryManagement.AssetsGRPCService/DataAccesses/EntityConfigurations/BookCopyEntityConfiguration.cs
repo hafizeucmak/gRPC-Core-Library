@@ -1,5 +1,7 @@
 ﻿using LibraryManagement.AssetsGRPCService.Domains;
+using LibraryManagement.AssetsGRPCService.Domains.Enums;
 using LibraryManagement.Common.Constants;
+using LibraryManagement.Common.Utils;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -28,6 +30,12 @@ namespace LibraryManagement.AssetsGRPCService.DataAccesses.EntityConfigurations
             bookCopy.Property(x => x.CopyNumber)
                     .IsRequired()
                     .HasMaxLength(DbContextConstants.MAX_LENGTH_FOR_BOOK_COPY_NUMBER);
+
+            bookCopy.Property(c => c.Status)
+                   .HasConversion(
+                       EnumConverter<AssetStatus>.EnumToString,
+                       EnumConverter<AssetStatus>.StringToEnum)
+                   .IsRequired();
         }
     }
 }

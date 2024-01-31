@@ -7,12 +7,13 @@ namespace LibraryManagement.BorrowingGrpcService.Domains
     public class Borrowing : DomainEntity
     {
         private readonly BorrowingValidator _validator = new();
-        public Borrowing(int bookId, int userId, int? bookCopyId)
+        public Borrowing(int bookId, Book book,int userId, int? bookCopyId)
         {
             BookId = bookId;
             UserId = userId;
             BookCopyId = bookCopyId;
             BorrowDate = DateTime.Now;
+            Book = book;
             ExpectedReturnDate = DateTime.Now.AddDays(LibraryManagementConstants.BorrowingsExpectedReturnDay);
 
             _validator.ValidateAndThrow(this);
@@ -31,6 +32,8 @@ namespace LibraryManagement.BorrowingGrpcService.Domains
         public DateTime? ReturnDate { get; private set; }
 
         public DateTime ExpectedReturnDate { get; private set; }
+
+        public virtual Book Book { get; private set; }
 
         public class BorrowingValidator : AbstractValidator<Borrowing>
         {

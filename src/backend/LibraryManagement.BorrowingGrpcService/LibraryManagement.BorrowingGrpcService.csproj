@@ -12,6 +12,7 @@
 	
   <ItemGroup>
     <PackageReference Include="Grpc.AspNetCore" Version="2.60.0" />
+    <PackageReference Include="Mapster" Version="7.4.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.9">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -25,7 +26,6 @@
 
   <ItemGroup>
     <Folder Include="Business\Constants\" />
-    <Folder Include="Business\CQRS\Queries\" />
     <Folder Include="DataAccesses\Migrations\" />
   </ItemGroup>
 

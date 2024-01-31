@@ -64,7 +64,11 @@ namespace LibraryManagement.BorrowingGrpcService.Business.CQRS.Commands
                 throw new ResourceNotFoundException($"{nameof(user)} not found with {nameof(command.UserEmail)} is equal to {command.UserEmail}");
             }
 
-            var borrowing = new Borrowing(book.Id, user.Id, null);
+            var borrowing = new Borrowing(book.Id, book, user.Id, null);
+
+            book.UpdateStatusAsBorrowed();
+
+            await _genericWriteRepository.UpdateAsync(book, cancellationToken);
 
             await _genericWriteRepository.AddAsync(borrowing, cancellationToken);
 

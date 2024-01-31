@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using LibraryManagement.AssetsGRPCService.Domains.Enums;
 using LibraryManagement.Common.Base;
 using System.Text;
 
@@ -14,6 +15,7 @@ namespace LibraryManagement.AssetsGRPCService.Domains
             Book = book;
             AcquisitionDate = DateTime.UtcNow;
             CopyNumber = GenerateCopyNumber();
+            Status = AssetStatus.Available;
 
             _validator.ValidateAndThrow(this);
         }
@@ -27,6 +29,8 @@ namespace LibraryManagement.AssetsGRPCService.Domains
         public DateTime AcquisitionDate { get; set; }
 
         public virtual Book Book { get; private set; }
+
+        public AssetStatus Status { get; private set; }
 
         protected string GenerateCopyNumber()
         {
@@ -42,6 +46,28 @@ namespace LibraryManagement.AssetsGRPCService.Domains
             string copyNumber = copyNumberBuilder.ToString();
 
             return copyNumber;
+        }
+
+        public void UpdateStatusAsBorrowed()
+        {
+            if(Status == AssetStatus.Borrowed)
+            {
+                throw new InvalidOperationException("Status already borrowed");
+            }
+
+            this.Status = AssetStatus.Borrowed;
+            Update();
+        }
+
+        public void UpdateStatusAsAvailable()
+        {
+            if (Status == AssetStatus.Available)
+            {
+                throw new InvalidOperationException("Status already available");
+            }
+
+            this.Status = AssetStatus.Available;
+            Update();
         }
 
         public class BookCopyValidator : AbstractValidator<BookCopy>

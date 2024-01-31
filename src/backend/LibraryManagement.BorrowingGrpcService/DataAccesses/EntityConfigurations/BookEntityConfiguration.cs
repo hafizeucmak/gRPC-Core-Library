@@ -1,5 +1,7 @@
 ﻿using LibraryManagement.BorrowingGrpcService.Domains;
+using LibraryManagement.BorrowingGrpcService.Domains.Enums;
 using LibraryManagement.Common.Constants;
+using LibraryManagement.Common.Utils;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -35,6 +37,12 @@ namespace LibraryManagement.BorrowingGrpcService.DataAccesses.EntityConfiguratio
              .WithOne(w => w.Book)
              .OnDelete(DeleteBehavior.Restrict)
              .IsRequired();
+
+            book.Property(c => c.Status)
+                .HasConversion(
+                    EnumConverter<AssetStatus>.EnumToString,
+                    EnumConverter<AssetStatus>.StringToEnum)
+                .IsRequired();
         }
     }
 }

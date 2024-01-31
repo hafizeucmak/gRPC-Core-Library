@@ -1,5 +1,7 @@
 ﻿using LibraryManagement.BorrowingGrpcService.Domains;
+using LibraryManagement.BorrowingGrpcService.Domains.Enums;
 using LibraryManagement.Common.Constants;
+using LibraryManagement.Common.Utils;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -20,14 +22,20 @@ namespace LibraryManagement.BorrowingGrpcService.DataAccesses.EntityConfiguratio
                     .IsClustered(false);
 
             bookCopy.HasOne(x => x.Book)
-                .WithMany()
-                .HasForeignKey(x => x.BookId)
-                .IsRequired()
-                .OnDelete(DeleteBehavior.Restrict);
+                    .WithMany()
+                    .HasForeignKey(x => x.BookId)
+                    .IsRequired()
+                    .OnDelete(DeleteBehavior.Restrict);
 
             bookCopy.Property(x => x.CopyNumber)
                     .IsRequired()
                     .HasMaxLength(DbContextConstants.MAX_LENGTH_FOR_BOOK_COPY_NUMBER);
+
+            bookCopy.Property(c => c.Status)
+                    .HasConversion(
+                        EnumConverter<AssetStatus>.EnumToString,
+                        EnumConverter<AssetStatus>.StringToEnum)
+                    .IsRequired();
         }
     }
 }

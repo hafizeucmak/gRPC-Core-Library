@@ -27,13 +27,42 @@ namespace LibraryManagement.WebApi.Area.Controllers
             return NoContent();
         }
 
-
         [HttpGet("getMostBorrowedBooks")]
         [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(IEnumerable<MostBorrowedBooksDTO>))]
 
-        public async Task<IActionResult> GetMostBorrowBooks(CancellationToken cancellationToken)
+        public async Task<IActionResult> GetMostBorrowBooks([FromQuery] int expectedMostBorrowBookCount, CancellationToken cancellationToken)
         {
-            return Ok(await _mediator.Send(new GetMostBorrowedBooks(), cancellationToken));
+            return Ok(await _mediator.Send(new GetMostBorrowedBooks(expectedMostBorrowBookCount), cancellationToken));
+        }
+
+        [HttpGet("getBookCopiesAvailability")]
+        [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(BookCopiesAvailabilityDTO))]
+
+        public async Task<IActionResult> GetBookCopiesAvailability([FromQuery] string isbn, CancellationToken cancellationToken)
+        {
+            return Ok(await _mediator.Send(new GetBookCopiesAvailability(isbn), cancellationToken));
+        }
+
+        [HttpGet("getTopBorrowersWithinSpecifiedTimeframe")]
+        [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(BookCopiesAvailabilityDTO))]
+
+        public async Task<IActionResult> GetTopBorrowersWithinSpecifiedTimeframe([FromQuery] DateTime startDate,
+                                                                                 [FromQuery] DateTime endDate,
+                                                                                 [FromQuery] int expectedTopBorrowerCount,
+                                                                                 CancellationToken cancellationToken)
+        {
+            return Ok(await _mediator.Send(new GetTopBorrowersWithinSpecifiedTimeframe(startDate, endDate, expectedTopBorrowerCount), cancellationToken));
+        }
+
+        [HttpGet("getBorrowedBooksByUser")]
+        [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(IEnumerator<BorrowedBooksByUserDTO>))]
+
+        public async Task<IActionResult> GetBorrowedBooksByUser([FromQuery] DateTime startDate,
+                                                                                [FromQuery] DateTime endDate,
+                                                                                [FromQuery] string userEmail,
+                                                                                CancellationToken cancellationToken)
+        {
+            return Ok(await _mediator.Send(new GetBorrowedBooksByUser(startDate, endDate, userEmail), cancellationToken));
         }
     }
 }
