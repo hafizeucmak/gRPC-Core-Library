@@ -4,9 +4,11 @@ using LibraryManagement.AssetsGRPCService.Business.Events;
 using LibraryManagement.AssetsGRPCService.DataAccesses.DbContexts;
 using LibraryManagement.AssetsGRPCService.Domains;
 using LibraryManagement.Common.Constants;
+using LibraryManagement.Common.ExceptionManagements;
 using LibraryManagement.Common.GenericRepositories;
 using LibraryManagement.Common.RabbitMQEvents;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace LibraryManagement.AssetsGRPCService.Business.CQRS.Commands
 {
@@ -75,6 +77,13 @@ namespace LibraryManagement.AssetsGRPCService.Business.CQRS.Commands
         public async Task<BookAddResponse> Handle(CreateBookCommand command, CancellationToken cancellationToken)
         {
             _genericWriteRepository.BeginTransaction();
+
+            var isUserAlreadyExists = await _genericWriteRepository.GetAll<Book>().AnyAsync(x => x.ISBN.Equals(command.Isbn), cancellationToken);
+
+            if (isUserAlreadyExists)
+            {
+                throw new AlreadyExistsException($"{nameof(Book)} with {nameof(command.Isbn)} is equal to {command.Isbn} already exists.");
+            }
 
             var book = new Book(command.Title, command.AuthorName, command.Isbn, command.PublisherName, command.PublicationYear, command.PageCount);
 

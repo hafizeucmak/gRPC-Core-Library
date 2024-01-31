@@ -42,8 +42,6 @@ namespace LibraryManagement.BorrowingGrpcService
 
             services.AddRepositories();
 
-            services.Con
-
             services.AddRabbitMQEventHub(configurationOptions);
 
             AddQueueLogEventHandlers(services);

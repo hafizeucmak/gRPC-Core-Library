@@ -63,6 +63,7 @@ namespace LibraryManagement.Common.Extensions
         {
             Dictionary<Type, StatusCode> exceptionManagerConfig = new Dictionary<Type, StatusCode>();
             exceptionManagerConfig.Add(typeof(ResourceNotFoundException), StatusCode.NotFound);
+            exceptionManagerConfig.Add(typeof(AlreadyExistsException), StatusCode.AlreadyExists);
 
             return exceptionManagerConfig;
         }

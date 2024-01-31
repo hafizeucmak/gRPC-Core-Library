@@ -16,35 +16,14 @@ namespace LibraryManagement.WebApi.GrpcClients.Assets
             await _assetManagementGRPCServiceClient.AddBookRecordAsync(bookRequest);
         }
 
-        public async Task DeleteBookRecordAsync()
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task UpdateBookInfoAsync()
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task AddBookCopyAsync()
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task DeleteBookCopyAsync()
-        {
-            throw new NotImplementedException();
-        }
-
-     
-        public async Task UpdateBookCopyAsync()
-        {
-            throw new NotImplementedException();
-        }
-
         public async Task<BookByISBNResponse> GetBookByIsbnAsync(BookByISBNRequest request)
         {
             return await _assetManagementGRPCServiceClient.GetBookByISBNAsync(request);
+        }
+
+        public async Task AddBookCopyAsync(BookCopyAddRequest request)
+        {
+            await _assetManagementGRPCServiceClient.AddBookCopyAsync(request);
         }
     }
 }

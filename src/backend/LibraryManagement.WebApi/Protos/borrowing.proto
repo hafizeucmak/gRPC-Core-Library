@@ -19,6 +19,8 @@ service BorrowGRPCService {
   
   rpc GetReadRate(ReadRateRequest) returns (ReadRateResponse);
 
+  rpc BorrowBook(BorrowBookRequest) returns (BorrowBookResponse);
+
 }
 
 message MostBorrowedBooksRequest {
@@ -30,6 +32,19 @@ message BorrowedBook {
   string author = 2;
   int32 page = 3;
   string isbn = 4;
+}
+
+message BorrowBookRequest
+{
+	string isbn = 1;
+	string userEmail = 2;
+}
+
+message BorrowBookResponse
+{
+	string userFullname = 1;
+	int64  expectedReturnDate = 2;
+	string bookTitle = 3;
 }
 
 message MostBorrowedBooksResponse {

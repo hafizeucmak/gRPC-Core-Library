@@ -1,6 +1,4 @@
 ﻿using LibraryManagement.BorrowingGrpcService;
-using LibraryManagement.WebApi.Models;
-using Mapster;
 
 namespace LibraryManagement.WebApi.GrpcClients.Borrows
 {
@@ -11,6 +9,16 @@ namespace LibraryManagement.WebApi.GrpcClients.Borrows
         public BorrowingServiceClient(BorrowGRPCService.BorrowGRPCServiceClient borrowServiceClient)
         {
             _borrowServiceClient = borrowServiceClient;
+        }
+
+        public async Task<MostBorrowedBooksResponse> GetMostBorrowedBooks()
+        {
+            return await _borrowServiceClient.GetMostBorrowedBooksAsync(new MostBorrowedBooksRequest());
+        }
+
+        public async Task<BorrowBookResponse> BorrowBookAsync(BorrowBookRequest request)
+        {
+            return await _borrowServiceClient.BorrowBookAsync(request);
         }
 
         public Task GetBookAvailability()
@@ -36,12 +44,6 @@ namespace LibraryManagement.WebApi.GrpcClients.Borrows
         public Task GetTopBorrowers()
         {
             throw new NotImplementedException();
-        }
-
-
-        public async Task<MostBorrowedBooksResponse> GetMostBorrowedBooks()
-        {
-            return await _borrowServiceClient.GetMostBorrowedBooksAsync(new MostBorrowedBooksRequest());
         }
     }
 }

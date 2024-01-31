@@ -10,14 +10,13 @@ namespace LibraryManagement.UserGrpcService.Domains
                     string userName,
                     string firstName,
                     string lastName,
-                    string fullName,
                     string phoneNumber)
         {
             Email = email;
             UserName = userName;
             FirstName = firstName;
             LastName = lastName;
-            FullName = fullName;
+            FullName = $"{firstName} {lastName}";
             PhoneNumber = phoneNumber;
 
             _validator.ValidateAndThrow(this);
@@ -45,6 +44,10 @@ namespace LibraryManagement.UserGrpcService.Domains
                 RuleFor(x => x.UserName).NotEmpty();
                 RuleFor(x => x.FirstName).NotEmpty();
                 RuleFor(x => x.LastName).NotEmpty();
+                RuleFor(x => x.PhoneNumber).NotEmpty()
+                                           .WithMessage("Phone number is required.")
+                                           .Matches(@"^\+(?:[0-9] ?){6,14}[0-9]$")
+                                           .WithMessage("Invalid phone number format.");
             }
         }
     }

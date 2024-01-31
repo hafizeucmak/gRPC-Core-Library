@@ -1,13 +1,17 @@
 ﻿using Grpc.Core;
+using LibraryManagement.BorrowingGrpcService.Business.CQRS.Commands;
+using MediatR;
 
 namespace LibraryManagement.BorrowingGrpcService.Services
 {
     public class BorrowingService : BorrowGRPCService.BorrowGRPCServiceBase
     {
         private readonly ILogger<BorrowingService> _logger;
-        public BorrowingService(ILogger<BorrowingService> logger)
+        private readonly IMediator _mediator;
+        public BorrowingService(ILogger<BorrowingService> logger, IMediator mediator)
         {
             _logger = logger;
+            _mediator = mediator;
         }
 
         public override async Task<MostBorrowedBooksResponse> GetMostBorrowedBooks(MostBorrowedBooksRequest request, ServerCallContext context)
@@ -26,8 +30,11 @@ namespace LibraryManagement.BorrowingGrpcService.Services
             // Return the response asynchronously using Task.FromResult
             return await Task.FromResult(response);
         }
-
-
+        public override async Task<BorrowBookResponse> BorrowBook(BorrowBookRequest request, ServerCallContext context)
+        {
+            var command = new BorrowBookCommand(request.Isbn, request.UserEmail);
+            return await _mediator.Send(command, context.CancellationToken);
+        }
 
         public override async Task<BookAvailabilityResponse> GetBookAvailability(BookAvailabilityRequest request, ServerCallContext context)
         {

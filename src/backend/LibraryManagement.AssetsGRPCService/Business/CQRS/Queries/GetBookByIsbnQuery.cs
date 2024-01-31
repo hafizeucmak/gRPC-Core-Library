@@ -51,6 +51,7 @@ namespace LibraryManagement.AssetsGRPCService.Business.CQRS.Queries
                 throw new ResourceNotFoundException($"{nameof(Book)} with {nameof(query.ISBN)} equals to {query.ISBN} not found.");
             }
 
+            //TODO: use mapster
             return new BookByISBNResponse
             {
                 Title = book?.Title,

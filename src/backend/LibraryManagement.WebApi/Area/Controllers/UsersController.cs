@@ -1,4 +1,8 @@
-using LibraryManagement.WebApi.GrpcClients.Borrows;
+using LibraryManagement.WebApi.CQRS.Commands.Users;
+using LibraryManagement.WebApi.CQRS.Queries.AssetManagements;
+using LibraryManagement.WebApi.CQRS.Queries.Users;
+using LibraryManagement.WebApi.Models;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
@@ -8,19 +12,26 @@ namespace LibraryManagement.WebApi.Area.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
-        private readonly IUserServiceClient _borrowServiceClient;
-
-        public UsersController(IUserServiceClient borrowServiceClient)
+        private readonly IMediator _mediator;
+        public UsersController(IMediator mediator)
         {
-            _borrowServiceClient = borrowServiceClient;
+            _mediator = mediator;
         }
 
-        [HttpGet("getAllUsers")]
+        [HttpPost("[controller].createUser")]
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
-
-        public async Task<IActionResult> GetAllUsers(CancellationToken cancellationToken)
+        public async Task<IActionResult> CreateUser([FromBody] CreateUserCommand command, CancellationToken cancellationToken)
         {
-           throw new NotImplementedException();
+            await _mediator.Send(command, cancellationToken);
+
+            return NoContent();
+        }
+
+        [HttpPost("[controller].getUserByEmail")]
+        [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(UserDetailsDTO))]
+        public async Task<IActionResult> GetUserByEmail([FromQuery] string email, CancellationToken cancellationToken)
+        {
+            return Ok(await _mediator.Send(new GetUserByEmail(email), cancellationToken));
         }
     }
 }

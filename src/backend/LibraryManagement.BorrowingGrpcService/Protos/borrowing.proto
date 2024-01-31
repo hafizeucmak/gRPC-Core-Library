@@ -7,6 +7,8 @@ package borrowing;
 
 service BorrowGRPCService {
 
+  rpc BorrowBook(BorrowBookRequest) returns (BorrowBookResponse);
+
   rpc GetMostBorrowedBooks (MostBorrowedBooksRequest) returns (MostBorrowedBooksResponse);
 
   rpc GetBookAvailability(BookAvailabilityRequest) returns (BookAvailabilityResponse);
@@ -19,6 +21,7 @@ service BorrowGRPCService {
   
   rpc GetReadRate(ReadRateRequest) returns (ReadRateResponse);
 
+
 }
 
 message MostBorrowedBooksRequest {
@@ -30,6 +33,17 @@ message BorrowedBook {
   string author = 2;
   int32 page = 3;
   string isbn = 4;
+}
+
+message BorrowBookRequest
+{
+	string isbn = 1;
+	string userEmail = 2;
+}
+
+message BorrowBookResponse
+{
+
 }
 
 message MostBorrowedBooksResponse {

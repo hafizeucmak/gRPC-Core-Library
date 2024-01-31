@@ -1,6 +1,6 @@
 ﻿using LibraryManagement.UserGrpcService;
 
-namespace LibraryManagement.WebApi.GrpcClients.Borrows
+namespace LibraryManagement.WebApi.GrpcClients.Users
 {
     public class UserServiceClient : IUserServiceClient
     {
@@ -11,6 +11,14 @@ namespace LibraryManagement.WebApi.GrpcClients.Borrows
             _userGRPCServiceClient = userGRPCServiceClient;
         }
 
+        public async Task AddUserAsync(UserAddRequest request)
+        {
+            await _userGRPCServiceClient.AddUserAsync(request);
+        }
 
+        public async Task<UserByEmailResponse> GetUserByEmailAsync(UserByEmailRequest request)
+        {
+           return await _userGRPCServiceClient.GetUserByEmailAsync(request);
+        }
     }
 }

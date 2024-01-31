@@ -1,4 +1,5 @@
-﻿using LibraryManagement.WebApi.CQRS.Queries.Borrowings;
+﻿using LibraryManagement.WebApi.CQRS.Commands.Borrowings;
+using LibraryManagement.WebApi.CQRS.Queries.Borrowings;
 using LibraryManagement.WebApi.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -16,6 +17,16 @@ namespace LibraryManagement.WebApi.Area.Controllers
         {
             _mediator = mediator;
         }
+
+        [HttpPost("[controller].borrowBook")]
+        [ProducesResponseType((int)HttpStatusCode.NoContent)]
+        public async Task<IActionResult> borrowBook([FromBody] BorrowBookCommand command, CancellationToken cancellationToken)
+        {
+            await _mediator.Send(command, cancellationToken);
+
+            return NoContent();
+        }
+
 
         [HttpGet("getMostBorrowedBooks")]
         [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(IEnumerable<MostBorrowedBooksDTO>))]

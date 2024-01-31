@@ -28,7 +28,7 @@
 
   <ItemGroup>
     <Folder Include="Business\Constants\" />
-    <Folder Include="Business\CQRS\" />
+    <Folder Include="Business\CQRS\Queries\" />
   </ItemGroup>
 
 </Project>

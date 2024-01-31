@@ -7,6 +7,7 @@ using LibraryManagement.Common.Utils;
 using LibraryManagement.UserGrpcService;
 using LibraryManagement.WebApi.GrpcClients.Assets;
 using LibraryManagement.WebApi.GrpcClients.Borrows;
+using LibraryManagement.WebApi.GrpcClients.Users;
 
 namespace LibraryManagement.WebApi.Extensions
 {

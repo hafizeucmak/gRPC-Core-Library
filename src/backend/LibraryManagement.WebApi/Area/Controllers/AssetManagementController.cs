@@ -1,6 +1,5 @@
 using LibraryManagement.WebApi.CQRS.Commands.AssetManagements;
 using LibraryManagement.WebApi.CQRS.Queries.AssetManagements;
-using LibraryManagement.WebApi.GrpcClients.Assets;
 using LibraryManagement.WebApi.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -12,18 +11,25 @@ namespace LibraryManagement.WebApi.Area.Controllers
     [ApiController]
     public class AssetManagementController : ControllerBase
     {
-        private readonly IAssetManagementServiceClient _assetManagementServiceClient;
         private readonly IMediator _mediator;
 
-        public AssetManagementController(IAssetManagementServiceClient assetManagementServiceClient, IMediator mediator)
+        public AssetManagementController(IMediator mediator)
         {
-            _assetManagementServiceClient = assetManagementServiceClient;
             _mediator = mediator;
         }
 
         [HttpPost("[controller].createBook")]
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
         public async Task<IActionResult> CreateBook([FromBody] CreateBookCommand command, CancellationToken cancellationToken)
+        {
+            await _mediator.Send(command, cancellationToken);
+
+            return NoContent();
+        }
+
+        [HttpPost("[controller].createBookCopy")]
+        [ProducesResponseType((int)HttpStatusCode.NoContent)]
+        public async Task<IActionResult> CreateBookCopy([FromBody] CreateBookCommand command, CancellationToken cancellationToken)
         {
             await _mediator.Send(command, cancellationToken);
 

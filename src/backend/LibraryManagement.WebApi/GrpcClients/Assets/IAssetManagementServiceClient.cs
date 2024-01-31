@@ -6,17 +6,8 @@ namespace LibraryManagement.WebApi.GrpcClients.Assets
     {
         Task AddBookRecordAsync(BookAddRequest bookRequest);
 
-        Task UpdateBookInfoAsync();
-
-        Task DeleteBookRecordAsync();
-
-        Task AddBookCopyAsync();
-
-        Task UpdateBookCopyAsync();
-
-        Task DeleteBookCopyAsync();
+        Task AddBookCopyAsync(BookCopyAddRequest request);
 
         Task<BookByISBNResponse> GetBookByIsbnAsync(BookByISBNRequest request);
-
     }
 }

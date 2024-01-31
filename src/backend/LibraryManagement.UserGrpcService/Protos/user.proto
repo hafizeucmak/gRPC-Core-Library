@@ -14,16 +14,20 @@ service UserGRPCService {
 
   rpc GetAllUser (UsersRequest) returns (UsersResponse);
 
-  rpc GetUserById (UserByIdRequest) returns (UserByIdResponse);
+  rpc GetUserByEmail (UserByEmailRequest) returns (UserByEmailResponse);
 
 }
 
 message UserAddRequest {
-  string name = 1;
+  string userEmail = 1;
+  string userName = 2;
+  string firstName = 3;
+  string lastName = 4;
+  string phoneNumber = 5;
 }
 
 message UserAddResponse {
-  string message = 1;
+
 }
 
 message UserUpdateRequest {
@@ -50,11 +54,16 @@ message UsersResponse {
   string message = 1;
 }
 
-message UserByIdRequest {
-  string userId = 1;
+message UserByEmailRequest {
+  string email = 1;
 }
 
-message UserByIdResponse {
-  string message = 1;
+message UserByEmailResponse {
+  string userEmail = 1;
+  string userName = 2;
+  string firstName = 3;
+  string lastName = 4;
+  string phoneNumber = 5;
+  int32 id = 6;
 }
 

@@ -60,12 +60,14 @@ message BookDeleteRequest {
 message BookDeleteResponse {
   string message = 1;
 }
+
 message BookCopyAddRequest {
-  string name = 1;
+  int32 bookId = 1;
+  string isbn = 2;
 }
 
 message BookCopyAddResponse {
-  string message = 1;
+
 }
 
 message BookCopyUpdateRequest {
@@ -97,4 +99,5 @@ message BookByISBNResponse
   string publisher = 4;
   int32  publicationYear = 5;
   int32  pageCount = 6;
+  int32  id = 7;
 }
