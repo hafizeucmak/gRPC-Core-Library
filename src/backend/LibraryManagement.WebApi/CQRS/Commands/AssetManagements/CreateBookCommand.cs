@@ -43,7 +43,7 @@ namespace LibraryManagement.WebApi.CQRS.Commands.AssetManagements
     {
         public CreateBookCommandValidator()
         {
-            RuleFor(x => x.Title).NotEmpty().MaximumLength(DbContextConstants.MAX_LENGTH_FOR_BOOK_TITLE);
+          //  RuleFor(x => x.Title).NotEmpty().MaximumLength(DbContextConstants.MAX_LENGTH_FOR_BOOK_TITLE);
             RuleFor(x => x.AuthorName).NotEmpty().MaximumLength(DbContextConstants.MAX_LENGTH_FOR_BOOK_AUTHOR);
             RuleFor(x => x.Isbn).NotEmpty().MaximumLength(DbContextConstants.MAX_LENGTH_FOR_BOOK_ISBN);
             RuleFor(x => x.PublisherName).NotEmpty().MaximumLength(DbContextConstants.MAX_LENGTH_FOR_BOOK_PUBLISHER);

@@ -50,6 +50,8 @@ namespace LibraryManagement.AssetsGRPCService
 
             services.AddRabbitMQEventHub(configurationOptions);
 
+            services.ConfigureExceptionManager();
+
             AddQueueLogEventHandlers(services);
         }
 

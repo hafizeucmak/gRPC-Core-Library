@@ -24,6 +24,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Business\Constants\" />
+    <Folder Include="Business\CQRS\" />
     <Folder Include="DataAccesses\Migrations\" />
   </ItemGroup>
 

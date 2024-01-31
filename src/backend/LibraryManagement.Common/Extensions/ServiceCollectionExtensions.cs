@@ -1,4 +1,6 @@
-﻿using LibraryManagement.Common.Configurations;
+﻿using Grpc.Core;
+using LibraryManagement.Common.Configurations;
+using LibraryManagement.Common.ExceptionManagements;
 using LibraryManagement.Common.Extensions;
 using LibraryManagement.Common.GenericRepositories;
 using LibraryManagement.Common.RabbitMQEvents;
@@ -49,6 +51,20 @@ namespace LibraryManagement.Common.Extensions
             services.AddSingleton<IEventCommandQueue, EventCommandQueue>();
             services.AddHostedService<EventHostedService>();
             services.AddScoped<IEventPublisherService, EventPublisherService>();
+        }
+
+        public static void ConfigureExceptionManager(this IServiceCollection services)
+        {
+            var exceptionManagerConfig = GetExceptionManagerConfig();
+            services.AddSingleton<IExceptionManager>(manager => new GrpcExceptionManager(exceptionManagerConfig));
+        }
+
+        public static Dictionary<Type, StatusCode> GetExceptionManagerConfig()
+        {
+            Dictionary<Type, StatusCode> exceptionManagerConfig = new Dictionary<Type, StatusCode>();
+            exceptionManagerConfig.Add(typeof(ResourceNotFoundException), StatusCode.NotFound);
+
+            return exceptionManagerConfig;
         }
 
         #endregion

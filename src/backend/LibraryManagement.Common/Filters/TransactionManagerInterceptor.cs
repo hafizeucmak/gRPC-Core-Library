@@ -29,14 +29,14 @@ namespace LibraryManagement.Common.Filters
             {
                 var response = await continuation(request, context);
 
-      
-
+                
                 if (_dbContext.Database?.CurrentTransaction != null)
                 {
                     _dbContext.SaveChanges();
                     _dbContext.Database.CurrentTransaction.Commit();
                 }
 
+                // After committing the transaction, we need to send an event to ensure data consistency.
                 if (_registeredEventCommands.Any())
                 {
                     _eventCommandQueue.Queue(_registeredEventCommands);

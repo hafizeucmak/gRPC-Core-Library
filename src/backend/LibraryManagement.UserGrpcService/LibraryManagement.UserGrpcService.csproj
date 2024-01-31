@@ -26,4 +26,9 @@
     <ProjectReference Include="..\LibraryManagement.Common\LibraryManagement.Common.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Business\Constants\" />
+    <Folder Include="Business\CQRS\" />
+  </ItemGroup>
+
 </Project>

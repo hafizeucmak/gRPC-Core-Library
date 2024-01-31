@@ -76,7 +76,7 @@ namespace LibraryManagement.AssetsGRPCService.Business.CQRS.Commands
         {
             _genericWriteRepository.BeginTransaction();
 
-            var book = new Book(command.Title, command.AuthorName, command.Isbn,command.PublisherName, command.PublicationYear, command.PageCount);
+            var book = new Book(command.Title, command.AuthorName, command.Isbn, command.PublisherName, command.PublicationYear, command.PageCount);
 
             _registeredEventCommands.RegisteredEventCommand(new QueueEventCommand<BookCreatedEvent>(EventConstants.BookCreatedQueueName));
 

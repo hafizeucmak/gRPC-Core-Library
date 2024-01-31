@@ -1,5 +1,6 @@
-﻿using Grpc.Core.Interceptors;
-using Grpc.Core;
+﻿using Grpc.Core;
+using Grpc.Core.Interceptors;
+using LibraryManagement.Common.Utils;
 using Microsoft.Extensions.Logging;
 
 namespace LibraryManagement.Common.Middlewares
@@ -7,10 +8,12 @@ namespace LibraryManagement.Common.Middlewares
     public class GrpcGlobalExceptionHandlerInterceptor : Interceptor
     {
         private readonly ILogger<GrpcGlobalExceptionHandlerInterceptor> _logger;
+        private readonly IExceptionManager _grpcExceptionManager;
 
-        public GrpcGlobalExceptionHandlerInterceptor(ILogger<GrpcGlobalExceptionHandlerInterceptor> logger)
+        public GrpcGlobalExceptionHandlerInterceptor(ILogger<GrpcGlobalExceptionHandlerInterceptor> logger, IExceptionManager grpcExceptionManager)
         {
             _logger = logger;
+            _grpcExceptionManager = grpcExceptionManager;
         }
 
         public override async Task<TResponse> UnaryServerHandler<TRequest, TResponse>(TRequest request,
@@ -23,16 +26,9 @@ namespace LibraryManagement.Common.Middlewares
             }
             catch (Exception thrownException)
             {
-                //TODO: change this disgusting model name
-                var responseVm = new ResponseViewModel
-                {
-                    Code = 34, //thrownException.Code,
-                    Message = thrownException.Message
-                };
+                var errorResponse = _grpcExceptionManager.ConstructExceptionModel(thrownException);
 
-                //TODO: implement generic exception handler you need to get and catch  all exception types and convert to meaningfull ones
-                throw new RpcException(new Status(StatusCode.NotFound, $"ShoppingCart with UserName=anan canım is not found."));
-
+                throw new RpcException(new Status(errorResponse.StatusCode ?? StatusCode.Unknown, errorResponse?.Message ?? errorResponse?.InnerException ?? string.Empty));
             }
         }
     }

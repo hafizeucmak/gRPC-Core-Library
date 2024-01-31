@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
 using LibraryManagement.AssetsGRPCService.DataAccesses.DbContexts;
 using LibraryManagement.AssetsGRPCService.Domains;
+using LibraryManagement.Common.ExceptionManagements;
 using LibraryManagement.Common.GenericRepositories;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -47,8 +48,7 @@ namespace LibraryManagement.AssetsGRPCService.Business.CQRS.Queries
 
             if (book == null)
             {
-                //TODO:
-                throw new ArgumentNullException(nameof(book));
+                throw new ResourceNotFoundException($"{nameof(Book)} with {nameof(query.ISBN)} equals to {query.ISBN} not found.");
             }
 
             return new BookByISBNResponse

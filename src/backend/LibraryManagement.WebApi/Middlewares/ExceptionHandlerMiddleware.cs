@@ -3,7 +3,6 @@ using LibraryManagement.Common.Base;
 using LibraryManagement.Common.Utils;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using static LibraryManagement.Common.Utils.ExceptionManager;
 
 namespace LibraryManagement.WebApi.Middlewares
 {
@@ -24,18 +23,20 @@ namespace LibraryManagement.WebApi.Middlewares
             {
                 await _next(httpContext);
             }
-            //TODO:
-            catch (RpcException rcpEx)
-            { 
+            catch (RpcException rcpException)
+            {
                 var errorResponse = new ErrorResponse
                 {
-                    Code = 45,
-                    Message = rcpEx.Status.Detail,
-                    InnerException = rcpEx.InnerException?.Message ?? string.Empty,
-                    ExceptionContent = rcpEx.ToString(),
+                    //TODO: resolve code issue
+                    StatusCode = rcpException.StatusCode,
+                    Message = rcpException.Status.Detail,
+                    InnerException = rcpException.InnerException?.Message ?? string.Empty,
+                    ExceptionContent = rcpException.ToString(),
                 };
 
+                //TODO: resolve status code issue
                 httpContext.Response.StatusCode = 45;
+
                 httpContext.Response.ContentType = "application/json";
                 string exceptionMessageBody = JsonConvert.SerializeObject(errorResponse, new JsonSerializerSettings
                 {
@@ -43,7 +44,15 @@ namespace LibraryManagement.WebApi.Middlewares
                 });
 
                 await httpContext.Response.WriteAsync(exceptionMessageBody);
-                await httpContext.Response.WriteAsync(exceptionMessageBody);
+
+                var logException = new LogExceptionDetails();
+                logException.StackTrace = rcpException.StackTrace;
+                logException.InnerException = rcpException.InnerException?.Message;
+                logException.ExceptionMessage = rcpException.Message;
+                //TODO: resolve code issue
+                logException.ResultCode = 45;
+
+                logger.LogError("Exception Log Details: {@Log}", logException);
 
             }
             catch (Exception thrownException)

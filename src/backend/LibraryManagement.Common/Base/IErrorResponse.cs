@@ -1,4 +1,6 @@
-﻿namespace LibraryManagement.Common.Base
+﻿using Grpc.Core;
+
+namespace LibraryManagement.Common.Base
 {
     public interface IErrorResponse
     {
@@ -9,5 +11,7 @@
         string? InnerException { get; set; }
 
         string? ExceptionContent { get; set; }
+
+        StatusCode? StatusCode { get; set; } 
     }
 }
