@@ -1,7 +1,7 @@
-﻿using LibraryManagement.AssetsGRPCService.Business.Events;
+﻿using LibraryManagement.AssetsGRPCService.Business.CQRS.Commands;
+using LibraryManagement.AssetsGRPCService.Business.Events;
 using LibraryManagement.AssetsGRPCService.DataAccesses.DbContexts;
 using LibraryManagement.AssetsGRPCService.Services;
-using LibraryManagement.Business.CQRS.Commands;
 using LibraryManagement.Common.Configurations;
 using LibraryManagement.Common.Extensions;
 using LibraryManagement.Common.Filters;
@@ -43,9 +43,8 @@ namespace LibraryManagement.AssetsGRPCService
                 c.Interceptors.Add<GrpcGlobalExceptionHandlerInterceptor>();
             });
 
-            services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
 
-            services.AddScoped<IRequestHandler<CreateBookCommand>, CreateBookCommandHandler>();
+            services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
 
             services.AddRepositories();
 

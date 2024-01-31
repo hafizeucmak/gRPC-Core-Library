@@ -1,8 +1,7 @@
 ﻿using FluentValidation;
 using LibraryManagement.Common.Base;
-using LibraryManagement.Domain.Entities.Copies;
 
-namespace LibraryManagement.Domain.Entities.Books
+namespace LibraryManagement.BorrowingGrpcService.Domains
 {
     public class Book : DomainEntity
     {

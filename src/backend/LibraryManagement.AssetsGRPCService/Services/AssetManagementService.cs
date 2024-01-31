@@ -1,5 +1,6 @@
 using Grpc.Core;
-using LibraryManagement.Business.CQRS.Commands;
+using LibraryManagement.AssetsGRPCService.Business.CQRS.Commands;
+using LibraryManagement.AssetsGRPCService.Business.CQRS.Queries;
 using MediatR;
 
 namespace LibraryManagement.AssetsGRPCService.Services
@@ -17,11 +18,8 @@ namespace LibraryManagement.AssetsGRPCService.Services
 
         public override async Task<BookAddResponse> AddBookRecord(BookAddRequest request, ServerCallContext context)
         {
-            await _mediator.Send(new CreateBookCommand(), context.CancellationToken);
-
-            return await Task.FromResult(new BookAddResponse
-            {
-            });
+            var command = new CreateBookCommand(request.Title, request.Author, request.Isbn, request.Publisher, request.PublicationYear, request.PageCount);
+            return await _mediator.Send(command, context.CancellationToken);
         }
 
         public override async Task<BookUpdateResponse> UpdateBookInfo(BookUpdateRequest request, ServerCallContext context)
@@ -61,6 +59,11 @@ namespace LibraryManagement.AssetsGRPCService.Services
             {
                 Message = "Hello " + request.Name
             });
+        }
+
+        public override async Task<BookByISBNResponse> GetBookByISBN(BookByISBNRequest request, ServerCallContext context)
+        {
+            return await _mediator.Send(new GetBookByIsbnQuery(request.Isbn), context.CancellationToken);
         }
     }
 }

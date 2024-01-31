@@ -1,10 +1,10 @@
-﻿using LibraryManagement.WebApi.Models;
+﻿using LibraryManagement.BorrowingGrpcService;
 
 namespace LibraryManagement.WebApi.GrpcClients.Borrows
 {
     public interface IBorrowingServiceClient
     {
-        Task<IEnumerable<MostBorrowedBooksDTO>> GetMostBorrowedBooks();
+        Task<MostBorrowedBooksResponse> GetMostBorrowedBooks();
 
         Task GetBookAvailability();
 

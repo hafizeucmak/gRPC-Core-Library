@@ -1,5 +1,6 @@
 ﻿using LibraryManagement.BorrowingGrpcService;
 using LibraryManagement.WebApi.Models;
+using Mapster;
 
 namespace LibraryManagement.WebApi.GrpcClients.Borrows
 {
@@ -38,18 +39,9 @@ namespace LibraryManagement.WebApi.GrpcClients.Borrows
         }
 
 
-        public async Task<IEnumerable<MostBorrowedBooksDTO>> GetMostBorrowedBooks()
+        public async Task<MostBorrowedBooksResponse> GetMostBorrowedBooks()
         {
-            var results = await _borrowServiceClient.GetMostBorrowedBooksAsync(new MostBorrowedBooksRequest());
-
-            return results.MostBorrowedBooks
-                          .Select(book => new MostBorrowedBooksDTO
-                          {
-                              Name = book.Name,
-                              Title = book.Name,
-                              AuthorName = book.Author,
-                              Isbn = book.Isbn
-                          }).ToList();
+            return await _borrowServiceClient.GetMostBorrowedBooksAsync(new MostBorrowedBooksRequest());
         }
     }
 }

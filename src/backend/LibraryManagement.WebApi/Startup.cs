@@ -1,5 +1,6 @@
 ﻿using LibraryManagement.WebApi.Extensions;
 using LibraryManagement.WebApi.Middlewares;
+using System.Reflection;
 
 namespace LibraryManagement.WebApi
 {
@@ -30,6 +31,8 @@ namespace LibraryManagement.WebApi
             services.AddExceptionManager();
 
             services.RegisterGRPCServiceClients();
+
+            services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
         }
 
         public void Configure(IApplicationBuilder app)

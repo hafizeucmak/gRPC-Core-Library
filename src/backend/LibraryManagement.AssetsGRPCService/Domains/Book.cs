@@ -1,8 +1,7 @@
 ﻿using FluentValidation;
 using LibraryManagement.Common.Base;
-using LibraryManagement.Domain.Entities.Copies;
 
-namespace LibraryManagement.Domain.Entities.Books
+namespace LibraryManagement.AssetsGRPCService.Domains
 {
     public class Book : DomainEntity
     {
@@ -21,9 +20,9 @@ namespace LibraryManagement.Domain.Entities.Books
             ISBN = isbn;
             Publisher = publisher;
             PublicationYear = publicationYear;
+            PageCount = pageCount;
 
             _validator.ValidateAndThrow(this);
-            PageCount = pageCount;
         }
 
         protected Book() { }

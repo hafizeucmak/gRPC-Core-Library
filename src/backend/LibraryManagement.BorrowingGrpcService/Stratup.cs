@@ -40,8 +40,6 @@ namespace LibraryManagement.BorrowingGrpcService
                 c.Interceptors.Add<GrpcGlobalExceptionHandlerInterceptor>();
             });
 
-            // services.AddScoped<IRequestHandler<CreateBookCommand>, CreateBookCommandHandler>();
-
             services.AddRepositories();
 
             services.AddRabbitMQEventHub(configurationOptions);
@@ -67,7 +65,7 @@ namespace LibraryManagement.BorrowingGrpcService
         {
             services.AddScoped<RegisteredEventCommands>();
 
-          //  services.AddTransient<IRequestHandler<QueueEventCommand<BookCreatedEvent>>, QueueEventCommandHandler<BookCreatedEvent>>();
+           // services.AddTransient<IRequestHandler<QueueEventCommand<BookCreatedEvent>>, QueueEventCommandHandler<BookCreatedEvent>>();
         }
     }
 }

@@ -24,7 +24,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\LibraryManagement.Common\LibraryManagement.Common.csproj" />
-    <ProjectReference Include="..\LibraryManagement.Domain\LibraryManagement.Domain.csproj" />
   </ItemGroup>
 
 </Project>

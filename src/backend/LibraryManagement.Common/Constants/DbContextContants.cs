@@ -8,6 +8,8 @@
 
         public const int MAX_LENGTH_FOR_BOOK_TITLE = 500;
 
+        public const int MAX_LENGTH_FOR_BOOK_ISBN= 100;
+
         public const int MAX_LENGTH_FOR_BOOK_AUTHOR = 300;
 
         public const int MAX_LENGTH_FOR_BOOK_PUBLISHER = 300;

@@ -18,6 +18,19 @@ service AssetManagementGRPCService {
 
   rpc DeleteBookCopy (BookCopyDeleteRequest) returns (BookCopyDeleteResponse);
 
+  rpc GetBookByISBN (BookByISBNRequest) returns (BookByISBNResponse);
+
+}
+
+// still unused
+message BookDetails
+{
+  string title = 1;
+  string authorName = 2;
+  string isbn = 3;
+  string publisher = 4;
+  int32  publicationYear = 5;
+  int32  pageCount = 6;
 }
 
 message BookAddRequest {
@@ -26,7 +39,9 @@ message BookAddRequest {
   string isbn = 3;
   string publisher = 4;
   int32 publicationYear = 5;
+  int32 pageCount = 6;
 }
+
 
 message BookAddResponse {
 }
@@ -68,4 +83,19 @@ message BookCopyDeleteRequest {
 
 message BookCopyDeleteResponse {
   string message = 1;
+}
+
+message BookByISBNRequest
+{
+	string isbn = 1;
+}
+
+message BookByISBNResponse
+{
+  string title = 1;
+  string authorName = 2;
+  string isbn = 3;
+  string publisher = 4;
+  int32  publicationYear = 5;
+  int32  pageCount = 6;
 }

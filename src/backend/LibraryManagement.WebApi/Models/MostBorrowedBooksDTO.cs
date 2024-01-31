@@ -1,4 +1,5 @@
-﻿using Mapster;
+﻿using LibraryManagement.BorrowingGrpcService;
+using Mapster;
 
 namespace LibraryManagement.WebApi.Models
 {
@@ -19,8 +20,12 @@ namespace LibraryManagement.WebApi.Models
     {
         public void Register(TypeAdapterConfig config)
         {
-            //config.ForType<IQueryable<Carrier>, ListCarriersOutputDTO>()
-            //    .Map(dest => dest.Carriers, src => src);
+
+            config.ForType<BorrowedBook, MostBorrowedBooksDTO>()
+                .Map(dest => dest.Name, src => src.Name)
+                .Map(dest => dest.AuthorName, src => src.Author)
+                .Map(dest => dest.Isbn, src => src.Isbn)
+                .Map(dest => dest.PageCount, src => src.Page);
         }
     }
 }

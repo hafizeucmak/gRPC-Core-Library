@@ -41,4 +41,8 @@
     <Protobuf Include="Protos\user.proto" GrpcServices="Client" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="CQRS\Commands\Borrowings\" />
+  </ItemGroup>
+
 </Project>

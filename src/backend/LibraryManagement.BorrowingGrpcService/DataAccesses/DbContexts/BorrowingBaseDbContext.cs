@@ -1,7 +1,4 @@
-﻿using LibraryManagement.Domain.Entities.Books;
-using LibraryManagement.Domain.Entities.Borrowings;
-using LibraryManagement.Domain.Entities.Copies;
-using LibraryManagement.Domain.Entities.Users;
+﻿using LibraryManagement.BorrowingGrpcService.Domains;
 using Microsoft.EntityFrameworkCore;
 
 namespace LibraryManagement.BorrowingGrpcService.DataAccesses.DbContexts

@@ -15,5 +15,8 @@ namespace LibraryManagement.WebApi.GrpcClients.Assets
         Task UpdateBookCopyAsync();
 
         Task DeleteBookCopyAsync();
+
+        Task<BookByISBNResponse> GetBookByIsbnAsync(BookByISBNRequest request);
+
     }
 }

@@ -1,5 +1,4 @@
-﻿using LibraryManagement.Domain.Entities.Books;
-using LibraryManagement.Domain.Entities.Copies;
+﻿using LibraryManagement.AssetsGRPCService.Domains;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 

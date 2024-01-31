@@ -1,4 +1,4 @@
-﻿using LibraryManagement.Domain.Entities.Users;
+﻿using LibraryManagement.UserGrpcService.Domains;
 using Microsoft.EntityFrameworkCore;
 
 namespace LibraryManagement.UserGrpcService.DataAccesses.DbContexts
