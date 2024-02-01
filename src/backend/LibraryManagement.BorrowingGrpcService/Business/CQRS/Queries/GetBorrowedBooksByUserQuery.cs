@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 using Google.Protobuf.WellKnownTypes;
-using LibraryManagement.BorrowingGrpcService.DataAccesses.DbContexts;
+using LibraryManagement.BorrowingGrpcService.Data.DataAccess.DbContexts;
 using LibraryManagement.BorrowingGrpcService.Domains;
 using LibraryManagement.Common.ExceptionManagements;
 using LibraryManagement.Common.GenericRepositories;

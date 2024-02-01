@@ -45,5 +45,10 @@ namespace LibraryManagement.WebApi.GrpcClients.Borrows
         {
             return await _borrowServiceClient.GetBorrowersAlsoBorrowedBooksAsync(request);
         }
+
+        public async Task<ExecuteSeedResponse> ExecuteSeedService(ExecuteSeedRequest request)
+        {
+            return await _borrowServiceClient.ExecuteSeedAsync(request);
+        }
     }
 }

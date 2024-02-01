@@ -1,6 +1,7 @@
 ﻿using Grpc.Core;
 using LibraryManagement.BorrowingGrpcService.Business.CQRS.Commands;
 using LibraryManagement.BorrowingGrpcService.Business.CQRS.Queries;
+using LibraryManagement.Common.SeedManagements.Enums;
 using MediatR;
 
 namespace LibraryManagement.BorrowingGrpcService.Services
@@ -49,6 +50,11 @@ namespace LibraryManagement.BorrowingGrpcService.Services
         public override async Task<AlsoBorrowedBooksResponse> GetBorrowersAlsoBorrowedBooks(AlsoBorrowedBooksRequest request, ServerCallContext context)
         {
             return await _mediator.Send(new GetBorrowersAlsoBorrowedBooksQuery(request.Isbn), context.CancellationToken);
+        }
+
+        public override async Task<ExecuteSeedResponse> ExecuteSeed(ExecuteSeedRequest request, ServerCallContext context)
+        {
+            return await _mediator.Send(new ExecuteSeedServiceCommand(SeedServiceTypes.BorrowingStatistic), context.CancellationToken);
         }
     }
 }

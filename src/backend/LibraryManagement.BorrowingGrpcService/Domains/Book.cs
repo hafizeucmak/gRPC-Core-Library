@@ -22,9 +22,9 @@ namespace LibraryManagement.BorrowingGrpcService.Domains
             Publisher = publisher;
             PublicationYear = publicationYear;
             Status = AssetStatus.Available;
+            PageCount = pageCount;
 
             _validator.ValidateAndThrow(this);
-            PageCount = pageCount;
         }
 
         protected Book() { }

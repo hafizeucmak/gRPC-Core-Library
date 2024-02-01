@@ -7,10 +7,19 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Data\SeedData\Resources\DropSqlQuery.sql" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Data\SeedData\Resources\DropSqlQuery.sql" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Protobuf Include="Protos\borrowing.proto" GrpcServices="Server" />
   </ItemGroup>
 	
   <ItemGroup>
+    <PackageReference Include="Bogus" Version="35.4.0" />
     <PackageReference Include="Grpc.AspNetCore" Version="2.60.0" />
     <PackageReference Include="Mapster" Version="7.4.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.9">
@@ -25,8 +34,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Business\Constants\" />
-    <Folder Include="DataAccesses\Migrations\" />
+    <Folder Include="Data\DataAccess\Migrations\" />
   </ItemGroup>
 
 </Project>

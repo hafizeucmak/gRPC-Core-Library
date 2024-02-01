@@ -34,14 +34,13 @@ namespace LibraryManagement.AssetsGRPCService.Domains
 
         protected string GenerateCopyNumber()
         {
-            int copyId = Id;
             string isbn = Book.ISBN;
 
             StringBuilder copyNumberBuilder = new();
 
             copyNumberBuilder.Append(isbn);
             copyNumberBuilder.Append('-');
-            copyNumberBuilder.Append(copyId);
+            copyNumberBuilder.Append(Guid.NewGuid());
 
             string copyNumber = copyNumberBuilder.ToString();
 

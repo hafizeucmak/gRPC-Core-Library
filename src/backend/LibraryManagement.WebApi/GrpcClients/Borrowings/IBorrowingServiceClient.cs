@@ -17,5 +17,7 @@ namespace LibraryManagement.WebApi.GrpcClients.Borrows
         Task<ReadRateResponse> GetAverageReadRateForBook(ReadRateRequest request);
 
         Task<AlsoBorrowedBooksResponse> GetBorrowersAlsoBorrowedBooks(AlsoBorrowedBooksRequest request);
+
+        Task<ExecuteSeedResponse> ExecuteSeedService(ExecuteSeedRequest request);
     }
 }

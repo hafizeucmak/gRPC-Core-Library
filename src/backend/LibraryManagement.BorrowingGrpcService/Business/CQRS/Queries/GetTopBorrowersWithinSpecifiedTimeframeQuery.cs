@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using LibraryManagement.BorrowingGrpcService.DataAccesses.DbContexts;
+using LibraryManagement.BorrowingGrpcService.Data.DataAccess.DbContexts;
 using LibraryManagement.BorrowingGrpcService.Domains;
 using LibraryManagement.Common.GenericRepositories;
 using Mapster;

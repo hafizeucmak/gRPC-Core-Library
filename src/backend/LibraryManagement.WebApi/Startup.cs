@@ -1,6 +1,7 @@
 ﻿using LibraryManagement.WebApi.Extensions;
 using LibraryManagement.WebApi.Middlewares;
 using System.Reflection;
+using System.Text.Json.Serialization;
 
 namespace LibraryManagement.WebApi
 {
@@ -22,7 +23,12 @@ namespace LibraryManagement.WebApi
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddControllers()
+                    .AddJsonOptions(options =>
+                    {
+                        options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+                    });
+
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();
 
@@ -33,6 +39,8 @@ namespace LibraryManagement.WebApi
             services.RegisterGRPCServiceClients();
 
             services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
+
+
         }
 
         public void Configure(IApplicationBuilder app)

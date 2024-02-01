@@ -35,6 +35,8 @@ namespace LibraryManagement.BorrowingGrpcService.Domains
 
         public virtual Book Book { get; private set; }
 
+        public virtual BookCopy BookCopy { get; private set; }
+
         public class BorrowingValidator : AbstractValidator<Borrowing>
         {
             public BorrowingValidator()

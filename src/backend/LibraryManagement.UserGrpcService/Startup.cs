@@ -3,7 +3,7 @@ using LibraryManagement.Common.Extensions;
 using LibraryManagement.Common.Filters;
 using LibraryManagement.Common.Middlewares;
 using LibraryManagement.Common.RabbitMQEvents;
-using LibraryManagement.UserGrpcService.DataAccesses.DbContexts;
+using LibraryManagement.UserGrpcService.Data.DataAccess.DbContexts;
 using LibraryManagement.UserGrpcService.Services;
 using System.Reflection;
 
@@ -43,8 +43,6 @@ namespace LibraryManagement.UserGrpcService
                 c.Interceptors.Add<TransactionManagerInterceptor<UserBaseDbContext>>();
                 c.Interceptors.Add<GrpcGlobalExceptionHandlerInterceptor>();
             });
-
-          //  services.AddScoped<IRequestHandler<CreateBookCommand>, CreateBookCommandHandler>();
 
             services.AddRepositories();
 

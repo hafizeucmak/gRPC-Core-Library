@@ -10,7 +10,7 @@ service BorrowGRPCService {
 
   rpc BorrowBook(BorrowBookRequest) returns (BorrowBookResponse);
 
-  rpc GetMostBorrowedBooks (MostBorrowedBooksRequest) returns (MostBorrowedBooksResponse);
+  rpc GetMostBorrowedBooks(MostBorrowedBooksRequest) returns (MostBorrowedBooksResponse);
 
   rpc GetBookCopiesAvailability(BookCopiesAvailabilityRequest) returns (BookCopiesAvailabilityResponse);
   
@@ -22,6 +22,7 @@ service BorrowGRPCService {
   
   rpc GetAverageReadRateForBook(ReadRateRequest) returns (ReadRateResponse);
 
+  rpc ExecuteSeed(ExecuteSeedRequest) returns (ExecuteSeedResponse);
 
 }
 
@@ -119,4 +120,11 @@ message ReadRateRequest {
 
 message ReadRateResponse {
   double read_rate = 1;
+}
+message ExecuteSeedRequest
+{
+}
+
+message ExecuteSeedResponse
+{
 }

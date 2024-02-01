@@ -68,6 +68,11 @@ namespace LibraryManagement.Common.Extensions
             return exceptionManagerConfig;
         }
 
+        public static void AddExceptionManager(this IServiceCollection services)
+        {
+            services.AddSingleton<IExceptionManager, ExceptionManager>();
+        }
+
         #endregion
     }
 }

@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 using LibraryManagement.AssetsGRPCService.Business.Constants.EventConstants;
 using LibraryManagement.AssetsGRPCService.Business.Events;
-using LibraryManagement.AssetsGRPCService.DataAccesses.DbContexts;
+using LibraryManagement.AssetsGRPCService.Data.DataAccess.DbContexts;
 using LibraryManagement.AssetsGRPCService.Domains;
 using LibraryManagement.Common.Constants;
 using LibraryManagement.Common.ExceptionManagements;

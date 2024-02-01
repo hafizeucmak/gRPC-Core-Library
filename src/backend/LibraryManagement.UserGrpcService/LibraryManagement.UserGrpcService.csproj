@@ -7,10 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="DataAccesses\Migrations\**" />
-    <Content Remove="DataAccesses\Migrations\**" />
-    <EmbeddedResource Remove="DataAccesses\Migrations\**" />
-    <None Remove="DataAccesses\Migrations\**" />
+    <Compile Remove="Data\DataAccess\Migrations\**" />
+    <Content Remove="Data\DataAccess\Migrations\**" />
+    <EmbeddedResource Remove="Data\DataAccess\Migrations\**" />
+    <None Remove="Data\DataAccess\Migrations\**" />
   </ItemGroup>
 
   <ItemGroup>

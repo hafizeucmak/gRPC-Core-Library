@@ -1,6 +1,5 @@
-﻿using LibraryManagement.AssetsGRPCService.Business.CQRS.Commands;
-using LibraryManagement.AssetsGRPCService.Business.Events;
-using LibraryManagement.AssetsGRPCService.DataAccesses.DbContexts;
+﻿using LibraryManagement.AssetsGRPCService.Business.Events;
+using LibraryManagement.AssetsGRPCService.Data.DataAccess.DbContexts;
 using LibraryManagement.AssetsGRPCService.Services;
 using LibraryManagement.Common.Configurations;
 using LibraryManagement.Common.Extensions;

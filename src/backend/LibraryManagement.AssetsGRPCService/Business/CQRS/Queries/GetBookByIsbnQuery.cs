@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using LibraryManagement.AssetsGRPCService.DataAccesses.DbContexts;
+using LibraryManagement.AssetsGRPCService.Data.DataAccess.DbContexts;
 using LibraryManagement.AssetsGRPCService.Domains;
 using LibraryManagement.Common.ExceptionManagements;
 using LibraryManagement.Common.GenericRepositories;

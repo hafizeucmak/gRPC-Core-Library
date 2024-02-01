@@ -2,7 +2,7 @@
 using LibraryManagement.Common.Constants;
 using LibraryManagement.Common.ExceptionManagements;
 using LibraryManagement.Common.GenericRepositories;
-using LibraryManagement.UserGrpcService.DataAccesses.DbContexts;
+using LibraryManagement.UserGrpcService.Data.DataAccess.DbContexts;
 using LibraryManagement.UserGrpcService.Domains;
 using MediatR;
 using Microsoft.EntityFrameworkCore;

@@ -17,5 +17,7 @@
         public const int MAX_LENGTH_FOR_FULLNAMES = 400;
 
         public const int MAX_LENGTH_FOR_EMAILS = 100;
+
+        public static int DEFAULT_MAX_LENGTH_FOR_STRING = 100;
     }
 }
