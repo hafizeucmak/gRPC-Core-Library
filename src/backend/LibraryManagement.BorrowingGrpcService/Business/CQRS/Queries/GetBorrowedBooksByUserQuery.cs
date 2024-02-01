@@ -9,13 +9,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LibraryManagement.BorrowingGrpcService.Business.CQRS.Queries
 {
-    public class GetBorrowedBooksByUserQuery
+    public class GetBorrowedBooksByUserQuery : IRequest<BorrowedBooksByUserResponse>
     {
-    }
-    public class GetBorrowedBooksByUserQueryQuery : IRequest<BorrowedBooksByUserResponse>
-    {
-        private readonly GetBorrowedBooksByUserQueryQueryValidator _validator = new();
-        public GetBorrowedBooksByUserQueryQuery(DateTime startDate, DateTime endDate, string userEmail)
+        private readonly GetBorrowedBooksByUserQueryValidator _validator = new();
+        public GetBorrowedBooksByUserQuery(DateTime startDate, DateTime endDate, string userEmail)
         {
             UserEmail = userEmail;
             StartDate = startDate;
@@ -31,9 +28,9 @@ namespace LibraryManagement.BorrowingGrpcService.Business.CQRS.Queries
         public string UserEmail { get; set; }
     }
 
-    public class GetBorrowedBooksByUserQueryQueryValidator : AbstractValidator<GetBorrowedBooksByUserQueryQuery>
+    public class GetBorrowedBooksByUserQueryValidator : AbstractValidator<GetBorrowedBooksByUserQuery>
     {
-        public GetBorrowedBooksByUserQueryQueryValidator()
+        public GetBorrowedBooksByUserQueryValidator()
         {
             RuleFor(x => x.StartDate).NotEmpty().NotNull();
             RuleFor(x => x.EndDate).NotEmpty().NotNull();
@@ -41,19 +38,19 @@ namespace LibraryManagement.BorrowingGrpcService.Business.CQRS.Queries
         }
     }
 
-    public class GetBorrowedBooksByUserQueryQueryHandler : IRequestHandler<GetBorrowedBooksByUserQueryQuery, BorrowedBooksByUserResponse>
+    public class GetBorrowedBooksByUserQueryHandler : IRequestHandler<GetBorrowedBooksByUserQuery, BorrowedBooksByUserResponse>
     {
         private readonly IGenericWriteRepository<BorrowingBaseDbContext> _genericWriteRepository;
-        private readonly ILogger<GetBorrowedBooksByUserQueryQuery> _logger;
+        private readonly ILogger<GetBorrowedBooksByUserQuery> _logger;
 
-        public GetBorrowedBooksByUserQueryQueryHandler(IGenericWriteRepository<BorrowingBaseDbContext> genericWriteRepository,
-                                               ILogger<GetBorrowedBooksByUserQueryQuery> logger)
+        public GetBorrowedBooksByUserQueryHandler(IGenericWriteRepository<BorrowingBaseDbContext> genericWriteRepository,
+                                               ILogger<GetBorrowedBooksByUserQuery> logger)
         {
             _logger = logger;
             _genericWriteRepository = genericWriteRepository;
         }
 
-        public async Task<BorrowedBooksByUserResponse> Handle(GetBorrowedBooksByUserQueryQuery query, CancellationToken cancellationToken)
+        public async Task<BorrowedBooksByUserResponse> Handle(GetBorrowedBooksByUserQuery query, CancellationToken cancellationToken)
         {
             var user = await _genericWriteRepository.GetAll<User>().FirstOrDefaultAsync(x => x.Email.Equals(query.UserEmail), cancellationToken);
 

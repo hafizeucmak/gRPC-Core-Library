@@ -38,26 +38,17 @@ namespace LibraryManagement.BorrowingGrpcService.Services
 
         public override async Task<BorrowedBooksByUserResponse> GetBorrowedBooksByUser(BorrowedBooksByUserRequest request, ServerCallContext context)
         {
-            return await Task.FromResult(new BorrowedBooksByUserResponse
-            {
-
-            });
+            return await _mediator.Send(new GetBorrowedBooksByUserQuery(request.StartDate.ToDateTime(), request.EndDate.ToDateTime(), request.UserEmail), context.CancellationToken);
         }
 
-        public override async Task<RelatedBooksResponse> GetRelatedBooks(RelatedBooksRequest request, ServerCallContext context)
+        public override async Task<ReadRateResponse> GetAverageReadRateForBook(ReadRateRequest request, ServerCallContext context)
         {
-            return await Task.FromResult(new RelatedBooksResponse
-            {
-
-            });
+            return await _mediator.Send(new GetAverageReadRateForBookQuery(request.Isbn), context.CancellationToken);
         }
 
-        public override async Task<ReadRateResponse> GetReadRate(ReadRateRequest request, ServerCallContext context)
+        public override async Task<AlsoBorrowedBooksResponse> GetBorrowersAlsoBorrowedBooks(AlsoBorrowedBooksRequest request, ServerCallContext context)
         {
-            return await Task.FromResult(new ReadRateResponse
-            {
-
-            });
+            return await _mediator.Send(new GetBorrowersAlsoBorrowedBooksQuery(request.Isbn), context.CancellationToken);
         }
     }
 }

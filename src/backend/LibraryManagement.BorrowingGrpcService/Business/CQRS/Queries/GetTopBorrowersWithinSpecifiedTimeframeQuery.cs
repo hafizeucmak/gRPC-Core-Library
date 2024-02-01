@@ -51,13 +51,13 @@ namespace LibraryManagement.BorrowingGrpcService.Business.CQRS.Queries
 
         public async Task<TopBorrowersResponse> Handle(GetTopBorrowersWithinSpecifiedTimeframeQuery query, CancellationToken cancellationToken)
         {
-            //Belirli bir zaman aralığında en çok kitap ödünç alan kullanıcılar kimlerdir ?
             //TODO: mape bir bak
 
             var topBorrowerIds = await _genericWriteRepository.GetAll<Borrowing>()
                                                       .Where(x => x.BorrowDate.Date >= query.StartDate.Date && x.BorrowDate <= query.EndDate.Date)
                                                       .GroupBy(x => x.UserId)
                                                       .Select(x => new { UserId = x.Key, BorrowCount = x.Count() })
+                                                      .Where(x => x.BorrowCount > 0)
                                                       .OrderByDescending(x => x.BorrowCount)
                                                       .Select(x => x.UserId)
                                                       .Take(query.ExpectedTopBorrowerCount)

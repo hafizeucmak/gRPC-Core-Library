@@ -18,9 +18,9 @@ service BorrowGRPCService {
   
   rpc GetBorrowedBooksByUser(BorrowedBooksByUserRequest) returns (BorrowedBooksByUserResponse);
   
-  rpc GetRelatedBooks(RelatedBooksRequest) returns (RelatedBooksResponse);
+  rpc GetBorrowersAlsoBorrowedBooks(AlsoBorrowedBooksRequest) returns (AlsoBorrowedBooksResponse);
   
-  rpc GetReadRate(ReadRateRequest) returns (ReadRateResponse);
+  rpc GetAverageReadRateForBook(ReadRateRequest) returns (ReadRateResponse);
 
 
 }
@@ -46,7 +46,6 @@ message BorrowBookRequest
 
 message BorrowBookResponse
 {
-
 }
 
 message MostBorrowedBooksResponse {
@@ -100,18 +99,24 @@ message BorrowedBooksByUserResponse {
 	repeated BorrowedBookDetail borrowedBooks =1;
 }
 
-message RelatedBooksRequest {
-
+message AlsoBorrowedBookDetail {
+  string title = 1;
+  string author = 2;
+  string publisher = 3;
 }
 
-message RelatedBooksResponse {
+message AlsoBorrowedBooksRequest {
+	string isbn = 1;
+}
 
+message AlsoBorrowedBooksResponse {
+	repeated AlsoBorrowedBookDetail also_borrowed_books = 1;
 }
 
 message ReadRateRequest {
-
+	string isbn = 1;
 }
 
 message ReadRateResponse {
-
+  double read_rate = 1;
 }

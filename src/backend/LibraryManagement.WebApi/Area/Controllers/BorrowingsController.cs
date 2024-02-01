@@ -27,6 +27,7 @@ namespace LibraryManagement.WebApi.Area.Controllers
             return NoContent();
         }
 
+
         [HttpGet("getMostBorrowedBooks")]
         [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(IEnumerable<MostBorrowedBooksDTO>))]
 
@@ -35,6 +36,7 @@ namespace LibraryManagement.WebApi.Area.Controllers
             return Ok(await _mediator.Send(new GetMostBorrowedBooks(expectedMostBorrowBookCount), cancellationToken));
         }
 
+
         [HttpGet("getBookCopiesAvailability")]
         [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(BookCopiesAvailabilityDTO))]
 
@@ -42,6 +44,7 @@ namespace LibraryManagement.WebApi.Area.Controllers
         {
             return Ok(await _mediator.Send(new GetBookCopiesAvailability(isbn), cancellationToken));
         }
+
 
         [HttpGet("getTopBorrowersWithinSpecifiedTimeframe")]
         [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(BookCopiesAvailabilityDTO))]
@@ -54,6 +57,7 @@ namespace LibraryManagement.WebApi.Area.Controllers
             return Ok(await _mediator.Send(new GetTopBorrowersWithinSpecifiedTimeframe(startDate, endDate, expectedTopBorrowerCount), cancellationToken));
         }
 
+
         [HttpGet("getBorrowedBooksByUser")]
         [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(IEnumerator<BorrowedBooksByUserDTO>))]
 
@@ -63,6 +67,26 @@ namespace LibraryManagement.WebApi.Area.Controllers
                                                                                 CancellationToken cancellationToken)
         {
             return Ok(await _mediator.Send(new GetBorrowedBooksByUser(startDate, endDate, userEmail), cancellationToken));
+        }
+
+
+        [HttpGet("getAverageReadRateForBook")]
+        [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(ReadRateForBookOutputDTO))]
+
+        public async Task<IActionResult> GetAverageReadRateForBook([FromQuery] DateTime startDate,
+                                                                               [FromQuery] DateTime endDate,
+                                                                               [FromQuery] string isbn,
+                                                                               CancellationToken cancellationToken)
+        {
+            return Ok(await _mediator.Send(new GetAverageReadRateForBook(startDate, endDate, isbn), cancellationToken));
+        }
+
+        [HttpGet("getBorrowersAlsoBorrowedBooks")]
+        [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(IEnumerable<AlsoBorrowedBooksDTO>))]
+
+        public async Task<IActionResult> GetBorrowersAlsoBorrowedBooks([FromQuery] string isbn, CancellationToken cancellationToken)
+        {
+            return Ok(await _mediator.Send(new GetBorrowersAlsoBorrowedBooks(isbn), cancellationToken));
         }
     }
 }
