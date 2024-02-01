@@ -9,6 +9,7 @@ using LibraryManagement.Common.Filters;
 using LibraryManagement.Common.Middlewares;
 using LibraryManagement.Common.RabbitMQEvents;
 using LibraryManagement.Common.SeedManagements.Enums;
+using Mapster;
 using System.Reflection;
 
 namespace LibraryManagement.BorrowingGrpcService
@@ -57,6 +58,10 @@ namespace LibraryManagement.BorrowingGrpcService
             services.AddScoped<RecreateDbHandler>();
 
             services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
+
+            TypeAdapterConfig.GlobalSettings.Scan(Assembly.GetAssembly(typeof(BorrowedBook)) ?? throw new ArgumentNullException($"{nameof(BorrowedBook)} not found."));
+
+
         }
 
         public void Configure(IApplicationBuilder app)

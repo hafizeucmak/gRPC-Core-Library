@@ -18,7 +18,7 @@ namespace LibraryManagement.BorrowingGrpcService.Services
 
         public override async Task<MostBorrowedBooksResponse> GetMostBorrowedBooks(MostBorrowedBooksRequest request, ServerCallContext context)
         {
-            return await _mediator.Send(new GetMostBorrowedBooksQuery(request.ExpectedMostBorrowBookCount), context.CancellationToken);
+            return await _mediator.Send(new GetMostBorrowedBooksQuery(), context.CancellationToken);
         }
 
         public override async Task<BorrowBookResponse> BorrowBook(BorrowBookRequest request, ServerCallContext context)

@@ -1,9 +1,14 @@
-﻿using LibraryManagement.WebApi.CQRS.Commands.Borrowings;
+﻿using DynamicQueryBuilder.Models;
+using LibraryManagement.WebApi.CQRS.Commands.Borrowings;
 using LibraryManagement.WebApi.CQRS.Queries.Borrowings;
 using LibraryManagement.WebApi.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
+using Mapster;
+using DynamicQueryBuilder;
+using Microsoft.AspNetCore.Http;
+using LibraryManagement.WebApi.Swagger;
 
 namespace LibraryManagement.WebApi.Area.API.Controllers
 {
@@ -28,12 +33,14 @@ namespace LibraryManagement.WebApi.Area.API.Controllers
         }
 
 
+        [DynamicQuery]
         [HttpGet("getMostBorrowedBooks")]
-        [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(IEnumerable<MostBorrowedBooksDTO>))]
+        [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(DynamicQueryOutputDTO<MostBorrowedBooksDTO>))]
 
-        public async Task<IActionResult> GetMostBorrowBooks([FromQuery] int expectedMostBorrowBookCount, CancellationToken cancellationToken)
+        public async Task<IActionResult> GetMostBorrowBooks([FromQuery]DynamicQueryOptions dynamicQueryOptions, CancellationToken cancellationToken)
         {
-            return Ok(await _mediator.Send(new GetMostBorrowedBooks(expectedMostBorrowBookCount), cancellationToken));
+            var results = (await _mediator.Send(new GetMostBorrowedBooks(), cancellationToken)).ProjectToType<MostBorrowedBooksDTO>().ApplyFilters(dynamicQueryOptions);
+            return Ok(new DynamicQueryOutputDTO<MostBorrowedBooksDTO>(dynamicQueryOptions, results));
         }
 
 
@@ -49,7 +56,7 @@ namespace LibraryManagement.WebApi.Area.API.Controllers
         [HttpGet("getTopBorrowersWithinSpecifiedTimeframe")]
         [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(BookCopiesAvailabilityDTO))]
 
-        public async Task<IActionResult> GetTopBorrowersWithinSpecifiedTimeframe([FromQuery] DateTime startDate,
+        public async Task<IActionResult> GetTopBorrowersWithinSpecifiedTimeframe([FromQuery][SwaggerInclude] DateTime startDate,
                                                                                  [FromQuery] DateTime endDate,
                                                                                  [FromQuery] int expectedTopBorrowerCount,
                                                                                  CancellationToken cancellationToken)

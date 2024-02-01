@@ -25,6 +25,7 @@ namespace LibraryManagement.AssetsGRPCService.Data.DataAccess.DbContexts
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.ApplyConfigurationsFromAssembly(this.GetType().Assembly);
             base.OnModelCreating(modelBuilder);
         }
 
@@ -32,21 +33,5 @@ namespace LibraryManagement.AssetsGRPCService.Data.DataAccess.DbContexts
         {
             return await base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
         }
-
-        public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
-        {
-            return base.SaveChangesAsync(cancellationToken);
-        }
-
-        public override int SaveChanges(bool acceptAllChangesOnSuccess)
-        {
-            return base.SaveChanges(acceptAllChangesOnSuccess);
-        }
-
-        public override int SaveChanges()
-        {
-            return base.SaveChanges();
-        }
     }
-
 }

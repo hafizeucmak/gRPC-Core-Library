@@ -27,16 +27,15 @@ service BorrowGRPCService {
 }
 
 message MostBorrowedBooksRequest {
-	int32 expectedMostBorrowBookCount = 1;
 }
+
 
 message BorrowedBook {
   string title = 1;
   string author = 2;
   string publisher = 3;
-  int32 publicationYear = 4;
-  int32 pageCount = 5;
-  string isbn = 6;
+  string isbn = 4;
+  int32 borrowed_count = 5;
 }
 
 message BorrowBookRequest

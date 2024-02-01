@@ -1,5 +1,8 @@
 ﻿using LibraryManagement.WebApi.Extensions;
 using LibraryManagement.WebApi.Middlewares;
+using LibraryManagement.WebApi.Swagger;
+using Swashbuckle.AspNetCore.SwaggerGen;
+using Swashbuckle.AspNetCore.SwaggerUI;
 using System.Reflection;
 using System.Text.Json.Serialization;
 
@@ -30,7 +33,8 @@ namespace LibraryManagement.WebApi
                     });
 
             services.AddEndpointsApiExplorer();
-            services.AddSwaggerGen();
+            services.AddSwaggerGen(ConfigureSwaggerGenerator);
+
 
             services.RegisterGrpcClient(Configuration);
 
@@ -40,7 +44,25 @@ namespace LibraryManagement.WebApi
 
             services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
 
+            services.AddMapster();
+        }
 
+        void ConfigureSwaggerGenerator(SwaggerGenOptions options)
+        {
+            options.SupportNonNullableReferenceTypes();
+            options.OperationFilter<ResolveDynamicQueryEndpoints>("dqb");
+            //  options.OperationFilter<ApiKeyHeaderParameterOperationFilter>();
+            options.CustomSchemaIds(modelType => new SwashbuckleSchemaHelper().GetSchemaId(modelType));
+           // options.DocumentFilter<SwaggerAreaFilter>(new object[] {  "api" });
+        }
+
+        private void ConfigureSwaggerUI(SwaggerUIOptions options)
+        {
+            options.DocExpansion(DocExpansion.None);
+            options.DisplayRequestDuration();
+            options.SwaggerEndpoint("/swagger/v1/swagger.json", _apiTitle);
+            options.InjectJavascript("https://code.jquery.com/jquery-3.6.0.min.js");
+            options.InjectJavascript("../js/swagger-seed-dropdown-sorting.js");
         }
 
         public void Configure(IApplicationBuilder app)
@@ -49,11 +71,7 @@ namespace LibraryManagement.WebApi
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c =>
-                {
-                    c.SwaggerEndpoint("/swagger/v1/swagger.json", _apiTitle);
-                });
-
+                app.UseSwaggerUI(ConfigureSwaggerUI);
             }
 
             app.UseMiddleware<ExceptionHandlerMiddleware>();

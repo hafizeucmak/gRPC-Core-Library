@@ -8,6 +8,9 @@ using LibraryManagement.UserGrpcService;
 using LibraryManagement.WebApi.GrpcClients.Assets;
 using LibraryManagement.WebApi.GrpcClients.Borrows;
 using LibraryManagement.WebApi.GrpcClients.Users;
+using LibraryManagement.WebApi.Models;
+using Mapster;
+using System.Reflection;
 
 namespace LibraryManagement.WebApi.Extensions
 {
@@ -64,6 +67,12 @@ namespace LibraryManagement.WebApi.Extensions
 
             ConfigureGrpcClient<UserGRPCService.UserGRPCServiceClient>(services, userGRPCServiceClientUrl, retryMethodConfig);
         }
+
+        public static void AddMapster(this IServiceCollection services)
+        {
+            TypeAdapterConfig.GlobalSettings.Scan(Assembly.GetAssembly(typeof(MostBorrowedBooksDTO)) ?? throw new ArgumentNullException($"{nameof(MostBorrowedBooksDTO)} not found."));
+        }
+
 
         public static void AddExceptionManager(this IServiceCollection services)
         {

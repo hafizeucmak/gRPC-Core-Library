@@ -29,6 +29,8 @@ namespace LibraryManagement.BorrowingGrpcService.Data.DataAccess.DbContexts
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.ApplyConfigurationsFromAssembly(this.GetType().Assembly);
+
             var entityTypes = GetEntityTypes(modelBuilder).ToList();
             AddDefaultMaxLength(modelBuilder, entityTypes);
             AddDeletedAtQueryFilter(modelBuilder, entityTypes.Where(x => x.BaseType == null));

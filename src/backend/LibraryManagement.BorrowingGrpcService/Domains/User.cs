@@ -10,14 +10,13 @@ namespace LibraryManagement.BorrowingGrpcService.Domains
                     string userName,
                     string firstName,
                     string lastName,
-                    string fullName,
                     string phoneNumber)
         {
             Email = email;
             UserName = userName;
             FirstName = firstName;
             LastName = lastName;
-            FullName = fullName;
+            FullName = $"{firstName} {lastName}";
             PhoneNumber = phoneNumber;
 
             _validator.ValidateAndThrow(this);

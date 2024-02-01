@@ -5,7 +5,7 @@ namespace LibraryManagement.WebApi.Models
 {
     public class MostBorrowedBooksDTO
     {
-        public string Name { get; set; }
+        public string PublisherName { get; set; }
 
         public string Title { get; set; }
 
@@ -13,19 +13,18 @@ namespace LibraryManagement.WebApi.Models
 
         public string Isbn { get; set; }
 
-        public int PageCount { get; set; }
+        public int BorrowedCount { get; set; }
     }
 
     public class MostBorrowedBooksDTOCustomMap : IRegister
     {
         public void Register(TypeAdapterConfig config)
         {
-            //TODO: map in here dont forget
             config.ForType<BorrowedBook, MostBorrowedBooksDTO>()
-                .Map(dest => dest.Name, src => src.Title)
+                .Map(dest => dest.PublisherName, src => src.Publisher)
                 .Map(dest => dest.AuthorName, src => src.Author)
                 .Map(dest => dest.Isbn, src => src.Isbn)
-                .Map(dest => dest.PageCount, src => src.PageCount);
+                .Map(dest => dest.BorrowedCount, src => src.BorrowedCount);
         }
     }
 }
