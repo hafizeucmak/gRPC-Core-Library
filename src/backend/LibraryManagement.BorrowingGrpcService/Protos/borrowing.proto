@@ -27,8 +27,8 @@ service BorrowGRPCService {
 }
 
 message MostBorrowedBooksRequest {
+	string query_options = 1;
 }
-
 
 message BorrowedBook {
   string title = 1;
@@ -107,6 +107,7 @@ message AlsoBorrowedBookDetail {
 
 message AlsoBorrowedBooksRequest {
 	string isbn = 1;
+    string query_options = 2;
 }
 
 message AlsoBorrowedBooksResponse {

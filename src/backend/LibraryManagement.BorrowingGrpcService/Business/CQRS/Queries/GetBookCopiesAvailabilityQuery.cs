@@ -48,8 +48,8 @@ namespace LibraryManagement.BorrowingGrpcService.Business.CQRS.Queries
                                                       .Select(x => new
                                                       {
                                                           ISBN = x.ISBN,
-                                                          BorrowedCopiesCount = x.BookCopies.Count(x => x.Status.Equals(AssetStatus.Available)),
-                                                          AvailableCopiesCount = x.BookCopies.Count(x => x.Status.Equals(AssetStatus.Borrowed)),
+                                                          BorrowedCopiesCount = x.BookCopies.Count(x => x.Status.Equals(AssetStatus.Borrowed)),
+                                                          AvailableCopiesCount = x.BookCopies.Count(x => x.Status.Equals(AssetStatus.Available)),
                                                       })
                                                       .FirstOrDefaultAsync(x => x.ISBN.Equals(query.Isbn), cancellationToken);
 

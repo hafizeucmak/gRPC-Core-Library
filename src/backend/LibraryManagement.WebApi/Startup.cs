@@ -1,4 +1,5 @@
-﻿using LibraryManagement.WebApi.Extensions;
+﻿using LibraryManagement.Common.Configurations.Swagger;
+using LibraryManagement.WebApi.Extensions;
 using LibraryManagement.WebApi.Middlewares;
 using LibraryManagement.WebApi.Swagger;
 using Swashbuckle.AspNetCore.SwaggerGen;
@@ -51,9 +52,8 @@ namespace LibraryManagement.WebApi
         {
             options.SupportNonNullableReferenceTypes();
             options.OperationFilter<ResolveDynamicQueryEndpoints>("dqb");
-            //  options.OperationFilter<ApiKeyHeaderParameterOperationFilter>();
             options.CustomSchemaIds(modelType => new SwashbuckleSchemaHelper().GetSchemaId(modelType));
-           // options.DocumentFilter<SwaggerAreaFilter>(new object[] {  "api" });
+            options.SchemaFilter<RequireValueTypePropertiesSchemaFilter>(true);
         }
 
         private void ConfigureSwaggerUI(SwaggerUIOptions options)

@@ -1,14 +1,12 @@
-﻿using DynamicQueryBuilder.Models;
+﻿using DynamicQueryBuilder;
+using DynamicQueryBuilder.Models;
 using LibraryManagement.WebApi.CQRS.Commands.Borrowings;
 using LibraryManagement.WebApi.CQRS.Queries.Borrowings;
 using LibraryManagement.WebApi.Models;
+using LibraryManagement.WebApi.Swagger;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
-using Mapster;
-using DynamicQueryBuilder;
-using Microsoft.AspNetCore.Http;
-using LibraryManagement.WebApi.Swagger;
 
 namespace LibraryManagement.WebApi.Area.API.Controllers
 {
@@ -37,9 +35,9 @@ namespace LibraryManagement.WebApi.Area.API.Controllers
         [HttpGet("getMostBorrowedBooks")]
         [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(DynamicQueryOutputDTO<MostBorrowedBooksDTO>))]
 
-        public async Task<IActionResult> GetMostBorrowBooks([FromQuery]DynamicQueryOptions dynamicQueryOptions, CancellationToken cancellationToken)
+        public async Task<IActionResult> GetMostBorrowBooks([FromQuery] DynamicQueryOptions dynamicQueryOptions, CancellationToken cancellationToken)
         {
-            var results = (await _mediator.Send(new GetMostBorrowedBooks(), cancellationToken)).ProjectToType<MostBorrowedBooksDTO>().ApplyFilters(dynamicQueryOptions);
+            var results = await _mediator.Send(new GetMostBorrowedBooks(dynamicQueryOptions), cancellationToken);
             return Ok(new DynamicQueryOutputDTO<MostBorrowedBooksDTO>(dynamicQueryOptions, results));
         }
 
@@ -88,12 +86,16 @@ namespace LibraryManagement.WebApi.Area.API.Controllers
             return Ok(await _mediator.Send(new GetAverageReadRateForBook(startDate, endDate, isbn), cancellationToken));
         }
 
+        [DynamicQuery]
         [HttpGet("getBorrowersAlsoBorrowedBooks")]
-        [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(IEnumerable<AlsoBorrowedBooksDTO>))]
+        [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(DynamicQueryOutputDTO<AlsoBorrowedBooksDTO>))]
 
-        public async Task<IActionResult> GetBorrowersAlsoBorrowedBooks([FromQuery] string isbn, CancellationToken cancellationToken)
+        public async Task<IActionResult> GetBorrowersAlsoBorrowedBooks(
+              [FromQuery] DynamicQueryOptions dynamicQueryOptions,
+              [FromQuery][SwaggerInclude] string isbn,
+              CancellationToken cancellationToken)
         {
-            return Ok(await _mediator.Send(new GetBorrowersAlsoBorrowedBooks(isbn), cancellationToken));
+            return Ok(await _mediator.Send(new GetBorrowersAlsoBorrowedBooks(dynamicQueryOptions, "ISBN-5"), cancellationToken));
         }
     }
 }

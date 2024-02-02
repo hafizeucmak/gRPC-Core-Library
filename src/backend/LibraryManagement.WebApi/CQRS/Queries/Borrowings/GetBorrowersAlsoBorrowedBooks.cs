@@ -1,11 +1,11 @@
-﻿using FluentValidation;
-using LibraryManagement.AssetsGRPCService;
+﻿using DynamicQueryBuilder.Models;
+using FluentValidation;
 using LibraryManagement.BorrowingGrpcService;
 using LibraryManagement.WebApi.GrpcClients.Assets;
 using LibraryManagement.WebApi.GrpcClients.Borrows;
 using LibraryManagement.WebApi.Models;
-using Mapster;
 using MediatR;
+using Newtonsoft.Json;
 
 namespace LibraryManagement.WebApi.CQRS.Queries.Borrowings
 {
@@ -13,14 +13,16 @@ namespace LibraryManagement.WebApi.CQRS.Queries.Borrowings
     {
         private readonly GetBorrowersAlsoBorrowedBooksValidator _validator = new();
 
-        public GetBorrowersAlsoBorrowedBooks(string isbn)
+        public GetBorrowersAlsoBorrowedBooks(DynamicQueryOptions queryOptions, string isbn)
         {
             Isbn = isbn;
-
+            QueryOptions = queryOptions;
             _validator.ValidateAndThrow(this);
         }
 
         public string Isbn { get; set; }
+
+        public DynamicQueryOptions QueryOptions { get; set; }
     }
 
     public class GetBorrowersAlsoBorrowedBooksValidator : AbstractValidator<GetBorrowersAlsoBorrowedBooks>
@@ -28,6 +30,7 @@ namespace LibraryManagement.WebApi.CQRS.Queries.Borrowings
         public GetBorrowersAlsoBorrowedBooksValidator()
         {
             RuleFor(x => x.Isbn).NotEmpty();
+            RuleFor(x => x.QueryOptions).NotEmpty();
         }
     }
 
@@ -45,17 +48,23 @@ namespace LibraryManagement.WebApi.CQRS.Queries.Borrowings
 
         public async Task<IEnumerable<AlsoBorrowedBooksDTO>> Handle(GetBorrowersAlsoBorrowedBooks query, CancellationToken cancellationToken)
         {
-            var book = _assetManagementServiceClient.GetBookByIsbnAsync(new BookByISBNRequest() { Isbn = query.Isbn });
+            var serializedQueryOptions = JsonConvert.SerializeObject(query.QueryOptions);
 
-            if (book == null)
+            //var book = _assetManagementServiceClient.GetBookByIsbnAsync(new BookByISBNRequest() { Isbn = query.Isbn });
+
+            //if (book == null)
+            //{
+            //    throw new ArgumentNullException("//TODO: handle with custom exception");
+            //}
+
+            var results = await _borrowingServiceClient.GetBorrowersAlsoBorrowedBooks(new AlsoBorrowedBooksRequest { Isbn = query.Isbn, QueryOptions = serializedQueryOptions });
+
+            return results.AlsoBorrowedBooks.Select(x => new AlsoBorrowedBooksDTO
             {
-                throw new ArgumentNullException("//TODO: handle with custom exception");
-            }
-
-            var results = await _borrowingServiceClient.GetBorrowersAlsoBorrowedBooks(new AlsoBorrowedBooksRequest { Isbn = query.Isbn });
-
-            //TODO: map
-            return results.AlsoBorrowedBooks.Adapt<IEnumerable<AlsoBorrowedBooksDTO>>();
+                Title = x.Title,
+                Author = x.Author,
+                Publisher = x.Publisher
+            });
         }
     }
 }

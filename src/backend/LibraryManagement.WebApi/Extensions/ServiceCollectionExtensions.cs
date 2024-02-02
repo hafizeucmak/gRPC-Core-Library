@@ -68,12 +68,6 @@ namespace LibraryManagement.WebApi.Extensions
             ConfigureGrpcClient<UserGRPCService.UserGRPCServiceClient>(services, userGRPCServiceClientUrl, retryMethodConfig);
         }
 
-        public static void AddMapster(this IServiceCollection services)
-        {
-            TypeAdapterConfig.GlobalSettings.Scan(Assembly.GetAssembly(typeof(MostBorrowedBooksDTO)) ?? throw new ArgumentNullException($"{nameof(MostBorrowedBooksDTO)} not found."));
-        }
-
-
         public static void AddExceptionManager(this IServiceCollection services)
         {
             services.AddSingleton<IExceptionManager, ExceptionManager>();
@@ -84,6 +78,14 @@ namespace LibraryManagement.WebApi.Extensions
             services.AddScoped<IBorrowingServiceClient, BorrowingServiceClient>();
             services.AddScoped<IUserServiceClient, UserServiceClient>();
             services.AddScoped<IAssetManagementServiceClient, AssetManagementServiceClient>();
+        }
+        public static void AddMapster(this IServiceCollection services)
+        {
+            var typeAdapterConfig = TypeAdapterConfig.GlobalSettings;
+            Assembly applicationAssembly = typeof(MostBorrowedBooksDTO).Assembly;
+            Assembly applicationAssembly2 = typeof(BorrowedBook).Assembly;
+            typeAdapterConfig.Scan(applicationAssembly);
+            typeAdapterConfig.Scan(applicationAssembly2);
         }
 
         private static void ConfigureGrpcClient<TClient>(IServiceCollection services, string clientUrl, MethodConfig retryMethodConfig)
