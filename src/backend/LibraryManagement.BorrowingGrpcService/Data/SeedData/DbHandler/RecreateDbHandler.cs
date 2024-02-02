@@ -19,10 +19,14 @@ namespace LibraryManagement.BorrowingGrpcService.Data.SeedData.DbHandler
 
         public async Task<Unit> Handle()
         {
+            _dbContext.Database.EnsureCreated();
             string generatedScript = _dbContext.Database.GenerateCreateScript();
             DatabaseUtils.DropTables(_dbContext, DROP_TABLES_SQL_SCRIPT);
             await _dbContext.Database.ExecuteSqlRawAsync(generatedScript.Replace("GO", string.Empty));
-            _dbContext.Database.ExecuteSqlRaw("TRUNCATE TABLE dbo.__EFMigrationsHistory");
+            _dbContext.Database.ExecuteSqlRaw("IF OBJECT_ID('dbo.__EFMigrationsHistory', 'U') IS NOT NULL  " +
+                "                               BEGIN" +
+                "                               TRUNCATE TABLE dbo.__EFMigrationsHistory;" +
+                "                               END");
 
             return await Task.FromResult(Unit.Value);
         }

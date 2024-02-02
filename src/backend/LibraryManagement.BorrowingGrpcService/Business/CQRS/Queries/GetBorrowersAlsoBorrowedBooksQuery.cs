@@ -60,15 +60,21 @@ namespace LibraryManagement.BorrowingGrpcService.Business.CQRS.Queries
             var borrowerIds = _genericWriteRepository.GetAll<Borrowing>().Where(x => x.BookId.Equals(book.Id) && x.BookCopyId == null).Select(x => x.UserId);
 
             var alsoBorrowedBooksByUsers = _genericWriteRepository.GetAll<Borrowing>()
-                                                                   .Where(x => borrowerIds.Contains(x.UserId) 
-                                                                            && !x.BookId.Equals(book.Id) 
+                                                                   .Where(x => borrowerIds.Contains(x.UserId)
+                                                                            && !x.BookId.Equals(book.Id)
                                                                             && x.BookCopyId == null)
-                                                                   .GroupBy(x=> new { Title = x.Book.Title, Author = x.Book.Author, Publisher = x.Book.Publisher })
-                                                                   .Select(x => new AlsoBorrowedBookDetail
+                                                                   .GroupBy(x => new 
+                                                                   { 
+                                                                       Title = x.Book.Title, 
+                                                                       Author = x.Book.Author, 
+                                                                       Publisher = x.Book.Publisher, 
+                                                                       ISBN = x.Book.ISBN 
+                                                                   }).Select(x => new AlsoBorrowedBookDetail
                                                                    {
                                                                        Title = x.Key.Title,
                                                                        Author = x.Key.Author,
                                                                        Publisher = x.Key.Publisher,
+                                                                       Isbn = x.Key.ISBN
                                                                    });
 
             var filteredAlsoBorrowedBooks = alsoBorrowedBooksByUsers.ApplyFilters(dynamicQueryOptions);

@@ -35,7 +35,15 @@ namespace LibraryManagement.BorrowingGrpcService.Domains
 
         public virtual Book Book { get; private set; }
 
+        public virtual User User { get; private set; }
+
         public virtual BookCopy BookCopy { get; private set; }
+
+        public void Returned(DateTime returnDate)
+        {
+            ReturnDate = returnDate;
+            Update();
+        }
 
         public class BorrowingValidator : AbstractValidator<Borrowing>
         {

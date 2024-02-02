@@ -63,7 +63,8 @@ namespace LibraryManagement.WebApi.CQRS.Queries.Borrowings
             {
                 Title = x.Title,
                 Author = x.Author,
-                Publisher = x.Publisher
+                Publisher = x.Publisher,
+                ISBN = x.Isbn
             });
         }
     }

@@ -14,6 +14,8 @@ namespace LibraryManagement.BorrowingGrpcService.Data.DataAccess.EntityConfigura
                 .IsUnique()
                 .IsClustered(false);
 
+            borrowing.HasQueryFilter(w => w.DeletedAt == null);
+
             borrowing.HasIndex(x => new { x.BookId, x.DeletedAt })
                 .IsClustered(false);
 
@@ -23,6 +25,12 @@ namespace LibraryManagement.BorrowingGrpcService.Data.DataAccess.EntityConfigura
             borrowing.HasOne(x => x.Book)
                   .WithMany()
                   .HasForeignKey(x => x.BookId)
+                  .IsRequired()
+                  .OnDelete(DeleteBehavior.Restrict);
+
+            borrowing.HasOne(x => x.User)
+                  .WithMany()
+                  .HasForeignKey(x => x.UserId)
                   .IsRequired()
                   .OnDelete(DeleteBehavior.Restrict);
 

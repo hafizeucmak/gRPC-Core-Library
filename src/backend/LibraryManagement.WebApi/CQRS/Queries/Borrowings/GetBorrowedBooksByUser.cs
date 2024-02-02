@@ -52,14 +52,12 @@ namespace LibraryManagement.WebApi.CQRS.Queries.Borrowings
             var request = new BorrowedBooksByUserRequest()
             {
                 UserEmail = query.UserEmail,
-                StartDate = query.StartDate.ToTimestamp(),
-                EndDate = query.EndDate.ToTimestamp()
+                StartDate = query.StartDate.ToUniversalTime().ToTimestamp(),
+                EndDate = query.EndDate.ToUniversalTime().ToTimestamp()
             };
 
             var results = await _borrowingServiceClient.GetBorrowedBooksByUser(request);
-
-            //TODO: map
-            return results.Adapt<IEnumerable<BorrowedBooksByUserDTO>>();
+            return results.BorrowedBooks.Adapt<IEnumerable<BorrowedBooksByUserDTO>>();
         }
     }
 }

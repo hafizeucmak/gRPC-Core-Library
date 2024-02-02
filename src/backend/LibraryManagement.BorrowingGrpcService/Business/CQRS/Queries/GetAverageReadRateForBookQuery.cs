@@ -65,7 +65,7 @@ namespace LibraryManagement.BorrowingGrpcService.Business.CQRS.Queries
 
             var totalReadPageCount = borrowingsCount * book.PageCount;
 
-            var result = (totalReadPageCount / totalBorrowDays) * 100.0;
+            var result = ((double)totalReadPageCount / totalBorrowDays);
 
             return new ReadRateResponse() { ReadRate = result ?? 0 };
         }

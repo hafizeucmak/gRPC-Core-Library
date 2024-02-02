@@ -9,7 +9,7 @@ namespace LibraryManagement.BorrowingGrpcService.Data.SeedData.SeedGenerator
         {
             var bookFaker = new Faker<Book>().CustomInstantiator(f =>
            {
-               var book = new Book(f.Lorem.Word(), f.Person.FullName, f.Commerce.Ean8(), f.Company.CompanyName(), f.Random.Number(2000, 2023), f.Random.Number(1, 50000));
+               var book = new Book(f.Lorem.Sentence(4,6), f.Person.FullName, f.Commerce.Ean8(), f.Company.CompanyName(), f.Random.Number(2000, 2023), f.Random.Number(1, 1000));
 
 
                return book;

@@ -32,8 +32,8 @@ namespace LibraryManagement.BorrowingGrpcService.Data.DataAccess.DbContexts
             modelBuilder.ApplyConfigurationsFromAssembly(this.GetType().Assembly);
 
             var entityTypes = GetEntityTypes(modelBuilder).ToList();
+
             AddDefaultMaxLength(modelBuilder, entityTypes);
-            AddDeletedAtQueryFilter(modelBuilder, entityTypes.Where(x => x.BaseType == null));
             AddDeletedAtIsNullFilterToNonClusteredIndexes(modelBuilder, entityTypes);
 
             base.OnModelCreating(modelBuilder);
@@ -74,20 +74,6 @@ namespace LibraryManagement.BorrowingGrpcService.Data.DataAccess.DbContexts
                         .Property(enumPropertyInfo.PropertyType, enumPropertyInfo.Name)
                         .HasMaxLength(DbContextConstants.DEFAULT_MAX_LENGTH_FOR_STRING);
                 }
-            }
-        }
-
-        private void AddDeletedAtQueryFilter(ModelBuilder builder, IEnumerable<IMutableEntityType> entityTypes)
-        {
-            foreach (var entityType in entityTypes)
-            {
-                var entityClrType = entityType.ClrType;
-                var parameter = Expression.Parameter(entityClrType, "p");
-                var deletedAtProperty = entityClrType.GetProperty(nameof(DomainEntity.DeletedAt));
-                var deletedAtNullExpression = Expression.Equal(Expression.Property(parameter, deletedAtProperty), Expression.Constant(null, typeof(DateTime?)));
-                var filter = Expression.Lambda(deletedAtNullExpression, parameter);
-                var entityTypeBuilder = builder.Entity(entityClrType);
-                entityTypeBuilder.HasQueryFilter(filter);
             }
         }
 

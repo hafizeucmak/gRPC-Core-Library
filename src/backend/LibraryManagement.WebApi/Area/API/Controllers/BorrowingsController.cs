@@ -52,14 +52,13 @@ namespace LibraryManagement.WebApi.Area.API.Controllers
 
 
         [HttpGet("getTopBorrowersWithinSpecifiedTimeframe")]
-        [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(BookCopiesAvailabilityDTO))]
+        [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(TopBorrowersWithinTimeframeDTO))]
 
         public async Task<IActionResult> GetTopBorrowersWithinSpecifiedTimeframe([FromQuery][SwaggerInclude] DateTime startDate,
                                                                                  [FromQuery] DateTime endDate,
-                                                                                 [FromQuery] int expectedTopBorrowerCount,
                                                                                  CancellationToken cancellationToken)
         {
-            return Ok(await _mediator.Send(new GetTopBorrowersWithinSpecifiedTimeframe(startDate, endDate, expectedTopBorrowerCount), cancellationToken));
+            return Ok(await _mediator.Send(new GetTopBorrowersWithinSpecifiedTimeframe(startDate, endDate), cancellationToken));
         }
 
 
@@ -78,12 +77,9 @@ namespace LibraryManagement.WebApi.Area.API.Controllers
         [HttpGet("getAverageReadRateForBook")]
         [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(ReadRateForBookOutputDTO))]
 
-        public async Task<IActionResult> GetAverageReadRateForBook([FromQuery] DateTime startDate,
-                                                                               [FromQuery] DateTime endDate,
-                                                                               [FromQuery] string isbn,
-                                                                               CancellationToken cancellationToken)
+        public async Task<IActionResult> GetAverageReadRateForBook([FromQuery] string isbn, CancellationToken cancellationToken)
         {
-            return Ok(await _mediator.Send(new GetAverageReadRateForBook(startDate, endDate, isbn), cancellationToken));
+            return Ok(await _mediator.Send(new GetAverageReadRateForBook(isbn), cancellationToken));
         }
 
         [DynamicQuery]
@@ -95,7 +91,7 @@ namespace LibraryManagement.WebApi.Area.API.Controllers
               [FromQuery][SwaggerInclude] string isbn,
               CancellationToken cancellationToken)
         {
-            return Ok(await _mediator.Send(new GetBorrowersAlsoBorrowedBooks(dynamicQueryOptions, "ISBN-5"), cancellationToken));
+            return Ok(await _mediator.Send(new GetBorrowersAlsoBorrowedBooks(dynamicQueryOptions, isbn), cancellationToken));
         }
     }
 }

@@ -13,6 +13,8 @@ namespace LibraryManagement.BorrowingGrpcService.Data.DataAccess.EntityConfigura
         {
             bookCopy.HasKey(w => w.Id).IsClustered(false);
 
+            bookCopy.HasQueryFilter(w => w.DeletedAt == null);
+
             bookCopy.HasIndex(w => new { w.BookId, w.CopyNumber, w.DeletedAt })
                     .IsUnique()
                     .IsClustered(false);

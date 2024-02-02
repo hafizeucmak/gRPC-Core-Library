@@ -13,7 +13,9 @@ namespace LibraryManagement.BorrowingGrpcService.Data.DataAccess.EntityConfigura
         {
             book.HasKey(x => x.Id).IsClustered(false);
 
-            book.HasIndex(x => x.ISBN).IsUnique(); 
+            book.HasIndex(x => x.ISBN).IsUnique();
+
+            book.HasQueryFilter(w => w.DeletedAt == null);
 
             book.HasIndex(x => new { x.ISBN, x.DeletedAt }).IsUnique().IsClustered(false);
 

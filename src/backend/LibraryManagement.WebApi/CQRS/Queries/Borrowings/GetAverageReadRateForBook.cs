@@ -11,18 +11,12 @@ namespace LibraryManagement.WebApi.CQRS.Queries.Borrowings
     {
         private readonly GetAverageReadRateForBookValidator _validator = new();
 
-        public GetAverageReadRateForBook(DateTime startDate, DateTime endDate, string isbn)
+        public GetAverageReadRateForBook(string isbn)
         {
-            StartDate = startDate;
-            EndDate = endDate;
             Isbn = isbn;
 
             _validator.ValidateAndThrow(this);
         }
-
-        public DateTime StartDate { get; set; }
-
-        public DateTime EndDate { get; set; }
 
         public string Isbn { get; set; }
     }
@@ -31,8 +25,6 @@ namespace LibraryManagement.WebApi.CQRS.Queries.Borrowings
     {
         public GetAverageReadRateForBookValidator()
         {
-            RuleFor(x => x.StartDate).NotEmpty().NotNull();
-            RuleFor(x => x.EndDate).NotEmpty().NotNull();
             RuleFor(x => x.Isbn).NotEmpty().NotNull();
         }
     }

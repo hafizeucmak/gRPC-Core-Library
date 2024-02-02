@@ -3,6 +3,7 @@ using Google.Protobuf.WellKnownTypes;
 using LibraryManagement.BorrowingGrpcService;
 using LibraryManagement.WebApi.GrpcClients.Borrows;
 using LibraryManagement.WebApi.Models;
+using Mapster;
 using MediatR;
 
 namespace LibraryManagement.WebApi.CQRS.Queries.Borrowings
@@ -11,20 +12,17 @@ namespace LibraryManagement.WebApi.CQRS.Queries.Borrowings
     {
         private readonly GetTopBorrowersWithinSpecifiedTimeframeValidator _validator = new();
 
-        public GetTopBorrowersWithinSpecifiedTimeframe(DateTime startDate, DateTime endDate, int expectedTopBorrowerCount)
+        public GetTopBorrowersWithinSpecifiedTimeframe(DateTime startDate, DateTime endDate)
         {
             StartDate = startDate;
             EndDate = endDate;
-            ExpectedTopBorrowerCount = expectedTopBorrowerCount;
-
+            
             _validator.ValidateAndThrow(this);
         }
 
         public DateTime StartDate { get; set; }
 
         public DateTime EndDate { get; set; }
-
-        public int ExpectedTopBorrowerCount { get; set; }
     }
 
     public class GetTopBorrowersWithinSpecifiedTimeframeValidator : AbstractValidator<GetTopBorrowersWithinSpecifiedTimeframe>
@@ -33,7 +31,6 @@ namespace LibraryManagement.WebApi.CQRS.Queries.Borrowings
         {
             RuleFor(x => x.StartDate).NotEmpty().NotNull();
             RuleFor(x => x.EndDate).NotEmpty().NotNull();
-            RuleFor(x => x.ExpectedTopBorrowerCount).GreaterThan(0);
         }
     }
 
@@ -50,20 +47,13 @@ namespace LibraryManagement.WebApi.CQRS.Queries.Borrowings
         {
             var request = new TopBorrowersRequest()
             {
-                StartDate = query.StartDate.ToTimestamp(),
-                EndDate = query.EndDate.ToTimestamp(),
-                ExpectedTopBorrowerCount = query.ExpectedTopBorrowerCount
+                StartDate = query.StartDate.ToUniversalTime().ToTimestamp(),
+                EndDate = query.EndDate.ToUniversalTime().ToTimestamp(),
             };
 
             var results = await _borrowingServiceClient.GetTopBorrowersWithinSpecifiedTimeframe(request);
 
-            //TODO: map
-            return results.TopBorrowers.Select(x => new TopBorrowersWithinTimeframeDTO
-            {
-                UserName = x.UserName,
-                UserEmail = x.UserEmail,
-                BorrowedBookCount = x.BorrowedBookCount,
-            });
+            return results.TopBorrowers.Adapt<IEnumerable<TopBorrowersWithinTimeframeDTO>>();
         }
     }
 }

@@ -15,6 +15,8 @@ namespace LibraryManagement.BorrowingGrpcService.Data.DataAccess.EntityConfigura
                 .IsUnique()
                 .IsClustered(false);
 
+            user.HasQueryFilter(w => w.DeletedAt == null);
+
             user.Property(x => x.UserName)
                 .IsRequired()
                 .HasMaxLength(DbContextConstants.MAX_LENGTH_FOR_PERSON_NAMES);

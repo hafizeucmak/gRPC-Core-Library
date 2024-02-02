@@ -64,8 +64,6 @@ message BookCopiesAvailabilityResponse {
 message TopBorrowersRequest {
 	google.protobuf.Timestamp startDate = 1;
 	google.protobuf.Timestamp endDate = 2;
-	int32 expectedTopBorrowerCount = 3;
-
 }
 
 message TopBorrowerDetail
@@ -103,7 +101,8 @@ message AlsoBorrowedBookDetail {
   string title = 1;
   string author = 2;
   string publisher = 3;
-}
+  string isbn = 4;
+} 
 
 message AlsoBorrowedBooksRequest {
 	string isbn = 1;

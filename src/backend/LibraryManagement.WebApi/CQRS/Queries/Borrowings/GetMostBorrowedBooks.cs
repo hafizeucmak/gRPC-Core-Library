@@ -2,6 +2,7 @@
 using LibraryManagement.BorrowingGrpcService;
 using LibraryManagement.WebApi.GrpcClients.Borrows;
 using LibraryManagement.WebApi.Models;
+using Mapster;
 using MediatR;
 using Newtonsoft.Json;
 
@@ -32,14 +33,7 @@ namespace LibraryManagement.WebApi.CQRS.Queries.Borrowings
 
             var results = await _borrowingServiceClient.GetMostBorrowedBooks(new MostBorrowedBooksRequest() { QueryOptions = serializedOptions });
 
-            return results.MostBorrowedBooks.Select(x => new MostBorrowedBooksDTO 
-                                                   { 
-                                                      Title = x.Title,
-                                                      AuthorName = x.Author,
-                                                      PublisherName = x.Publisher,
-                                                      Isbn = x.Isbn,
-                                                      BorrowedCount = x.BorrowedCount,
-                                                   });
+            return results.MostBorrowedBooks.Adapt<IEnumerable<MostBorrowedBooksDTO>>();    
         }
     }
 }

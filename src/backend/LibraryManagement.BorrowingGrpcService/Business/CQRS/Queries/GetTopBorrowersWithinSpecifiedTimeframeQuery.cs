@@ -2,7 +2,6 @@
 using LibraryManagement.BorrowingGrpcService.Data.DataAccess.DbContexts;
 using LibraryManagement.BorrowingGrpcService.Domains;
 using LibraryManagement.Common.GenericRepositories;
-using Mapster;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,9 +10,8 @@ namespace LibraryManagement.BorrowingGrpcService.Business.CQRS.Queries
     public class GetTopBorrowersWithinSpecifiedTimeframeQuery : IRequest<TopBorrowersResponse>
     {
         private readonly GetTopBorrowersWithinSpecifiedTimeframeQueryValidator _validator = new();
-        public GetTopBorrowersWithinSpecifiedTimeframeQuery(DateTime startDate, DateTime endDate, int expectedTopBorrowerCount)
+        public GetTopBorrowersWithinSpecifiedTimeframeQuery(DateTime startDate, DateTime endDate)
         {
-            ExpectedTopBorrowerCount = expectedTopBorrowerCount;
             StartDate = startDate;
             EndDate = endDate;
 
@@ -23,8 +21,6 @@ namespace LibraryManagement.BorrowingGrpcService.Business.CQRS.Queries
         public DateTime StartDate { get; set; }
 
         public DateTime EndDate { get; set; }
-
-        public int ExpectedTopBorrowerCount { get; set; }
     }
 
     public class GetTopBorrowersWithinSpecifiedTimeframeQueryValidator : AbstractValidator<GetTopBorrowersWithinSpecifiedTimeframeQuery>
@@ -33,7 +29,6 @@ namespace LibraryManagement.BorrowingGrpcService.Business.CQRS.Queries
         {
             RuleFor(x => x.StartDate).NotEmpty().NotNull();
             RuleFor(x => x.EndDate).NotEmpty().NotNull();
-            RuleFor(x => x.ExpectedTopBorrowerCount).GreaterThan(0);
         }
     }
 
@@ -51,27 +46,26 @@ namespace LibraryManagement.BorrowingGrpcService.Business.CQRS.Queries
 
         public async Task<TopBorrowersResponse> Handle(GetTopBorrowersWithinSpecifiedTimeframeQuery query, CancellationToken cancellationToken)
         {
-            //TODO: mape bir bak
-
-            var topBorrowerIds = await _genericWriteRepository.GetAll<Borrowing>()
-                                                      .Where(x => x.BorrowDate.Date >= query.StartDate.Date && x.BorrowDate <= query.EndDate.Date)
-                                                      .GroupBy(x => x.UserId)
-                                                      .Select(x => new { UserId = x.Key, BorrowCount = x.Count() })
+            var topBorrowersQuery = await Task.Run(() => _genericWriteRepository.GetAll<Borrowing>()
+                                                      .Where(x => x.BorrowDate.Date >= query.StartDate.Date
+                                                                && x.BorrowDate <= query.EndDate.Date
+                                                                && x.BookCopyId  == null)
+                                                      .GroupBy(x => new { x.UserId, x.User.FullName, x.User.Email })
+                                                      .Select(x => new { 
+                                                          UserId = x.Key.UserId, 
+                                                          UserName = x.Key.FullName, 
+                                                          UserEmail = x.Key.Email, 
+                                                          BorrowCount = x.Count() })
                                                       .Where(x => x.BorrowCount > 0)
                                                       .OrderByDescending(x => x.BorrowCount)
-                                                      .Select(x => x.UserId)
-                                                      .Take(query.ExpectedTopBorrowerCount)
-                                                      .ToListAsync(cancellationToken); //TODO check tolistsiz
+                                                      .Select(x => new TopBorrowerDetail
+                                                      {
+                                                          UserEmail = x.UserEmail,
+                                                          UserName = x.UserName,
+                                                          BorrowedBookCount = x.BorrowCount
+                                                      }));
 
-            var topBorrowers = _genericWriteRepository.GetAll<User>()
-                                               .Where(x => topBorrowerIds.Contains(x.Id))
-                                               .Select(x => new TopBorrowerDetail
-                                               {
-                                                   UserEmail = x.Email,
-                                                   UserName = x.FullName
-                                               });
-
-            return topBorrowers.Adapt<TopBorrowersResponse>();
+            return new TopBorrowersResponse() { TopBorrowers = { topBorrowersQuery } };
         }
     }
 }

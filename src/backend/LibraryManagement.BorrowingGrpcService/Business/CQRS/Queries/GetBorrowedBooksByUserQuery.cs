@@ -58,22 +58,22 @@ namespace LibraryManagement.BorrowingGrpcService.Business.CQRS.Queries
             {
                 throw new ResourceNotFoundException($"{nameof(user)} not found with {nameof(query.UserEmail)} is equal to {query.UserEmail}");
             }
-            var borrowings = await _genericWriteRepository.GetAll<Borrowing>()
+            var borrowingsQuery = await Task.Run(() => _genericWriteRepository.GetAll<Borrowing>()
                                                      .Where(x => x.BorrowDate.Date >= query.StartDate.Date
-                                                              && x.BorrowDate <= query.EndDate.Date
-                                                              && x.UserId.Equals(user.Id))
+                                                              && x.BorrowDate.Date <= query.EndDate.Date
+                                                              && x.UserId.Equals(user.Id)
+                                                              && x.BookCopyId == null)
                                                      .Select(x => new BorrowedBookDetail()
                                                      {
                                                          Title = x.Book.Title,
                                                          Author = x.Book.Author,
                                                          Publisher = x.Book.Publisher,
                                                          PageCount = x.Book.PageCount,
-                                                         BorrowedDate = x.BorrowDate.ToTimestamp(),
-                                                     }).ToListAsync(cancellationToken);
-            //TODO: mapster
+                                                         BorrowedDate = x.BorrowDate.Date.ToUniversalTime().ToTimestamp(),
+                                                     }));
             return new BorrowedBooksByUserResponse
             {
-                BorrowedBooks = { borrowings }
+                BorrowedBooks = { borrowingsQuery }
             };
         }
     }
