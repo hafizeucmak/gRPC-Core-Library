@@ -81,7 +81,6 @@ namespace LibraryManagement.BorrowingGrpcService
         public void AddQueueLogEventHandlers(IServiceCollection services)
         {
             services.AddScoped<RegisteredEventCommands>();
-
             // services.AddTransient<IRequestHandler<QueueEventCommand<BookCreatedEvent>>, QueueEventCommandHandler<BookCreatedEvent>>();
         }
 
@@ -91,9 +90,6 @@ namespace LibraryManagement.BorrowingGrpcService
             CheckSeedServiceTypesEnumValues(services, seederTypes);
 
             services.AddScoped<ISeedInitializer, SeedInitializer>();
-            //TODO: think about it auto migration also
-            // services.AddScoped<RecreateDBHandler>();
-
             AddSeedServiceContainer(services, seederTypes);
             RegisterSeedServices(services, seederTypes);
         }

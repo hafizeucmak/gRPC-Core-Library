@@ -29,7 +29,7 @@ namespace LibraryManagement.Common.GenericRepositories
 
             if (entity == null)
             {
-                //TODO: exception handle
+                //TODO: custom exception handle
                 throw new ArgumentNullException($"Entity of type {typeof(TEntity).Name} with ID {id} not found.");
             }
             return entity;

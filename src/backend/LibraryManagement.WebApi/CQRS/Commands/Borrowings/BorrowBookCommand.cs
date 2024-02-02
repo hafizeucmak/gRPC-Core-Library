@@ -61,7 +61,7 @@ namespace LibraryManagement.WebApi.CQRS.Commands.Borrowings
 
             if (book == null)
             {
-                //TODO: use custom email excaption for API service
+                //TODO: use custom email exception for API service
                 throw new ArgumentNullException($"{nameof(book)} not found with {nameof(command.Isbn)} is equal to {command.Isbn}");
             }
 
@@ -69,7 +69,7 @@ namespace LibraryManagement.WebApi.CQRS.Commands.Borrowings
 
             if (user == null)
             {
-                //TODO: use custom email excaption for API service
+                //TODO: use custom email exception for API service
                 throw new ArgumentNullException($"{nameof(user)} not found with {nameof(command.UserEmail)} is equal to {command.UserEmail}");
             }
 
