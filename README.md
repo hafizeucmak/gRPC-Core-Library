@@ -18,8 +18,10 @@ This repository contains the source code for a Library Management System, which 
 
 ##  REPOSITORY STRUCTURE
 
+ 
   └───## LibraryManagement.WebApi
-        └──────Area
+          
+           └──────Area
         
                 └──────Controllers
                 
