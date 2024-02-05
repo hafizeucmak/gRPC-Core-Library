@@ -20,10 +20,15 @@ This repository contains the source code for a Library Management System, which 
 
   └───## LibraryManagement.WebApi
         └──────Area
+        
                 └──────Controllers
+                
                  └──────BorrowingsController
+                 
                  └──────UsersController
+                 
                  └──────AssetManagementController
+                 
                  └──────SeedsController
 
 * BorrowingsController has 6 http get method for expected conditions
