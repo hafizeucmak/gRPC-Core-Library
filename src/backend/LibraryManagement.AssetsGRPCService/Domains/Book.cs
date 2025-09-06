@@ -10,11 +10,11 @@ namespace LibraryManagement.AssetsGRPCService.Domains
         private readonly HashSet<BookCopy> _bookCopies = new();
 
         public Book(string title,
-                       string author,
-                       string isbn,
-                       string publisher,
-                       int publicationYear,
-                       int pageCount)
+                    string author,
+                    string isbn,
+                    string publisher,
+                    int publicationYear,
+                    int pageCount)
         {
             Title = title;
             Author = author;

@@ -6,6 +6,8 @@ namespace LibraryManagement.Common.Base
     {
         public int Code { get; set; }
 
+        public string ErrorCode { get; set; }
+
         public string? Message { get; set; }
 
         public string? InnerException { get; set; }

@@ -3,7 +3,7 @@ using Grpc.Core.Interceptors;
 using LibraryManagement.Common.RabbitMQEvents;
 using Microsoft.EntityFrameworkCore;
 
-namespace LibraryManagement.Common.Filters
+namespace LibraryManagement.Common.Interceptors
 {
     public class TransactionManagerInterceptor<TDbContext> : Interceptor
         where TDbContext : DbContext

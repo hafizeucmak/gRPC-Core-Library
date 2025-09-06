@@ -56,7 +56,10 @@ namespace LibraryManagement.Common.Extensions
         public static void ConfigureExceptionManager(this IServiceCollection services)
         {
             var exceptionManagerConfig = GetExceptionManagerConfig();
-            services.AddSingleton<IExceptionManager>(manager => new GrpcExceptionManager(exceptionManagerConfig));
+
+            services.AddSingleton<IDictionary<Type, StatusCode>>(exceptionManagerConfig);
+
+            services.AddSingleton<IExceptionManager, ExceptionManager>();
         }
 
         public static Dictionary<Type, StatusCode> GetExceptionManagerConfig()
@@ -70,6 +73,12 @@ namespace LibraryManagement.Common.Extensions
 
         public static void AddExceptionManager(this IServiceCollection services)
         {
+            services.AddSingleton<IDictionary<Type, StatusCode>>(new Dictionary<Type, StatusCode>
+            {
+                { typeof(ResourceNotFoundException), StatusCode.NotFound },
+                { typeof(AlreadyExistsException), StatusCode.AlreadyExists }
+            });
+
             services.AddSingleton<IExceptionManager, ExceptionManager>();
         }
 

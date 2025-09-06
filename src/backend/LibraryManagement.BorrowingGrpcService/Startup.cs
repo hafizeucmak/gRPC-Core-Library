@@ -5,8 +5,7 @@ using LibraryManagement.BorrowingGrpcService.Services;
 using LibraryManagement.Common.Configurations;
 using LibraryManagement.Common.Extensions;
 using LibraryManagement.Common.Extensions.Reflection;
-using LibraryManagement.Common.Filters;
-using LibraryManagement.Common.Middlewares;
+using LibraryManagement.Common.Interceptors;
 using LibraryManagement.Common.RabbitMQEvents;
 using LibraryManagement.Common.SeedManagements.Enums;
 using Mapster;
@@ -43,6 +42,7 @@ namespace LibraryManagement.BorrowingGrpcService
             services.AddGrpc(c =>
             {
                 c.Interceptors.Add<TransactionManagerInterceptor<BorrowingBaseDbContext>>();
+                c.Interceptors.Add<GrpcRequestResponseLoggingInterceptor>();
                 c.Interceptors.Add<GrpcGlobalExceptionHandlerInterceptor>();
             });
 
@@ -60,8 +60,6 @@ namespace LibraryManagement.BorrowingGrpcService
             services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
 
             TypeAdapterConfig.GlobalSettings.Scan(Assembly.GetAssembly(typeof(BorrowedBook)) ?? throw new ArgumentNullException($"{nameof(BorrowedBook)} not found."));
-
-
         }
 
         public void Configure(IApplicationBuilder app)

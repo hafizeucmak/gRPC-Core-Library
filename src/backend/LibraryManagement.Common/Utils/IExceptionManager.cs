@@ -1,9 +1,10 @@
-﻿using LibraryManagement.Common.Base;
+﻿using Grpc.Core;
+using LibraryManagement.Common.Base;
 
 namespace LibraryManagement.Common.Utils
 {
     public interface IExceptionManager
     {
-        IErrorResponse ConstructExceptionModel(Exception exception);
+        ErrorResponse Handle(Exception ex, out StatusCode grpcStatus, out int httpStatus);
     }
 }

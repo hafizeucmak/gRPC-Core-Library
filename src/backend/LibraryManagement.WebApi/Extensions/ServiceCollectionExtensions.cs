@@ -3,6 +3,7 @@ using Grpc.Net.Client.Configuration;
 using LibraryManagement.AssetsGRPCService;
 using LibraryManagement.BorrowingGrpcService;
 using LibraryManagement.Common.Configurations;
+using LibraryManagement.Common.ExceptionManagements;
 using LibraryManagement.Common.Utils;
 using LibraryManagement.UserGrpcService;
 using LibraryManagement.WebApi.GrpcClients.Assets;
@@ -70,7 +71,15 @@ namespace LibraryManagement.WebApi.Extensions
 
         public static void AddExceptionManager(this IServiceCollection services)
         {
-            services.AddSingleton<IExceptionManager, ExceptionManager>();
+            services.AddSingleton<IExceptionManager>(sp =>
+            {
+                var config = new Dictionary<Type, StatusCode>
+                {
+                    { typeof(ResourceNotFoundException), StatusCode.NotFound },
+                    { typeof(AlreadyExistsException), StatusCode.AlreadyExists }
+                };
+                return new ExceptionManager(config);
+            });
         }
 
         public static void RegisterGRPCServiceClients(this IServiceCollection services)

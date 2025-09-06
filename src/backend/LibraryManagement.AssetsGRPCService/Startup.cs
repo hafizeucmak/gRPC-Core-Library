@@ -3,8 +3,7 @@ using LibraryManagement.AssetsGRPCService.Data.DataAccess.DbContexts;
 using LibraryManagement.AssetsGRPCService.Services;
 using LibraryManagement.Common.Configurations;
 using LibraryManagement.Common.Extensions;
-using LibraryManagement.Common.Filters;
-using LibraryManagement.Common.Middlewares;
+using LibraryManagement.Common.Interceptors;
 using LibraryManagement.Common.RabbitMQEvents;
 using MediatR;
 using System.Reflection;
@@ -39,6 +38,7 @@ namespace LibraryManagement.AssetsGRPCService
             services.AddGrpc(c =>
             {
                 c.Interceptors.Add<TransactionManagerInterceptor<AssetBaseDbContext>>();
+                c.Interceptors.Add<GrpcRequestResponseLoggingInterceptor>();
                 c.Interceptors.Add<GrpcGlobalExceptionHandlerInterceptor>();
             });
 
@@ -49,7 +49,7 @@ namespace LibraryManagement.AssetsGRPCService
 
             services.AddRabbitMQEventHub(configurationOptions);
 
-            services.ConfigureExceptionManager();
+            services.AddExceptionManager();
 
             AddQueueLogEventHandlers(services);
         }
