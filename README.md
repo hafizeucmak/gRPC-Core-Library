@@ -1,53 +1,142 @@
-### Library Management System
+# 📚 Library Management System (gRPC + CQRS + Microservices)
 
-This repository contains the source code for a Library Management System, which consists of two main components: a Web API for managing books, users and borrowings, and three separate gRPC services for handling book-related and borrowing-related functionalities.
+## 🚀 Overview
+This project is a **microservice-oriented library management system** built with **gRPC** for inter-service communication and **ASP.NET Core WebAPI** as the API gateway.  
+The system is designed with a **CQRS pattern**, **clean architecture principles**, and focuses on **scalability, performance, and maintainability**.  
+It was developed as part of an **assessment project** to demonstrate microservice best practices.
 
+## 🏗️ Architecture
+
+### API Gateway (WebAPI Layer)
+- Communicates with gRPC services.
+- Implements **CQRS** with separate **Commands** and **Queries**.
+- Includes **Exception Handling Middleware** for structured error responses.
+- Read and write repositories are separated → enables **future read replicas** for analytics/performance.
+- **Customized Logging** with **Serilog** for structured and queryable logs.
+
+### Microservices
+- **Assets Service** – manages books and copies.
+- **Borrowings Service** – handles borrow/return operations.
+- **Users Service** – manages user profiles.
+- Services are developed in a **microservice style** within the same solution for demonstration purposes. Each service would typically be a separate repository with its own deployments.
+
+### Common Layer
+- Shared contracts, exception manager, and utilities.
+- Facilitates consistency across services and avoids duplicate code.
+
+### Domain Layer
+- Entities enforce invariants using **FluentValidation**.
+- Entities encapsulate behavior (e.g., `Book.UpdateStatusAsBorrowed()`).
+- Fields that should not be mutated externally are marked as **private setters**.
+- Validation rules are defined **inside the entity**, ensuring domain consistency.
+
+### Infrastructure Layer
+- Entity Framework Core with **clustered/non-clustered indexes**.
+- Each service owns its own database → ensures **bounded context** and **data ownership**.
+- Database configurations include **constraints and indexes** for performance optimization.
+
+### Event-Driven Architecture
+- Implemented with **RabbitMQ**.
+- Example:
+  - When a book is created in the **Assets Service**, a `BookCreatedEvent` is published.
+  - The **Borrowings Service** consumes this event to maintain consistency in its local database.
+- Event consumer implementation was planned but not completed due to time constraints.
+
+### Transaction Management Middleware
+- Wraps requests in a **transaction scope**.
+- On failure → transaction rollback.
+- Rolled-back transactions **do not trigger events**, ensuring **eventual consistency**.
+
+---
+
+## 🗂️ Repository Structure
 ```
-│   
-└───App
-│   └───LibraryManagement.WebApi
-└───Common   
-└───Services
-│   └───LibraryManagement.BorrowingGrpcService
-│   └───LibraryManagement.AssetsGrpcService
-│   └───LibraryManagement.UserGrpcService
-│   
-│
-└───Tests
+LibraryManagement/
+├── LibraryManagement.WebApi/ # API Gateway, CQRS, Middleware
+├── LibraryManagement.Common/ # Shared utilities, Exception Manager
+├── LibraryManagement.AssetsGRPCService/
+│ ├── Domains/ # Entities, Domain Logic
+│ ├── Data/ # EF Core DbContext, Configurations
+│ └── Services/ # gRPC Services & Handlers
+├── LibraryManagement.BorrowingsGRPCService/
+│ ├── Domains/
+│ ├── Data/
+│ └── Services/
+├── LibraryManagement.UsersGRPCService/
+│ ├── Domains/
+│ ├── Data/
+│ └── Services/
+└── Tests/ # (planned) Unit and Integration Tests
 ```
 
-##  REPOSITORY STRUCTURE
 
- 
-  └───## LibraryManagement.WebApi
-          
-           └──────Area
-        
-                └──────Controllers
-                
-                 └──────BorrowingsController
-                 
-                 └──────UsersController
-                 
-                 └──────AssetManagementController
-                 
-                 └──────SeedsController
+---
 
-* BorrowingsController has 6 http get method for expected conditions
-    * [getMostBorrowedBooks] => What are the most borrowed books? 
-    * [getBookCopiesAvailability] => How many copies of a particular book are currently borrowed/available?
-    * [getBorrowersAlsoBorrowedBooks] => What other books were borrowed by individuals that borrowed a particular book? 
-    * [getTopBorrowersWithinSpecifiedTimeframe] => Which users borrowed the most books in a given time frame?
-    * [getBorrowedBooksByUser] => What books has an individual borrowed in each time frame?
-    * [getAverageReadRateForBook] => Roughly, what is the read rate (pages per day) for a particular book, assuming users start reading a book as soon as they borrow it and return it as soon as they are done reading it?
+## ✨ Features
+- gRPC-based inter-service communication.
+- WebAPI layer with **CQRS** and repository segregation (**read/write separation**).
+- Structured **exception handling** (interceptors in gRPC, middleware in WebAPI).
+- **Serilog logging** with structured, queryable logs.
+- Mapster for lightweight and efficient object mapping.
+- FluentValidation for **domain invariants**.
+- RabbitMQ for **event-driven communication**.
+- Database optimizations with **indexes, constraints, and query shaping**.
+- Clustered indexes on frequently queried fields.
+- Shared **Exception Manager** ensures consistent error structures across services.
 
+---
 
+## ⚡ Performance Considerations
+- **Efficient Queries**
+  - Queries only project necessary fields (no over-fetching).
+  - Critical fields indexed with clustered/non-clustered indexes.
+  - Example: calculating **Top Borrowers** with optimized grouping, filtering, and ordering.
 
-## HOW TO RUN
+- **Pagination & Filtering**
+  - Used **DQB (Dynamic Query Builder)** library for DB-level filtering & pagination.
+  - Avoided in-memory queries to reduce performance bottlenecks.
 
-* The SeedsController's [HttpPost] method at `api/Seeds/Seed` is responsible for initiating a crucial operation. When invoked, this operation triggers the creation of a database and subsequently inserts seed data into it.
+---
 
-* The quantity of seed data can be adjusted by modifying the count parameter within the codebase. The root location of the seed service is situated within `LibraryManagement.BorrowGrpcService.Data.DataAccess.SeedData`.
+## 🔮 Future Enhancements
+- **Unit Testing**
+  - Add comprehensive unit tests for services, handlers, and repositories.
+  - Integrate tests into **CI/CD pipelines**.
+- **Caching**
+  - Introduce caching for non-frequently changing data (e.g., user details).
+- **Containerization & Deployment**
+  - Dockerize each service and configure deployment pipelines.
+  - CI/CD pipelines to build, test, and deploy services automatically.
+- **Security**
+  - Add **JWT-based authentication** and **authorization policies**.
+  - Enforce role-based access for APIs and gRPC calls.
+- **Event Consumers**
+  - Implement consumers for published RabbitMQ events to complete **event-driven workflows**.
+
+---
+
+## 🛠️ Tech Stack
+- **.NET 8**, **ASP.NET Core WebAPI**
+- **gRPC** for RPC communication
+- **Entity Framework Core** with SQL Server
+- **RabbitMQ** for event-driven messaging
+- **Serilog** for structured logging
+- **Mapster** for object mapping
+- **FluentValidation** for validation
+- **CQRS pattern** with read/write separation
+
+---
+
+## 🏃 How to Run
+
+1. **Select Multiple Projects**  
+   Run all gRPC services along with the Web API.  
+
+2. **Configure Local Database**  
+   Update your local database credentials in `appsettings.json`.  
+
+4. **Seed Database**  
+   Execute the `POST /api/Seeds/Seed` endpoint in `SeedsController` to create the database and insert initial seed data.  
 
 ## ACKNOWLEDMENTS 
 
@@ -57,16 +146,3 @@ This repository contains the source code for a Library Management System, which 
 
 * PLEASE NOTE that the format for DynamicQueryOptions parameters is as follows: for pagination, use `&offset=0&count=10`, and for filtering, use `&o=Equals&p=foo&v=bar`. After referring to the documentation at https://oplog.github.io/DynamicQueryBuilder/dqb.html, make sure to use `&` instead of `?` as explained in the document.
 
-## ADDITIONAL NOTES
-
-
-In the project, I've adopted a microservices architecture approach, allowing flexibility for potential changes to the database in the future and enabling deployment on different servers. Each service within the architecture communicates through a RabbitMQ event-driven architecture. While the architecture is not fully implemented yet, you may notice some unimplemented methods in the project.
-
-I've focused on implementing:
-
-*  Custom exception management to handle errors gracefully within the application (is not fully implemented yet).
-*  Transaction management to ensure data integrity, where any exceptions occurring after a transaction has been committed won't trigger event notifications to consumers.
-
-* The separation of the Library Management System into asset, user, and borrowing services also facilitates event-driven communication between these components. This means that when significant events occur, such as the creation of a new book or copy, events are generated and propagated to other services, such as the Borrowing service. This event-driven approach ensures loose coupling between services and enables asynchronous communication, which enhances system responsiveness and scalability.
-
-* Splitting the Library Management System into distinct services for managing assets (books and copies), users, and borrowings is a strategic decision aimed at improving system performance as user traffic grows in the future. This separation allows for more efficient resource allocation, better scalability, and improved handling of concurrent user requests, ultimately enhancing the overall performance of the system.
