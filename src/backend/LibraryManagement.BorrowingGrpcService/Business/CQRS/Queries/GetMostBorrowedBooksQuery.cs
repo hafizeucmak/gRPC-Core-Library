@@ -6,6 +6,7 @@ using LibraryManagement.BorrowingGrpcService.Domains;
 using LibraryManagement.Common.GenericRepositories;
 using Mapster;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 
 namespace LibraryManagement.BorrowingGrpcService.Business.CQRS.Queries
@@ -35,32 +36,31 @@ namespace LibraryManagement.BorrowingGrpcService.Business.CQRS.Queries
         {
             var dynamicQueryOptions = JsonConvert.DeserializeObject<DynamicQueryOptions>(query.QueryOptions);
 
-            var mostBorrowedBooks = await Task.Run(() => _genericWriteRepository.GetAll<Borrowing>()
-                                                             .Where(x=> x.BookCopyId == null)
-                                                             .GroupBy(x => new { x.BookId, x.Book.Title, x.Book.Publisher, x.Book.Author, x.Book.ISBN })
-                                                             .Select(x => new 
-                                                             { 
-                                                                 BookId = x.Key, 
-                                                                 Title = x.Key.Title, 
-                                                                 Publisher = x.Key.Publisher,
-                                                                 Author = x.Key.Author,
-                                                                 ISBN = x.Key.ISBN,
-                                                                 Count = x.Count(),
+            var groupedQuery = _genericWriteRepository.GetAll<Borrowing>()
+                               .Where(x => x.BookCopyId == null)
+                               .GroupBy(x => new { x.BookId, x.Book.Title, x.Book.Publisher, x.Book.Author, x.Book.ISBN })
+                               .Select(g => new
+                               {
+                                   g.Key.BookId,
+                                   g.Key.Title,
+                                   g.Key.Author,
+                                   g.Key.Publisher,
+                                   Count = g.Count()
+                               });
 
-                                                             }).Where(x=> x.Count > 0)
-                                                               .OrderByDescending(x => x.Count)
-                                                               .Select(x => new BorrowedBook
-                                                               {
-                                                                   Title = x.Title,
-                                                                   Author = x.Author,
-                                                                   Publisher = x.Publisher,
-                                                                   Isbn = x.ISBN,
-                                                                   BorrowedCount = x.Count
-                                                               }));
+            // Now apply dynamic filter on anonymous type
+            var filtered = groupedQuery.ApplyFilters(dynamicQueryOptions);
 
-            var filteredBorrowedBooks = mostBorrowedBooks.ApplyFilters(dynamicQueryOptions);
+            var result = filtered.Select(x => new BorrowedBook
+                                {
+                                    Title = x.Title,
+                                    Author = x.Author,
+                                    Publisher = x.Publisher,
+                                    BorrowedCount = x.Count
+                                }).ToList();
 
-            return new MostBorrowedBooksResponse() { MostBorrowedBooks = { filteredBorrowedBooks } };
+
+            return new MostBorrowedBooksResponse() { MostBorrowedBooks = { result } };
         }
     }
 }

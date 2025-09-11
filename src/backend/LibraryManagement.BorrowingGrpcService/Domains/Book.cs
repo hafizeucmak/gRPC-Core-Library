@@ -67,6 +67,11 @@ namespace LibraryManagement.BorrowingGrpcService.Domains
             Update();
         }
 
+        public void AddBookCopy(BookCopy copy)
+        {
+            _bookCopies.Add(copy);
+        }
+
         public class BookValidator : AbstractValidator<Book>
         {
             public BookValidator()
