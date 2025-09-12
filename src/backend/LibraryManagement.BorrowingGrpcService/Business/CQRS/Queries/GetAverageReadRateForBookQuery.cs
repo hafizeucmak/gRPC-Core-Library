@@ -32,10 +32,10 @@ namespace LibraryManagement.BorrowingGrpcService.Business.CQRS.Queries
     public class GetAverageReadRateForBookQueryHandler : IRequestHandler<GetAverageReadRateForBookQuery, ReadRateResponse>
     {
         private readonly IGenericWriteRepository<BorrowingBaseDbContext> _genericWriteRepository;
-        private readonly ILogger<GetMostBorrowedBooksQuery> _logger;
+        private readonly ILogger<GetAverageReadRateForBookQuery> _logger;
 
         public GetAverageReadRateForBookQueryHandler(IGenericWriteRepository<BorrowingBaseDbContext> genericWriteRepository,
-                                                       ILogger<GetMostBorrowedBooksQuery> logger)
+                                                       ILogger<GetAverageReadRateForBookQuery> logger)
         {
             _logger = logger;
             _genericWriteRepository = genericWriteRepository;
@@ -58,16 +58,21 @@ namespace LibraryManagement.BorrowingGrpcService.Business.CQRS.Queries
 
             if (borrowingsCount == 0)
             {
-                throw new ResourceNotFoundException($"{nameof(book)} never borrowed.");
+                return new ReadRateResponse { ReadRate = 0 };
             }
 
-            var totalBorrowDays = await borrowingsOfBook.SumAsync(x => EF.Functions.DateDiffDay(x.BorrowDate, x.ReturnDate));
+            var totalBorrowDays = await borrowingsOfBook.SumAsync(x => (x.ReturnDate!.Value - x.BorrowDate).Days);
+
+            if (totalBorrowDays == 0)
+            {
+                return new ReadRateResponse { ReadRate = 0 };
+            }
 
             var totalReadPageCount = borrowingsCount * book.PageCount;
 
             var result = ((double)totalReadPageCount / totalBorrowDays);
 
-            return new ReadRateResponse() { ReadRate = result ?? 0 };
+            return new ReadRateResponse() { ReadRate = result  };
         }
     }
 }

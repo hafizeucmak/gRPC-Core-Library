@@ -37,10 +37,10 @@ namespace LibraryManagement.BorrowingGrpcService.Business.CQRS.Queries
     public class GetBorrowersAlsoBorrowedBooksQueryHandler : IRequestHandler<GetBorrowersAlsoBorrowedBooksQuery, AlsoBorrowedBooksResponse>
     {
         private readonly IGenericWriteRepository<BorrowingBaseDbContext> _genericWriteRepository;
-        private readonly ILogger<GetMostBorrowedBooksQuery> _logger;
+        private readonly ILogger<GetBorrowersAlsoBorrowedBooksQuery> _logger;
 
         public GetBorrowersAlsoBorrowedBooksQueryHandler(IGenericWriteRepository<BorrowingBaseDbContext> genericWriteRepository,
-                                                       ILogger<GetMostBorrowedBooksQuery> logger)
+                                                       ILogger<GetBorrowersAlsoBorrowedBooksQuery> logger)
         {
             _logger = logger;
             _genericWriteRepository = genericWriteRepository;

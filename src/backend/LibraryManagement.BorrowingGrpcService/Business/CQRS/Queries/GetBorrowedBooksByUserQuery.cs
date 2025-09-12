@@ -58,7 +58,8 @@ namespace LibraryManagement.BorrowingGrpcService.Business.CQRS.Queries
             {
                 throw new ResourceNotFoundException($"{nameof(user)} not found with {nameof(query.UserEmail)} is equal to {query.UserEmail}");
             }
-            var borrowingsQuery = await Task.Run(() => _genericWriteRepository.GetAll<Borrowing>()
+
+            var borrowingsQuery = await _genericWriteRepository.GetAll<Borrowing>()
                                                      .Where(x => x.BorrowDate.Date >= query.StartDate.Date
                                                               && x.BorrowDate.Date <= query.EndDate.Date
                                                               && x.UserId.Equals(user.Id)
@@ -70,7 +71,8 @@ namespace LibraryManagement.BorrowingGrpcService.Business.CQRS.Queries
                                                          Publisher = x.Book.Publisher,
                                                          PageCount = x.Book.PageCount,
                                                          BorrowedDate = x.BorrowDate.Date.ToUniversalTime().ToTimestamp(),
-                                                     }));
+                                                     }).ToListAsync(cancellationToken);
+
             return new BorrowedBooksByUserResponse
             {
                 BorrowedBooks = { borrowingsQuery }

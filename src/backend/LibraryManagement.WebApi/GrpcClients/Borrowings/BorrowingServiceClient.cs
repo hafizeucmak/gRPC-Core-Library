@@ -21,11 +21,6 @@ namespace LibraryManagement.WebApi.GrpcClients.Borrows
             return await _borrowServiceClient.BorrowBookAsync(request);
         }
 
-        public async Task<BookCopiesAvailabilityResponse> GetBookCopiesAvailability(BookCopiesAvailabilityRequest request)
-        {
-            return await _borrowServiceClient.GetBookCopiesAvailabilityAsync(request);
-        }
-
         public async Task<TopBorrowersResponse> GetTopBorrowersWithinSpecifiedTimeframe(TopBorrowersRequest request)
         {
             return await _borrowServiceClient.GetTopBorrowersWithinSpecifiedTimeframeAsync(request);
@@ -39,6 +34,11 @@ namespace LibraryManagement.WebApi.GrpcClients.Borrows
         public async Task<ReadRateResponse> GetAverageReadRateForBook(ReadRateRequest request)
         {
             return await _borrowServiceClient.GetAverageReadRateForBookAsync(request);
+        }
+
+        public async Task<ReadRatesOfUsersResponse> GetAverageReadRatesOfUsers(ReadRatesOfUsersRequest request)
+        {
+            return await _borrowServiceClient.GetAverageReadRatesOfUsersAsync(request);
         }
 
         public async Task<AlsoBorrowedBooksResponse> GetBorrowersAlsoBorrowedBooks(AlsoBorrowedBooksRequest request)

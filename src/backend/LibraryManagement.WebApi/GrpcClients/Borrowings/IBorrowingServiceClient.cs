@@ -8,8 +8,6 @@ namespace LibraryManagement.WebApi.GrpcClients.Borrows
 
         Task<MostBorrowedBooksResponse> GetMostBorrowedBooks(MostBorrowedBooksRequest request);
 
-        Task<BookCopiesAvailabilityResponse> GetBookCopiesAvailability(BookCopiesAvailabilityRequest request);
-
         Task<TopBorrowersResponse> GetTopBorrowersWithinSpecifiedTimeframe(TopBorrowersRequest request);
 
         Task<BorrowedBooksByUserResponse> GetBorrowedBooksByUser(BorrowedBooksByUserRequest request);
@@ -19,5 +17,7 @@ namespace LibraryManagement.WebApi.GrpcClients.Borrows
         Task<AlsoBorrowedBooksResponse> GetBorrowersAlsoBorrowedBooks(AlsoBorrowedBooksRequest request);
 
         Task<ExecuteSeedResponse> ExecuteSeedService(ExecuteSeedRequest request);
+
+        Task<ReadRatesOfUsersResponse> GetAverageReadRatesOfUsers(ReadRatesOfUsersRequest request);
     }
 }

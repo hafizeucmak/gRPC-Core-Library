@@ -6,6 +6,7 @@ using MediatR;
 
 namespace LibraryManagement.BorrowingGrpcService.Services
 {
+    //BorrowGRPCService.BorrowGRPCServiceBase
     public class BorrowingService : BorrowGRPCService.BorrowGRPCServiceBase
     {
         private readonly ILogger<BorrowingService> _logger;
@@ -27,11 +28,6 @@ namespace LibraryManagement.BorrowingGrpcService.Services
             return await _mediator.Send(command, context.CancellationToken);
         }
 
-        public override async Task<BookCopiesAvailabilityResponse> GetBookCopiesAvailability(BookCopiesAvailabilityRequest request, ServerCallContext context)
-        {
-            return await _mediator.Send(new GetBookCopiesAvailabilityQuery(request.Isbn), context.CancellationToken);
-        }
-
         public override async Task<TopBorrowersResponse> GetTopBorrowersWithinSpecifiedTimeframe(TopBorrowersRequest request, ServerCallContext context)
         {
             return await _mediator.Send(new GetTopBorrowersWithinSpecifiedTimeframeQuery(request.StartDate.ToDateTime(), 
@@ -49,6 +45,11 @@ namespace LibraryManagement.BorrowingGrpcService.Services
         public override async Task<ReadRateResponse> GetAverageReadRateForBook(ReadRateRequest request, ServerCallContext context)
         {
             return await _mediator.Send(new GetAverageReadRateForBookQuery(request.Isbn), context.CancellationToken);
+        }
+
+        public override async Task<ReadRatesOfUsersResponse> GetAverageReadRatesOfUsers(ReadRatesOfUsersRequest request, ServerCallContext context)
+        {
+            return await _mediator.Send(new GetAverageReadRateOfUsersQuery(request.QueryOptions), context.CancellationToken);
         }
 
         public override async Task<AlsoBorrowedBooksResponse> GetBorrowersAlsoBorrowedBooks(AlsoBorrowedBooksRequest request, ServerCallContext context)

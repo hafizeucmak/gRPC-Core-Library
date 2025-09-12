@@ -46,16 +46,17 @@ namespace LibraryManagement.BorrowingGrpcService.Business.CQRS.Queries
 
         public async Task<TopBorrowersResponse> Handle(GetTopBorrowersWithinSpecifiedTimeframeQuery query, CancellationToken cancellationToken)
         {
-            var topBorrowersQuery = await Task.Run(() => _genericWriteRepository.GetAll<Borrowing>()
+            var topBorrowersQuery = await _genericWriteRepository.GetAll<Borrowing>()
                                                       .Where(x => x.BorrowDate.Date >= query.StartDate.Date
                                                                 && x.BorrowDate <= query.EndDate.Date
-                                                                && x.BookCopyId  == null)
+                                                                && x.BookCopyId == null)
                                                       .GroupBy(x => new { x.UserId, x.User.FullName, x.User.Email })
-                                                      .Select(x => new { 
-                                                          UserId = x.Key.UserId, 
-                                                          UserName = x.Key.FullName, 
-                                                          UserEmail = x.Key.Email, 
-                                                          BorrowCount = x.Count() })
+                                                      .Select(x => new {
+                                                          UserId = x.Key.UserId,
+                                                          UserName = x.Key.FullName,
+                                                          UserEmail = x.Key.Email,
+                                                          BorrowCount = x.Count()
+                                                      })
                                                       .Where(x => x.BorrowCount > 0)
                                                       .OrderByDescending(x => x.BorrowCount)
                                                       .Select(x => new TopBorrowerDetail
@@ -63,7 +64,7 @@ namespace LibraryManagement.BorrowingGrpcService.Business.CQRS.Queries
                                                           UserEmail = x.UserEmail,
                                                           UserName = x.UserName,
                                                           BorrowedBookCount = x.BorrowCount
-                                                      }));
+                                                      }).ToListAsync(cancellationToken);
 
             return new TopBorrowersResponse() { TopBorrowers = { topBorrowersQuery } };
         }

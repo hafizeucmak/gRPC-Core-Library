@@ -22,6 +22,8 @@ service BorrowGRPCService {
   
   rpc GetAverageReadRateForBook(ReadRateRequest) returns (ReadRateResponse);
 
+  rpc GetAverageReadRatesOfUsers(ReadRatesOfUsersRequest) returns (ReadRatesOfUsersResponse);
+
   rpc ExecuteSeed(ExecuteSeedRequest) returns (ExecuteSeedResponse);
 
 }
@@ -126,4 +128,18 @@ message ExecuteSeedRequest
 
 message ExecuteSeedResponse
 {
+}
+
+message ReadRatesOfUsersRequest {
+ string query_options = 1;
+}
+
+message ReadRateOfUser {
+  int32 userId = 1;
+  string userName = 2;
+  double readRate = 3;
+}
+
+message ReadRatesOfUsersResponse {
+  repeated ReadRateOfUser readRates = 1;
 }

@@ -1,6 +1,7 @@
 ﻿using DynamicQueryBuilder.Models;
 using FluentValidation;
 using LibraryManagement.BorrowingGrpcService;
+using LibraryManagement.Common.ExceptionManagements;
 using LibraryManagement.WebApi.GrpcClients.Assets;
 using LibraryManagement.WebApi.GrpcClients.Borrows;
 using LibraryManagement.WebApi.Models;
@@ -49,13 +50,6 @@ namespace LibraryManagement.WebApi.CQRS.Queries.Borrowings
         public async Task<IEnumerable<AlsoBorrowedBooksDTO>> Handle(GetBorrowersAlsoBorrowedBooks query, CancellationToken cancellationToken)
         {
             var serializedQueryOptions = JsonConvert.SerializeObject(query.QueryOptions);
-
-            //var book = _assetManagementServiceClient.GetBookByIsbnAsync(new BookByISBNRequest() { Isbn = query.Isbn });
-
-            //if (book == null)
-            //{
-            //    throw new ArgumentNullException("//TODO: handle with custom exception");
-            //}
 
             var results = await _borrowingServiceClient.GetBorrowersAlsoBorrowedBooks(new AlsoBorrowedBooksRequest { Isbn = query.Isbn, QueryOptions = serializedQueryOptions });
 
