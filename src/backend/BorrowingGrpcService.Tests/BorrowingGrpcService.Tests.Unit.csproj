@@ -23,6 +23,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\LibraryManagement.BorrowingGrpcService\LibraryManagement.BorrowingGrpcService.csproj" />
+    <ProjectReference Include="..\LibraryManagement.WebApi\LibraryManagement.WebApi.csproj" />
   </ItemGroup>
 
   <ItemGroup>

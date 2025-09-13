@@ -10,15 +10,15 @@ using MockQueryable.Moq;
 using Moq;
 using Newtonsoft.Json;
 
-namespace BorrowingGrpcService.Tests.Queries
+namespace BorrowingGrpcService.Tests.Unit.Queries
 {
-    public class GetMostBorrowedBooksQueryHandlerTests
+    public class GetMostBorrowedBooksQueryTests
     {
         private readonly Mock<IGenericWriteRepository<BorrowingBaseDbContext>> _mockRepository;
         private readonly Mock<ILogger<GetMostBorrowedBooksQuery>> _mockLogger;
         private readonly GetMostBorrowedBooksQueryHandler _handler;
 
-        public GetMostBorrowedBooksQueryHandlerTests()
+        public GetMostBorrowedBooksQueryTests()
         {
             _mockRepository = new Mock<IGenericWriteRepository<BorrowingBaseDbContext>>();
             _mockLogger = new Mock<ILogger<GetMostBorrowedBooksQuery>>();
@@ -86,6 +86,69 @@ namespace BorrowingGrpcService.Tests.Queries
 
         [Fact]
         public async Task Handle_ShouldReturnFilteredBooks_WhenDynamicQueryOptionsProvided()
+        {
+          
+            var book1 = CreateBook(1, "Book One", "AuthorA", "Publisher A", "111");
+            var book2 = CreateBook(2, "Book Two", "AuthorB", "Publisher B", "222");
+
+            var borrowings = new List<Borrowing>
+            {
+                new Borrowing(book1.Id, book1, 100, null),
+                new Borrowing(book2.Id, book2, 101, null)
+            };
+
+            _mockRepository
+              .Setup(r => r.GetAll<Borrowing>(It.IsAny<string>(), It.IsAny<string>()))
+              .Returns(borrowings.BuildMockDbSet().Object);
+
+            var logger = new Mock<ILogger<GetMostBorrowedBooksQuery>>();
+            var handler = new GetMostBorrowedBooksQueryHandler(_mockRepository.Object, logger.Object);
+
+            var dynamicQueryOptions = new DynamicQueryOptions
+            {
+                Filters = new List<Filter>
+                {
+                    new Filter
+                    {
+                        PropertyName = "Author",
+                        Operator = DynamicQueryBuilder.Models.Enums.FilterOperation.Equals,
+                        LogicalOperator = DynamicQueryBuilder.Models.Enums.LogicalOperator.OrElse,
+                        Value = "AuthorB",
+                        CaseSensitive = true
+                    }
+                },
+                        SortOptions = new List<SortOption>
+                {
+                    new SortOption
+                    {
+                        PropertyName = "BorrowedCount",
+                        SortingDirection = DynamicQueryBuilder.Models.Enums.SortingDirection.Desc
+                    }
+                },
+                PaginationOption = new PaginationOption
+                {
+                    Offset = 0,
+                    Count = 10
+                }
+            };
+
+            var queryOptionsJson = JsonConvert.SerializeObject(dynamicQueryOptions);
+            var query = new GetMostBorrowedBooksQuery(queryOptionsJson);
+
+            // Act
+            var result = await handler.Handle(query, CancellationToken.None);
+
+            // Assert
+            Assert.Single(result.MostBorrowedBooks);
+            var filteredBook = result.MostBorrowedBooks.First();
+            Assert.Equal("Book Two", filteredBook.Title);
+            Assert.Equal("AuthorB", filteredBook.Author);
+            Assert.Equal(1, filteredBook.BorrowedCount);
+        }
+
+
+        [Fact]
+        public async Task Handle_ShouldReturnFilteredBooks_WhenDynamicQueryOptionsProvided_2()
         {
             var options = new DbContextOptionsBuilder<BorrowingBaseDbContext>()
                 .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())

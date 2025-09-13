@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Logging;
 using Moq;
 
-namespace BorrowingGrpcService.Tests.Queries
+namespace BorrowingGrpcService.Tests.Unit.Queries
 {
     public class GetTopBorrowersWithinSpecifiedTimeframeQueryTests
     {

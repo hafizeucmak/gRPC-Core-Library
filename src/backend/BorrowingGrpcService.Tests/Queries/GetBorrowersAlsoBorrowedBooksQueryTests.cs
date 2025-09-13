@@ -9,7 +9,7 @@ using MockQueryable.Moq;
 using Moq;
 using Newtonsoft.Json;
 
-namespace BorrowingGrpcService.Tests.Queries
+namespace BorrowingGrpcService.Tests.Unit.Queries
 {
     public class GetBorrowersAlsoBorrowedBooksQueryTests
     {
