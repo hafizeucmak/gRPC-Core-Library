@@ -66,7 +66,7 @@ LibraryManagement/
 │ ├── Domains/
 │ ├── Data/
 │ └── Services/
-└── Tests/ # (planned) Unit and Integration Tests
+└── Tests/ Unit and Integration Tests
 ```
 
 
@@ -99,9 +99,6 @@ LibraryManagement/
 ---
 
 ## 🔮 Future Enhancements
-- **Unit Testing**
-  - Add comprehensive unit tests for services, handlers, and repositories.
-  - Integrate tests into **CI/CD pipelines**.
 - **Caching**
   - Introduce caching for non-frequently changing data (e.g., user details).
 - **Containerization & Deployment**
@@ -124,6 +121,7 @@ LibraryManagement/
 - **Mapster** for object mapping
 - **FluentValidation** for validation
 - **CQRS pattern** with read/write separation
+- **xUnit** unit, functional and integration tests
 
 ---
 
