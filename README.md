@@ -131,8 +131,10 @@ LibraryManagement/
    Run all gRPC services along with the Web API.  
 
 2. **Configure Local Database**  
-   Update your local database credentials in `appsettings.json`.  
-
+   Update your local database credentials in `appsettings.json`.
+   
+3. Open link http://localhost:5078/swagger/index.html?urls.primaryName=v2
+  
 4. **Seed Database**  
    Execute the `POST /api/Seeds/Seed` endpoint in `SeedsController` to create the database and insert initial seed data.  
 
